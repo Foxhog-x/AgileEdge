@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const jwt = require("jsonwebtoken");
+
 const createHashpassword = async (password) => {
   try {
     const salt = await bcrypt.genSalt(saltRounds);

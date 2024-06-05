@@ -1,0 +1,14 @@
+if (compareResult) {
+  const userObj = {
+    email: email,
+    password: password,
+  };
+  jwt.sign(userObj, privateKeyjwt, { expiresIn: "360h" }, (error, token) => {
+    if (error) console.log(error);
+    res.json({
+      success: true,
+      message: "login successfull",
+      token,
+    });
+  });
+}

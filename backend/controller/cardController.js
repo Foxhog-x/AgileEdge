@@ -16,8 +16,7 @@ const updateCard = (req, res) => {
 };
 
 const fetchCard = (req, res) => {
-  console.log(req.body);
-  res.json({ data: req.body });
+  res.send({});
 };
 
 module.exports = { createCard, deleteCard, updateCard, fetchCard };

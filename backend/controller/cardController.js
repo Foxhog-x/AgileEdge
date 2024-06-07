@@ -1,7 +1,4 @@
-const user_auth = require("../middleware/user_auth");
-
 const createCard = (req, res) => {
-  console.log(req.body);
   res.json({ data: req.body });
 };
 

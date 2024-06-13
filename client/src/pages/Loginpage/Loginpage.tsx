@@ -13,6 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import loginimage from "../../assets/loginpage.jpg";
 import styles from "./Loginpage.module.css";
+import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 
 // Define the TypeScript interface for form inputs
 interface IFormInput {
@@ -28,11 +29,12 @@ const schema = yup.object().shape({
     .required("Email is required"),
   password: yup
     .string()
-    .min(6, "Password must be at least 6 characters")
+    .min(5, "Password must be at least 6 characters")
     .required("Password is required"),
 });
 
 const Loginpage: React.FC = () => {
+  const axiosInstance = useCustomAxios();
   const [checked, setChecked] = useState<boolean>(false);
   const {
     register,
@@ -42,15 +44,16 @@ const Loginpage: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     console.log(data);
     let fetchLoginUrl: string;
     if (checked) {
-      fetchLoginUrl = "http://localhost:8000/admin/login";
+      fetchLoginUrl = " /admin/login";
     } else {
-      fetchLoginUrl = "http://localhost:8000/member/login";
+      fetchLoginUrl = " /member/login";
     }
     console.log(fetchLoginUrl);
+
     fetch(fetchLoginUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

@@ -48,20 +48,21 @@ const Loginpage: React.FC = () => {
     console.log(data);
     let fetchLoginUrl: string;
     if (checked) {
-      fetchLoginUrl = " /admin/login";
+      fetchLoginUrl = "http:localhost:8000/admin/login";
     } else {
-      fetchLoginUrl = " /member/login";
+      fetchLoginUrl = "http:localhost:8000/member/login";
     }
-    console.log(fetchLoginUrl);
-
-    fetch(fetchLoginUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: data.email,
-        password: data.password,
-      }),
-    });
+    axiosInstance.post("/member/login", data);
+    // fetch(fetchLoginUrl, {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     email: data.email,
+    //     password: data.password,
+    //   }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => console.log(data));
   };
 
   return (

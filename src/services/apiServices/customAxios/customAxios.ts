@@ -5,22 +5,29 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from "axios";
-import { useBackdropStore } from "../store/loader/backdropLoaderStore";
-import { getUserData, removeUserData } from "../localStorage/authUtils";
-import { urls } from "./urls";
-import { useAuthStore } from "../store/auth/authStore";
-import { useToastStore } from "../store/snackbar/toastStore";
+// import { useBackdropStore } from "../store/loader/backdropLoaderStore";
+// import { getUserData, removeUserData } from "../localStorage/authUtils";
+import {
+  addTokenData,
+  getTokenData,
+  removeTokenData,
+} from "../../localStorage/authUtil";
+import { urls } from "../urls/urls";
+// import { urls } from "./urls";
+// import { useAuthStore } from "../store/auth/authStore";
+// import { useToastStore } from "../store/snackbar/toastStore";
 
 const useCustomAxios = (contentType = "application/json") => {
-  const { showBackdrop, hideBackdrop } = useBackdropStore();
-  const { setLoggedOut } = useAuthStore();
-  const { showToast } = useToastStore();
-  const userData = getUserData();
+  // const { showBackdrop, hideBackdrop } = useBackdropStore();
+  // const { setLoggedOut } = useAuthStore();
+  // const { showToast } = useToastStore();
+  const userToken = getTokenData();
   const customAxiosRef = useRef<AxiosInstance | null>(null);
 
   if (!customAxiosRef.current) {
     customAxiosRef.current = axios.create({
-      baseURL: urls.baseURL,
+      // baseURL: urls.baseURL,
+      baseURL: urls.baseUrl,
       headers: {
         "Content-Type": contentType,
       },
@@ -29,9 +36,9 @@ const useCustomAxios = (contentType = "application/json") => {
     // Add request interceptors
     customAxiosRef.current.interceptors.request.use(
       (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-        showBackdrop();
-        if (userData) {
-          config.headers.Authorization = `Bearer ${userData}`;
+        // showBackdrop();
+        if (userToken) {
+          config.headers.Authorization = `Bearer ${userToken}`;
         }
         // Add authorization logic here if needed
         return config;
@@ -41,13 +48,13 @@ const useCustomAxios = (contentType = "application/json") => {
           error.response &&
           (error.response.status === 401 || error.response.status === 403)
         ) {
-          showToast("Logging out due to unauthorized request", "danger");
-          removeUserData();
-          setLoggedOut();
+          // showToast("Logging out due to unauthorized request", "danger");
+          // removeUserData();
+          // setLoggedOut();
         } else {
-          showToast("Network Error", "danger");
+          // showToast("Network Error", "danger");
         }
-        hideBackdrop();
+        // hideBackdrop();
         console.error("Request error:", error);
         return Promise.reject(error);
       }
@@ -56,7 +63,7 @@ const useCustomAxios = (contentType = "application/json") => {
     // Add response interceptors
     customAxiosRef.current.interceptors.response.use(
       (response: AxiosResponse) => {
-        hideBackdrop();
+        // hideBackdrop();
 
         // Handle response logic here if needed
         return response;
@@ -66,13 +73,13 @@ const useCustomAxios = (contentType = "application/json") => {
           error.response &&
           (error.response.status === 401 || error.response.status === 403)
         ) {
-          showToast("Logging out due to unauthorized request", "warning");
-          removeUserData();
-          setLoggedOut();
+          // showToast("Logging out due to unauthorized request", "warning");
+          removeTokenData();
+          // setLoggedOut();
         } else {
-          showToast("Network Error", "danger");
+          // showToast("Network Error", "danger");
         }
-        hideBackdrop();
+        // hideBackdrop();
         console.error("Response error:", error);
         return Promise.reject(error);
       }

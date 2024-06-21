@@ -8,7 +8,6 @@ import axios, {
 // import { useBackdropStore } from "../store/loader/backdropLoaderStore";
 // import { getUserData, removeUserData } from "../localStorage/authUtils";
 import {
-  addTokenData,
   getTokenData,
   removeTokenData,
 } from "../../localStorage/authUtil";

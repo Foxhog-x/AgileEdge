@@ -1,30 +1,49 @@
+ 
 .main_container {
-  margin: 1rem;
-  padding: 2rem;
+  padding: 3rem;
   background-color: white;
-  border: 1px solid black;
-  min-height: 100vh;
   display: flex;
-  align-items: center;
   border-radius: 3rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
+
+  
+
 
 .left_content {
   padding: 3rem;
   display: flex;
   align-items: center;
   flex: 0.7;
-  /* background-image: url('../../assets/loginpage.jpg'); */
+  background-image: url('../../assets/loginpage.jpg');
   background-size: contain;
   background-repeat: no-repeat;
-  min-height: 85vh;
+  background-position: center;
+  min-height: 100vh;
   border-radius: 1rem;
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
+  border: 1px;
   /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
   /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
   /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
+}
+
+
+
+@media (max-width: 778px) {
+  /* Your CSS styles for screens smaller than 778px go here */
+
+  .main_container{
+    flex-direction: column;
+    border-radius: none;
+  }
+  .left_content{
+    min-height: 44vh;
+    min-width:-webkit-fill-available;
+  }
+
 }
 .left_content img {
   width: 100%;

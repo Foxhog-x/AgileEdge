@@ -98,6 +98,7 @@ const Loginpage: React.FC = () => {
             <Box>
               <Stack mt={3} gap={3}>
                 <TextField
+                  autoComplete="true"
                   id="email"
                   label="Email"
                   variant="outlined"

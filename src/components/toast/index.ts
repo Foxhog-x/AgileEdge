@@ -1,3 +1,3 @@
-import SimpleBackdrop from "../backdrop/SimpleBackrop";
+import { SimpleSnackbar } from "./SimpleSnackbar";
 
-export default SimpleBackdrop
+export default SimpleSnackbar

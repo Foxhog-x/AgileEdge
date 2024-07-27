@@ -1,61 +1,26 @@
-import { Button, IconButton } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
+import NavButton from "../components/NavButton";
+import Header from "./Header";
 import React from "react";
-import HomeIcon from "@mui/icons-material/Home";
-import { Link } from "react-router-dom";
+import { ProfileImage } from "../components/ProfileImage";
 
-function Layout() {
+type props = {
+  children: React.ReactNode;
+};
+
+function Layout({ children }: props) {
   return (
     <>
-      <div className="flex max-h-full">
-        <div className="flex flex-col h-screen min-w-80 bg-red-500">
-          <div className="flex items-center gap-4 py-6 px-6">
-            <Avatar
-              alt="Remy Sharp"
-              src="/static/images/avatar/1.jpg"
-              sx={{ width: 50, height: 50 }}
-            />
-            <h2 className="text-2xl">Onkar</h2>
-          </div>
-          <div className="px-6">
-            <ul className="flex flex-col gap-2 border p-3">
-              <li>
-                <Button
-                  startIcon={<HomeIcon />}
-                  fullWidth
-                  sx={{
-                    justifyContent: "flex-start",
-                    height: 30,
-                    mb: 1,
-                    "&:hover": {
-                      backgroundColor: "secondary.main",
-                    },
-                  }}
-                >
-                  Home
-                </Button>
-              </li>
-              <li>
-                <Button
-                  startIcon={<HomeIcon />}
-                  fullWidth
-                  sx={{
-                    justifyContent: "flex-start",
-                    height: 30,
-                    mb: 1,
-
-                    "&:hover": {
-                      backgroundColor: "secondary.main",
-                    },
-                  }}
-                >
-                  Home
-                </Button>
-              </li>
-            </ul>
-          </div>
+      <div className="flex min-h-full">
+        <div className="hidden sm:flex flex-col min-h-screen min-w-80 bg-orange-200">
+          <ProfileImage />
+          <NavButton />
         </div>
-        <div className="flex flex-col flex-1 bg-black">jhelk</div>
+
+        <div className="container flex flex-col flex-1 max-w-full  ">
+          <Header />
+          {children}
+        </div>
       </div>
     </>
   );

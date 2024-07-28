@@ -1,5 +1,5 @@
 import Column from "../../components/column";
 
-export default function Contentpage() {
+export default function Board() {
   return <Column />;
 }

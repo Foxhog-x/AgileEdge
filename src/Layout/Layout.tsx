@@ -11,8 +11,8 @@ type props = {
 function Layout({ children }: props) {
   return (
     <>
-      <div className="flex min-h-full">
-        <div className="hidden sm:flex flex-col min-h-screen min-w-80 bg-orange-200">
+      <div className="flex min-h-full flex-1">
+        <div className="hidden sm:flex flex-col min-h-screen min-w-80 ">
           <ProfileImage />
           <NavButton />
         </div>

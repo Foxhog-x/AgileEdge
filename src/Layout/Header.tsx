@@ -22,9 +22,11 @@ export default function Header() {
           <Button startIcon={<AddCircleOutlineIcon />} variant="contained">
             Task
           </Button>
-          <IconButton>
-            <FilterAltOutlinedIcon />
-          </IconButton>
+          <span>
+            <IconButton>
+              <FilterAltOutlinedIcon />
+            </IconButton>
+          </span>
         </div>
       </div>
     </div>

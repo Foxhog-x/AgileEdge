@@ -8,20 +8,37 @@ type props = {
   children: React.ReactNode;
 };
 
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#yourPrimaryColor",
+    },
+    secondary: {
+      main: "#yourSecondaryColor",
+    },
+  },
+  typography: {
+    fontFamily: "YourCustomFont",
+  },
+  // ... other theme customizations
+});
 function Layout({ children }: props) {
   return (
     <>
-      <div className="flex min-h-full flex-1">
-        <div className="hidden sm:flex flex-col min-h-screen min-w-80 ">
-          <ProfileImage />
-          <NavButton />
+      <ThemeProvider theme={theme}>
+        <div className="flex min-h-full flex-1">
+          <div className="hidden sm:flex flex-col min-h-screen min-w-80 ">
+            <ProfileImage />
+            <NavButton />
+          </div>
+          <div className="container ">
+            <Header />
+            {children}
+          </div>
         </div>
-
-        <div className="container flex flex-col flex-1 max-w-full  ">
-          <Header />
-          {children}
-        </div>
-      </div>
+      </ThemeProvider>
     </>
   );
 }

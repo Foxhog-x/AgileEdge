@@ -8,10 +8,8 @@ import { SimpleSnackbar } from "./components/toast/SimpleSnackbar.tsx";
 <link href="./output.css" rel="stylesheet"></link>;
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
-    <React.StrictMode>
-      <SimpleBackdrop />
-      <SimpleSnackbar />
-      <AppRouter />
-    </React.StrictMode>
+    <SimpleBackdrop />
+    <SimpleSnackbar />
+    <AppRouter />
   </BrowserRouter>
 );

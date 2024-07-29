@@ -13,7 +13,6 @@ export default function Column() {
           </IconButton>
         </div>
         <CardOutline />
-        {/* <CardOutline /> validate dom nesting fix pending */}
       </div>
     </div>
   );

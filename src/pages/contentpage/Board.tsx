@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import Column from "../../components/column";
 import { Box, Card, Icon, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CardOutline from "../../components/card/CardOutline";
@@ -28,8 +27,7 @@ export default function Board() {
   };
   return (
     <Box>
-      <img src="" alt="alt" />
-      <div className="flex flex-col h-full shadow-lg p-4 ">
+      <div className="flex flex-col h-full shadow-lg  p-4 ">
         <img src="" alt="" />
         <DragDropContext onDragEnd={handleDragEnd}>
           <div>
@@ -53,7 +51,7 @@ export default function Board() {
                           {...provided.draggableProps}
                           ref={provided.innerRef}
                         >
-                          <div className="flex justify-between items-center p-2">
+                          <div className="flex bg-white justify-between items-center p-2">
                             <h3>{store.name}</h3>
                             <IconButton>
                               <AddIcon />

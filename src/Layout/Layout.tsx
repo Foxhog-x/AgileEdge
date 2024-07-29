@@ -1,43 +1,40 @@
 import Avatar from "@mui/material/Avatar";
 import NavButton from "../components/NavButton";
 import Header from "./Header";
-import React from "react";
 import { ProfileImage } from "../components/ProfileImage";
+import { ThemeProvider } from "@mui/material/styles";
+import {
+  lightTheme,
+  darkTheme,
+  cozyTheme,
+  minimalTheme,
+  modernTheme,
+  basicWhitetheme,
+  transperentTheme,
+} from "../themes/muiTheme";
+import { Box, Paper } from "@mui/material";
 
 type props = {
   children: React.ReactNode;
 };
 
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#yourPrimaryColor",
-    },
-    secondary: {
-      main: "#yourSecondaryColor",
-    },
-  },
-  typography: {
-    fontFamily: "YourCustomFont",
-  },
-  // ... other theme customizations
-});
 function Layout({ children }: props) {
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <div className="flex min-h-full flex-1">
-          <div className="hidden sm:flex flex-col min-h-screen min-w-80 ">
+      <ThemeProvider theme={transperentTheme}>
+        <Box className="flex min-h-full flex-1 shadow-md">
+          <Box
+            className="hidden sm:flex flex-col min-h-screen min-w-80"
+            // style={{ backgroundColor: "#1E1E1E" }}
+          >
             <ProfileImage />
             <NavButton />
-          </div>
-          <div className="container ">
+          </Box>
+          <Box className="container ">
             <Header />
             {children}
-          </div>
-        </div>
+          </Box>
+        </Box>
       </ThemeProvider>
     </>
   );

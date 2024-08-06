@@ -78,9 +78,8 @@ export const CardOutline = ({ name, items, id }) => {
               backgroundColor: "transparent",
               color: "black",
             }}
-            onClick={}
           >
-            Comments
+            View
           </Button>
         </Box>
       </CardActions>
@@ -91,7 +90,7 @@ export const CardOutline = ({ name, items, id }) => {
     <Droppable droppableId={id}>
       {(provided) => (
         <div {...provided.droppableProps} ref={provided.innerRef}>
-          <div className="flex justify-between items-center mb-4  p-2 ">
+          <div className="flex justify-between items-center mb-4 p-2 ">
             <h3>{name}</h3>
             <IconButton>+</IconButton>
           </div>

@@ -119,6 +119,7 @@ const lightThemeWithSoftColors = createTheme({
           },
         },
       },
+     
     },
   });  
 
@@ -140,11 +141,10 @@ const lightThemeWithSoftColors = createTheme({
       fontFamily: 'Helvetica, Arial, sans-serif',
     },
     components: {
-      MuiCard: {
+      MuiButton: {
         styleOverrides: {
           root: {
-            boxShadow: 'none',
-            border: '1px solid #ccc',
+            textTransform: 'none',
           },
         },
       },

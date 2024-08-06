@@ -1,6 +1,6 @@
 import { IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import CardOutline from "../card/CardOutline";
+import { CardOutline } from "../card/CardOutline";
 
 export default function Column() {
   return (

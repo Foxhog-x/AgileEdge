@@ -21,21 +21,23 @@ type props = {
 function Layout({ children }: props) {
   return (
     <>
-      <Paper>
-        <Box className="flex min-h-full flex-1 shadow-md">
-          <Box
-            className="hidden sm:flex flex-col min-h-screen min-w-80"
-            // style={{ backgroundColor: "#1E1E1E" }}
-          >
-            <ProfileImage />
-            <NavButton />
+      <ThemeProvider theme={modernTheme}>
+        <Paper>
+          <Box className="flex min-h-full flex-1 shadow-md">
+            <Box
+              className="hidden sm:flex flex-col min-h-screen min-w-80"
+              // style={{ backgroundColor: "#1E1E1E" }}
+            >
+              <ProfileImage />
+              <NavButton />
+            </Box>
+            <Box className="container ">
+              <Header />
+              {children}
+            </Box>
           </Box>
-          <Box className="container ">
-            <Header />
-            {children}
-          </Box>
-        </Box>
-      </Paper>
+        </Paper>
+      </ThemeProvider>
     </>
   );
 }

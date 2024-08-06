@@ -9,8 +9,8 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
-  background-image: url('./assets/kindpng_1262350.png');
-  background-repeat: no-repeat;
+  /* background-image: url('./assets/kindpng_1262350.png');
+  background-repeat: no-repeat; */
    
   
   font-synthesis: none;
@@ -24,9 +24,9 @@ a:hover {
 }
 
 body {
-  margin: 0; 
-  min-width: 320px;
-  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+ box-sizing: border-box;
 }
 
 h1 {

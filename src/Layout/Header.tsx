@@ -3,7 +3,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 export default function Header() {
   return (
-    <div className="flex justify-between p-4 items-center px-6">
+    <div className="md:flex justify-between p-4 items-center px-6">
       <div className="flex items-center gap-4">
         <h1>alfa</h1>
         <h1>12</h1>

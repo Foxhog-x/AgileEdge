@@ -21,7 +21,7 @@ type props = {
 function Layout({ children }: props) {
   return (
     <>
-      <ThemeProvider theme={transperentTheme}>
+      <ThemeProvider theme={lightTheme}>
         <Box className="flex min-h-full flex-1 shadow-md">
           <Box
             className="hidden sm:flex flex-col min-h-screen min-w-80"

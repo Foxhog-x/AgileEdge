@@ -1,5 +1,5 @@
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { Box, Icon, IconButton, Paper } from "@mui/material";
+import { Box, Card, Icon, IconButton, Paper } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -8,7 +8,85 @@ import EventOutlinedIcon from "@mui/icons-material/EventOutlined";
 import CardActions from "@mui/material/CardActions";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import { Component } from "react";
+import Column from "../column";
 export const CardOutline = ({ name, items, id }) => {
+  const bull = (
+    <Box
+      component="span"
+      sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
+    >
+      •
+    </Box>
+  );
+
+  const card = (item) => (
+    <>
+      <CardContent>
+        <Typography
+          display={"flex"}
+          justifyContent={"space-between"}
+          component={"div"}
+          padding={0}
+          mb={1}
+          height={25}
+        >
+          <Chip size="small" label="High" sx={{ marginInlineEnd: 3 }} />
+          <IconButton sx={{ position: "relative", bottom: 5 }}>+</IconButton>
+        </Typography>
+
+        <Typography variant="h5" component="div" sx={{ mb: 1.5 }}>
+          {item.name}
+        </Typography>
+
+        <Typography
+          variant="body2"
+          sx={{
+            mb: 1.5,
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            WebkitLineClamp: 2,
+          }}
+        >
+          well meaning and kindly.
+          <br />
+          {'"a benevolent smile"'}
+        </Typography>
+      </CardContent>
+
+      <CardActions
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography
+          component={"div"}
+          sx={{
+            display: "flex",
+            marginTop: 2,
+          }}
+        >
+          <Avatar sx={{ height: 30, width: 30 }} />
+          <Avatar sx={{ height: 30, width: 30 }} />
+        </Typography>
+        <Box>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "transparent",
+              color: "black",
+            }}
+            onClick={}
+          >
+            Comments
+          </Button>
+        </Box>
+      </CardActions>
+    </>
+  );
+
   return (
     <Droppable droppableId={id}>
       {(provided) => (
@@ -17,19 +95,33 @@ export const CardOutline = ({ name, items, id }) => {
             <h3>{name}</h3>
             <IconButton>+</IconButton>
           </div>
-          <div className="items-container flex flex-col items-center gap-4">
+          <div className="items-container flex flex-col items-center gap-4 border border-blue-100">
             {items.map((item, index) => (
               <Draggable draggableId={item.id} index={index} key={item.id}>
                 {(provided) => {
                   return (
-                    <div
+                    <Box
                       {...provided.dragHandleProps}
                       {...provided.draggableProps}
                       ref={provided.innerRef}
+                      sx={{ minWidth: 320 }}
                     >
-                      <Box
+                      <Card
+                        variant="outlined"
+                        sx={{
+                          maxWidth: 320,
+                          minHeight: 250,
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        {card(item)}
+                      </Card>
+
+                      {/* <Box
                         border={1}
-                        minHeight={300}
+                        minHeight={250}
                         maxWidth={320}
                         display={"flex"}
                         flexDirection={"column"}
@@ -49,7 +141,11 @@ export const CardOutline = ({ name, items, id }) => {
                             />
                             <IconButton>+</IconButton>
                           </Typography>
-                          <Typography variant="h5" component="div">
+                          <Typography
+                            variant="h6"
+                            component="div"
+                            minHeight={75}
+                          >
                             {item.name}
                           </Typography>
                           <Typography
@@ -104,8 +200,8 @@ export const CardOutline = ({ name, items, id }) => {
                             </Button>
                           </Box>
                         </CardActions>
-                      </Box>
-                    </div>
+                      </Box> */}
+                    </Box>
                   );
                 }}
               </Draggable>

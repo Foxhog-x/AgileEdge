@@ -2,6 +2,7 @@ import { Button, Switch } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import ProjectsNavLinks from "./ProjectsNavLinks";
 import TeamsNavLinks from "./TeamsNavLinks";
+import { Link } from "react-router-dom";
 
 export default function NavButton() {
   return (
@@ -39,6 +40,23 @@ export default function NavButton() {
             }}
           >
             Tasks
+          </Button>
+        </li>
+        <li>
+          <Button
+            startIcon={<HomeIcon />}
+            fullWidth
+            sx={{
+              justifyContent: "flex-start",
+              height: 30,
+              gap: 1,
+              mb: 1,
+              "&:hover": {
+                backgroundColor: "secondary.main",
+              },
+            }}
+          >
+            <Link to={"/calender"}>Calender</Link>
           </Button>
         </li>
         <ProjectsNavLinks />

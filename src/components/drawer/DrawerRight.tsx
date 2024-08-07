@@ -11,8 +11,10 @@ import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import { ReactquillContainer } from "../reactquill/ReactquillContainer";
 import LabTabs from "../Tabs/LabTabs";
 type Anchor = "top" | "left" | "bottom" | "right";
-
-export default function DrawerRight() {
+type props = {
+  children: React.ReactNode;
+};
+export default function DrawerRight({ children }: props) {
   const [state, setState] = React.useState({
     right: true,
   });
@@ -38,7 +40,7 @@ export default function DrawerRight() {
       }}
       role="presentation"
       onClick={toggleDrawer(anchor, true)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, true)}
     >
       <div className="p-3 min-h-32 text-4xl line-height leading-normal ml-4 ">
         Designing Data Intensive Application
@@ -115,7 +117,7 @@ export default function DrawerRight() {
           </Box>
         </div>
       </div>
-      <ReactquillContainer />
+      {children}
       <LabTabs />
     </Box>
   );
@@ -130,18 +132,15 @@ export default function DrawerRight() {
   }
   return (
     <div>
-      {(["left", "right", "top", "bottom"] as const).map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer("right", true)}>{anchor}</Button>
-          <Drawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-          >
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
+      <React.Fragment>
+        <Drawer
+          anchor={"right"}
+          open={state["right"]}
+          onClose={toggleDrawer("right", false)}
+        >
+          {list("right")}
+        </Drawer>
+      </React.Fragment>
     </div>
   );
 }

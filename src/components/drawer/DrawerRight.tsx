@@ -10,11 +10,13 @@ import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import { ReactquillContainer } from "../reactquill/ReactquillContainer";
 import LabTabs from "../Tabs/LabTabs";
+import { useNavigate } from "react-router-dom";
 type Anchor = "top" | "left" | "bottom" | "right";
 type props = {
   children: React.ReactNode;
 };
 export default function DrawerRight({ children }: props) {
+  const navigate = useNavigate();
   const [state, setState] = React.useState({
     right: true,
   });
@@ -31,6 +33,7 @@ export default function DrawerRight({ children }: props) {
       }
 
       setState({ ...state, [anchor]: open });
+      navigate(-1);
     };
 
   const list = (anchor: Anchor) => (
@@ -39,8 +42,6 @@ export default function DrawerRight({ children }: props) {
         width: anchor === "top" || anchor === "bottom" ? "auto" : "600px",
       }}
       role="presentation"
-      onClick={toggleDrawer(anchor, true)}
-      onKeyDown={toggleDrawer(anchor, true)}
     >
       <div className="p-3 min-h-32 text-4xl line-height leading-normal ml-4 ">
         Designing Data Intensive Application
@@ -121,15 +122,7 @@ export default function DrawerRight({ children }: props) {
       <LabTabs />
     </Box>
   );
-  {
-    /* <Box className=" flexitems-center ">
-            <AdjustOutlinedIcon />
-            <ListItem>Status</ListItem>
-          </Box>
-          <Box>
-            <ListItem>High</ListItem>
-          </Box> */
-  }
+
   return (
     <div>
       <React.Fragment>

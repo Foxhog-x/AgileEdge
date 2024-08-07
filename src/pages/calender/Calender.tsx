@@ -8,7 +8,7 @@ import { INITIAL_EVENTS, createEventId } from "./event-utils";
 export default function Calender() {
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [currentEvents, setCurrentEvents] = useState([]);
-
+  console.log(currentEvents);
   function handleWeekendsToggle() {
     setWeekendsVisible(!weekendsVisible);
   }
@@ -51,7 +51,7 @@ export default function Calender() {
         handleWeekendsToggle={handleWeekendsToggle}
         currentEvents={currentEvents}
       />
-      <div className="demo-app-main">
+      <div className="demo-app-main   ">
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
@@ -64,16 +64,14 @@ export default function Calender() {
           selectable={true}
           selectMirror={true}
           dayMaxEvents={true}
-          weekends={weekendsVisible}
+          weekends={true}
           initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
           select={handleDateSelect}
           eventContent={renderEventContent} // custom render function
           eventClick={handleEventClick}
           eventsSet={handleEvents} // called after events are initialized/added/changed/removed
           /* you can update a remote database when these fire:
-            eventAdd={function(){}}
-            eventChange={function(){}}
-            eventRemove={function(){}}
+ 
             */
         />
       </div>
@@ -93,32 +91,7 @@ function renderEventContent(eventInfo) {
 function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }) {
   return (
     <div className="demo-app-sidebar">
-      <div className="demo-app-sidebar-section">
-        <h2>Instructions</h2>
-        <ul>
-          <li>Select dates and you will be prompted to create a new event</li>
-          <li>Drag, drop, and resize events</li>
-          <li>Click an event to delete it</li>
-        </ul>
-      </div>
-      <div className="demo-app-sidebar-section">
-        <label>
-          <input
-            type="checkbox"
-            checked={weekendsVisible}
-            onChange={handleWeekendsToggle}
-          ></input>
-          toggle weekends
-        </label>
-      </div>
-      <div className="demo-app-sidebar-section">
-        <h2>All Events ({currentEvents.length})</h2>
-        <ul>
-          {currentEvents.map((event) => (
-            <SidebarEvent key={event.id} event={event} />
-          ))}
-        </ul>
-      </div>
+      <div className="demo-app-sidebar-section"></div>
     </div>
   );
 }

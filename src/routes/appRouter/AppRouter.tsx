@@ -10,15 +10,22 @@ import Calender from "../../pages/calender/Calender";
 export const AppRouter = () => {
   return (
     <Routes>
-      <Route path="/card/:cardId" />
       <Route
-        path="/"
+        path="/card/:cardId"
         element={
           <Layout>
             <Board />
             <DrawerRight>
               <ReactquillContainer />
             </DrawerRight>
+          </Layout>
+        }
+      />
+      <Route
+        path="/"
+        element={
+          <Layout>
+            <Board />
           </Layout>
         }
       />

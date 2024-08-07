@@ -9,16 +9,19 @@ import CardActions from "@mui/material/CardActions";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import { Component } from "react";
 import Column from "../column";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 export const CardOutline = ({ name, items, id }) => {
+  const navigate = useNavigate();
   const bull = (
     <Box
       component="span"
       sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-    >
-      •
-    </Box>
+    ></Box>
   );
-
+  const handleNavigate = (cardId) => {
+    navigate("/card/cardId");
+  };
   const card = (item) => (
     <>
       <CardContent>
@@ -49,9 +52,8 @@ export const CardOutline = ({ name, items, id }) => {
             WebkitLineClamp: 2,
           }}
         >
-          well meaning and kindly.
+          something here description
           <br />
-          {'"a benevolent smile"'}
         </Typography>
       </CardContent>
 
@@ -72,15 +74,23 @@ export const CardOutline = ({ name, items, id }) => {
           <Avatar sx={{ height: 30, width: 30 }} />
         </Typography>
         <Box>
-          <Button
-            variant="contained"
-            style={{
-              backgroundColor: "transparent",
-              color: "black",
-            }}
+          <Link
+            to={`/card/5`}
+            state={{ someData: "Your data here" }}
+            style={{ textDecoration: "none" }}
           >
-            View
-          </Button>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: "transparent",
+                color: "black",
+              }}
+              onClick={() => handleNavigate(5)}
+              ///here we give the cardId</Box>
+            >
+              View
+            </Button>
+          </Link>
         </Box>
       </CardActions>
     </>

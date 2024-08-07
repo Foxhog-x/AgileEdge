@@ -3,19 +3,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { useState } from "react";
-
-import {
-  Avatar,
-  Button,
-  TextField,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Paper,
-  Divider,
-} from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
+import CommentSection from "../comments/CommentSection";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -48,22 +36,10 @@ function a11yProps(index: number) {
 
 export default function LabTabs() {
   const [value, setValue] = React.useState(0);
-  const [comments, setComments] = useState([]);
-  const [comment, setComment] = useState("");
-
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
-  };
-
-  const handleCommentSubmit = () => {
-    if (comment.trim()) {
-      setComments([...comments, comment.trim()]);
-      setComment("");
-    }
-  };
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -81,52 +57,7 @@ export default function LabTabs() {
         Item One
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <div className="max-w-full flex flex-col-reverse">
-          <Paper elevation={3} className="p-4">
-            <TextField
-              label="Add a comment"
-              variant="outlined"
-              fullWidth
-              multiline
-              rows={2}
-              value={comment}
-              onChange={handleCommentChange}
-              className="mb-2"
-            />
-            <div className="flex justify-end">
-              <Button
-                variant="contained"
-                color="primary"
-                endIcon={<SendIcon />}
-                onClick={handleCommentSubmit}
-              >
-                Send
-              </Button>
-            </div>
-          </Paper>
-          <List>
-            <div className="border">
-              {comments.map((comment, index) => (
-                <ListItem
-                  key={index}
-                  alignItems="flex-start"
-                  className="mb-2 flex flex-col border justify-start"
-                >
-                  <ListItemAvatar className="flex gap-2 items-center ">
-                    <Avatar className="relative bottom-1">
-                      {comment.charAt(0).toUpperCase()}
-                    </Avatar>
-                    <div className="flex flex-col">
-                      <span>Onkar Patil</span>
-                      <ListItemText secondary=" 2 hours ago" />
-                    </div>
-                  </ListItemAvatar>
-                  <ListItemText primary={comment} />
-                </ListItem>
-              ))}
-            </div>
-          </List>
-        </div>
+        <CommentSection />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         Item Three

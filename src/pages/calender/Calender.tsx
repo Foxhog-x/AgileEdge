@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { formatDate } from "@fullcalendar/core";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { INITIAL_EVENTS, createEventId } from "./event-utils";
-export default function Calender() {
+import { createEventId, fetchAllEvent } from "./event-utils";
+import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
+import { urls } from "../../services/apiServices/urls/urls";
+export default async function Calender() {
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [currentEvents, setCurrentEvents] = useState([]);
   console.log(currentEvents);
@@ -28,7 +30,17 @@ export default function Calender() {
         allDay: selectInfo.allDay,
       });
     }
+    const response = useCustomAxios().get(`${urls.getEvents}`);
+    console.log(response, "response");
+    console.log(
+      selectInfo,
+      { title: title, start: selectInfo.startStr, end: selectInfo.endStr },
+      "obj"
+    );
   }
+
+  const data = await fetchAllEvent();
+  console.log(data);
 
   function handleEventClick(clickInfo) {
     if (
@@ -45,7 +57,7 @@ export default function Calender() {
   }
 
   return (
-    <div className="demo-app">
+    <div className="demo-app  ">
       <Sidebar
         weekendsVisible={weekendsVisible}
         handleWeekendsToggle={handleWeekendsToggle}
@@ -53,6 +65,7 @@ export default function Calender() {
       />
       <div className="demo-app-main   ">
         <FullCalendar
+          height={"100vh"}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
             left: "prev,next today",
@@ -65,7 +78,7 @@ export default function Calender() {
           selectMirror={true}
           dayMaxEvents={true}
           weekends={true}
-          initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+          initialEvents={} // alternatively, use the `events` setting to fetch from a feed
           select={handleDateSelect}
           eventContent={renderEventContent} // custom render function
           eventClick={handleEventClick}

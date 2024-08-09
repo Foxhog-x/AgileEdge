@@ -6,6 +6,7 @@ import DrawerRight from "../../components/drawer/DrawerRight";
 import { ReactquillContainer } from "../../components/reactquill/ReactquillContainer";
 import { Calendar } from "@fullcalendar/core";
 import Calender from "../../pages/calender/Calender";
+import EventDialog from "../../pages/calender/EventDialog";
 
 export const AppRouter = () => {
   return (
@@ -29,7 +30,9 @@ export const AppRouter = () => {
           </Layout>
         }
       />
-      <Route path={"/calender"} element={<Calender />} />
+      <Route path={"/calender"} element={<Calender />}>
+ 
+      </Route>
     </Routes>
   );
 };

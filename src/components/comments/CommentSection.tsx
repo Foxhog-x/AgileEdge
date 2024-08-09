@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { timeSince } from "../../utils/timeSince";
+
 import {
   Avatar,
   Button,
@@ -110,7 +110,7 @@ export default function CommentSection({ currentTab }) {
                 </Avatar>
                 <div className="flex flex-col">
                   <span>{comment.userName}</span>
-                  <ListItemText>{timeSince(comment.date)}</ListItemText>
+                  <ListItemText>{}</ListItemText>
                 </div>
               </ListItemAvatar>
               <ListItemText primary={comment.message} />

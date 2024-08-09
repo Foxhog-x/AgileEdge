@@ -4,9 +4,7 @@ import Layout from "../../Layout/Layout";
 import Board from "../../pages/contentpage";
 import DrawerRight from "../../components/drawer/DrawerRight";
 import { ReactquillContainer } from "../../components/reactquill/ReactquillContainer";
-import { Calendar } from "@fullcalendar/core";
-import Calender from "../../pages/calender/Calender";
-import EventDialog from "../../pages/calender/EventDialog";
+import CalendarpageWrapper from "../../pages/calendar/CalendarpageWrapper";
 
 export const AppRouter = () => {
   return (
@@ -30,9 +28,7 @@ export const AppRouter = () => {
           </Layout>
         }
       />
-      <Route path={"/calender"} element={<Calender />}>
- 
-      </Route>
+      <Route path="/calendar" element={<CalendarpageWrapper />} />
     </Routes>
   );
 };

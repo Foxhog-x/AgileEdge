@@ -27,6 +27,10 @@ export const SimpleSnackbar = () => {
           <Snackbar
             open={true}
             autoHideDuration={3000}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
             onClose={() => removeToast(toast.id)}
           >
             <Alert onClose={() => removeToast(toast.id)} severity={toast.type}>

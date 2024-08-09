@@ -4,23 +4,32 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { createEventId, fetchAllEvent } from "./event-utils";
-import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
-import { urls } from "../../services/apiServices/urls/urls";
-export default async function Calender() {
+import { createEventId } from "./event-utils";
+export default function Calendar({
+  callDatabase,
+  deleteEventCall,
+  initialEventsList,
+}) {
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [currentEvents, setCurrentEvents] = useState([]);
-  console.log(currentEvents);
+  console.log(initialEventsList);
   function handleWeekendsToggle() {
     setWeekendsVisible(!weekendsVisible);
   }
 
   function handleDateSelect(selectInfo) {
     let title = prompt("Please enter a new title for your event");
+
     let calendarApi = selectInfo.view.calendar;
 
     calendarApi.unselect(); // clear date selection
-
+    const evenObj = {
+      title: title,
+      start: selectInfo.startStr,
+      end: selectInfo.endStr,
+    };
+    console.log(evenObj);
+    if (title) callDatabase(evenObj);
     if (title) {
       calendarApi.addEvent({
         id: createEventId(),
@@ -30,24 +39,17 @@ export default async function Calender() {
         allDay: selectInfo.allDay,
       });
     }
-    const response = useCustomAxios().get(`${urls.getEvents}`);
-    console.log(response, "response");
-    console.log(
-      selectInfo,
-      { title: title, start: selectInfo.startStr, end: selectInfo.endStr },
-      "obj"
-    );
   }
 
-  const data = await fetchAllEvent();
-  console.log(data);
-
   function handleEventClick(clickInfo) {
+    const id = clickInfo.event._def.publicId;
+
     if (
       confirm(
         `Are you sure you want to delete the event '${clickInfo.event.title}'`
       )
     ) {
+      deleteEventCall(id);
       clickInfo.event.remove();
     }
   }
@@ -57,11 +59,11 @@ export default async function Calender() {
   }
 
   return (
-    <div className="demo-app  ">
+    <div className="demo-app p-2  ">
       <Sidebar
-        weekendsVisible={weekendsVisible}
-        handleWeekendsToggle={handleWeekendsToggle}
-        currentEvents={currentEvents}
+
+      // handleWeekendsToggle={handleWeekendsToggle}
+      // currentEvents={currentEvents}
       />
       <div className="demo-app-main   ">
         <FullCalendar
@@ -78,13 +80,14 @@ export default async function Calender() {
           selectMirror={true}
           dayMaxEvents={true}
           weekends={true}
-          initialEvents={} // alternatively, use the `events` setting to fetch from a feed
+          initialEvents={[]}
+          events={initialEventsList} // alternatively, use the `events` setting to fetch from a feed
           select={handleDateSelect}
           eventContent={renderEventContent} // custom render function
           eventClick={handleEventClick}
           eventsSet={handleEvents} // called after events are initialized/added/changed/removed
           /* you can update a remote database when these fire:
- 
+          
             */
         />
       </div>
@@ -93,15 +96,17 @@ export default async function Calender() {
 }
 
 function renderEventContent(eventInfo) {
+  const { event } = eventInfo;
+
   return (
-    <>
+    <div>
       <b>{eventInfo.timeText}</b>
       <i>{eventInfo.event.title}</i>
-    </>
+    </div>
   );
 }
-
-function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }) {
+// { weekendsVisible, handleWeekendsToggle, currentEvents }
+function Sidebar() {
   return (
     <div className="demo-app-sidebar">
       <div className="demo-app-sidebar-section"></div>

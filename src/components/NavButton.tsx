@@ -56,7 +56,7 @@ export default function NavButton() {
               },
             }}
           >
-            <Link to={"/calender"}>Calender</Link>
+            <Link to={"/calendar"}>Calender</Link>
           </Button>
         </li>
         <ProjectsNavLinks />

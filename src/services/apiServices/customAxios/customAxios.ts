@@ -2,8 +2,10 @@ import { useRef } from "react";
 import axios, { AxiosInstance, AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { getTokenData, removeTokenData } from "../../localStorage/authUtil";
 import { urls } from "../urls/urls";
+import { useToastStore } from "../../../store/useToastStore";
 
 const useCustomAxios = (contentType = "application/json") => {
+  const {addToast} = useToastStore()
   const userToken = getTokenData();
   const customAxiosRef = useRef<AxiosInstance | null>(null);
 console.log(userToken)
@@ -32,6 +34,7 @@ console.log(userToken)
     // Response interceptor
     customAxiosRef.current.interceptors.response.use(
       (response: AxiosResponse) => {
+        addToast(response.data.message, "success")
         return response;
       },
       (error: AxiosError) => {
@@ -39,6 +42,7 @@ console.log(userToken)
           error.response &&
           (error.response.status === 401 || error.response.status === 403)
         ) {
+          addToast("error", "error")
           removeTokenData();
         }
         console.error("Response error:", error);

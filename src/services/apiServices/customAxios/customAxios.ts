@@ -5,10 +5,9 @@ import { urls } from "../urls/urls";
 import { useToastStore } from "../../../store/useToastStore";
 
 const useCustomAxios = (contentType = "application/json") => {
-  const {addToast} = useToastStore()
   const userToken = getTokenData();
   const customAxiosRef = useRef<AxiosInstance | null>(null);
-console.log(userToken)
+ 
   if (!customAxiosRef.current) {
     customAxiosRef.current = axios.create({
       baseURL: urls.baseUrl,
@@ -34,17 +33,14 @@ console.log(userToken)
     // Response interceptor
     customAxiosRef.current.interceptors.response.use(
       (response: AxiosResponse) => {
-        addToast(response.data.message, "success")
         return response;
       },
       (error: AxiosError) => {
         if (
           error.response &&
           (error.response.status === 401 || error.response.status === 403)
-        ) {
-          addToast("error", "error")
-          removeTokenData();
-        }
+        )
+        removeTokenData()
         console.error("Response error:", error);
         return Promise.reject(error);
       }

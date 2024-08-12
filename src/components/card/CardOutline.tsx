@@ -8,10 +8,12 @@ import EventOutlinedIcon from "@mui/icons-material/EventOutlined";
 import CardActions from "@mui/material/CardActions";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import { Component } from "react";
-import Column from "../column";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { useTaskFormStore } from "../../store/useTaskFormStore";
 export const CardOutline = ({ name, items, id }) => {
+  const { openTaskDialog } = useTaskFormStore();
   const navigate = useNavigate();
   const bull = (
     <Box
@@ -37,7 +39,16 @@ export const CardOutline = ({ name, items, id }) => {
           <IconButton sx={{ position: "relative", bottom: 5 }}>+</IconButton>
         </Typography>
 
-        <Typography variant="h5" component="div" sx={{ mb: 1.5 }}>
+        <Typography
+          variant="h5"
+          component="div"
+          sx={{
+            mb: 1.5,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
           {item.name}
         </Typography>
 
@@ -52,8 +63,19 @@ export const CardOutline = ({ name, items, id }) => {
             WebkitLineClamp: 2,
           }}
         >
-          something here description
-          <br />
+          Something here description. This text might be longer, but it will be
+          truncated. hjksdhkfhsdkhfk <br />
+        </Typography>
+        <Typography
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            fontSize: 14,
+          }}
+        >
+          <EventOutlinedIcon />
+          Feb 24, 2024
         </Typography>
       </CardContent>
 
@@ -102,7 +124,9 @@ export const CardOutline = ({ name, items, id }) => {
         <div {...provided.droppableProps} ref={provided.innerRef}>
           <div className="flex justify-between items-center mb-4 p-2 ">
             <h3>{name}</h3>
-            <IconButton>+</IconButton>
+            <IconButton onClick={() => openTaskDialog(id)}>
+              <AddCircleOutlineIcon />
+            </IconButton>
           </div>
           <div className="items-container flex flex-col items-center gap-4 border border-blue-100">
             {items.map((item, index) => (
@@ -119,10 +143,12 @@ export const CardOutline = ({ name, items, id }) => {
                         variant="outlined"
                         sx={{
                           maxWidth: 320,
-                          minHeight: 250,
+                          minHeight: 200, // Set minimum height
+                          maxHeight: 250, // Set maximum height
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "space-between",
+                          overflow: "hidden",
                         }}
                       >
                         {card(item)}

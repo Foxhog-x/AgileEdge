@@ -1,90 +1,44 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  FormControlLabel,
-  Stack,
-  Switch,
-  TextField,
-} from "@mui/material";
+import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import styles from "./Loginpage.module.css";
-import useBackdropStore from "../../store/useBackdropStore";
-import { useToastStore } from "../../store/useToastStore";
-import { SimpleSnackbar } from "../../components/toast/SimpleSnackbar";
-
-// Define the TypeScript interface for form inputs
-interface IFormInput {
-  email: string;
-  password: string;
-}
-
-// Define the validation schema using Yup
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  password: yup
-    .string()
-    .min(5, "Password must be at least 6 characters")
-    .required("Password is required"),
+import { zodResolver } from "@hookform/resolvers/zod";
+const formSchema = z.object({
+  email: z.string().email("email is invalid"),
+  password: z.string().min(4, "password must content 4 characters"),
 });
-interface LoginData {
-  email: string;
-  password: string;
-}
 
-const Loginpage: React.FC = () => {
-  const { showBackdrop, hideBackdrop } = useBackdropStore();
+type UserFormData = z.infer<typeof formSchema>;
+import styles from "./Loginpage.module.css";
+import { Box, Button, Stack, TextField } from "@mui/material";
+import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
+import { urls } from "../../services/apiServices/urls/urls";
+import { addTokenData } from "../../services/localStorage/authUtil";
+import { useToastStore } from "../../store/useToastStore";
+export default function Loginpage() {
   const { addToast } = useToastStore();
-  const [checked, setChecked] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInput>({
-    resolver: yupResolver(schema),
+    reset,
+  } = useForm<UserFormData>({
+    resolver: zodResolver(formSchema),
   });
-  const fetchLoginUrl = async (url: string, data: LoginData) => {
-    showBackdrop();
+  const axiosInstance = useCustomAxios();
+  const onsubmit: SubmitHandler<UserFormData> = async (data: UserFormData) => {
     try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: data.email,
-          password: data.password,
-        }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        hideBackdrop();
-        addToast("Login Successful", "success");
-      } else {
-        console.error(
-          `Error: Received response with status code ${response.status}`
-        );
-        if (response.status === 400) {
-          return;
-        }
-        throw new Error(`HTTP error! status: ${response.status}`);
+      const response = await axiosInstance.post(urls.memberLogin, data);
+      addToast(response.data.message, "success");
+      const { token } = response.data;
+      try {
+        addTokenData(token);
+      } catch (error) {
+        console.log(error, "error while storing token in localstorage");
       }
     } catch (error) {
-      console.error("Fetch error", error);
-
-      hideBackdrop();
+      console.log(error);
+      addToast(error.response.data.message, "error");
     }
-  };
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    if (checked) {
-      fetchLoginUrl("http://localhost:8000/admin/login", data);
-    } else {
-      fetchLoginUrl("http://localhost:8000/member/login", data);
-    }
+    reset();
   };
 
   return (
@@ -94,7 +48,7 @@ const Loginpage: React.FC = () => {
         <div className={styles.right_content}>
           <h2>Hi Welcome</h2>
           <h1>Login</h1>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onsubmit)}>
             <Box>
               <Stack mt={3} gap={3}>
                 <TextField
@@ -104,19 +58,13 @@ const Loginpage: React.FC = () => {
                   variant="outlined"
                   {...register("email")}
                 />
-                {errors.email && (
-                  <p style={{ color: "red" }}>{errors.email.message}</p>
-                )}
                 <TextField
+                  autoComplete="false"
                   id="password"
                   label="Password"
                   variant="outlined"
-                  type="password"
                   {...register("password")}
                 />
-                {errors.password && (
-                  <p style={{ color: "red" }}>{errors.password.message}</p>
-                )}
               </Stack>
               <Stack
                 flexDirection={"row"}
@@ -124,19 +72,6 @@ const Loginpage: React.FC = () => {
                 justifyContent={"space-between"}
                 margin={5}
               >
-                <FormControlLabel
-                  value="top"
-                  control={
-                    <Switch
-                      color="primary"
-                      checked={checked}
-                      onChange={() => setChecked(!checked)}
-                    />
-                  }
-                  label="Admin Login"
-                  labelPlacement="end"
-                />
-
                 <Button type="submit" variant="contained" size="large">
                   Login
                 </Button>
@@ -144,10 +79,7 @@ const Loginpage: React.FC = () => {
             </Box>
           </form>
         </div>
-        <SimpleSnackbar />
       </div>
     </div>
   );
-};
-
-export default Loginpage;
+}

@@ -1,14 +1,14 @@
 export const addTokenData = (token: string) => {
-  localStorage.setItem("auth_Token", token);
+  localStorage.setItem("authToken", token);
 };
 
 export const removeTokenData = () => {
-  localStorage.removeItem("auth_Token");
+  localStorage.removeItem("authToken");
   return "removed";
 };
 
 export const getTokenData = () => {
-  const token = localStorage.getItem("auth_Token");
+  const token = localStorage.getItem("authToken");
   return token;
 };
 

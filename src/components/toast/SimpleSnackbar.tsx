@@ -25,6 +25,7 @@ export const SimpleSnackbar = () => {
       {toasts.map((toast) => {
         return (
           <Snackbar
+            key={toast.id}
             open={true}
             autoHideDuration={3000}
             anchorOrigin={{

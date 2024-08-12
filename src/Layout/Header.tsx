@@ -1,7 +1,61 @@
 import { Avatar, Button, IconButton } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import { useEffect, useState } from "react";
+import { getTokenData } from "../services/localStorage/authUtil";
+import { io } from "socket.io-client";
+import { urls } from "../services/apiServices/urls/urls";
+import useCustomAxios from "../services/apiServices/customAxios/customAxios";
+import { useOnlineStore } from "../store/useOnlineUserStore";
+import { styled } from "@mui/material/styles";
+import Badge from "@mui/material/Badge";
 export default function Header() {
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      backgroundColor: "#44b700",
+      color: "#44b700",
+      boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+      "&::after": {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        borderRadius: "50%",
+        animation: "ripple 1.2s infinite ease-in-out",
+        border: "1px solid currentColor",
+        content: '""',
+      },
+    },
+    "@keyframes ripple": {
+      "0%": {
+        transform: "scale(.8)",
+        opacity: 1,
+      },
+      "100%": {
+        transform: "scale(2.4)",
+        opacity: 0,
+      },
+    },
+  }));
+
+  const { addOnline, onlineUser } = useOnlineStore();
+  const [localOnlineUsers, setLocalOnlineUsers] = useState(onlineUser || []);
+  useEffect(() => {
+    const token = getTokenData();
+    const newsocket = io("http://localhost:8000/homepage", {
+      query: { token },
+    });
+    newsocket.emit("userLogin", token);
+    newsocket.on("userUpdate", (users) => {
+      setLocalOnlineUsers(users); // Update local state
+      addOnline(users); // Upda
+    });
+    return () => {
+      newsocket.disconnect();
+    };
+  }, [addOnline]);
+
   return (
     <div className="md:flex justify-between p-4 items-center px-6">
       <div className="flex items-center gap-4">
@@ -10,8 +64,18 @@ export default function Header() {
       </div>
       <div className="flex gap-8">
         <div className="flex items-center gap-1">
-          <Avatar sx={{ height: 30, width: 30 }} />
-          <Avatar sx={{ height: 30, width: 30 }} />
+          {localOnlineUsers.map((user, index) => {
+            return (
+              <StyledBadge
+                key={index}
+                overlap="circular"
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                variant="dot"
+              >
+                <Avatar alt="Remy Sharp">op</Avatar>
+              </StyledBadge>
+            );
+          })}
         </div>
         <div className="divider border"></div>
         {/* <IconButton>

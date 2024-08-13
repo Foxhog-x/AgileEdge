@@ -5,6 +5,7 @@ export const urls = {
   getAllProject:"http://localhost:8000/projects/get-projects",
   deleteProject:"http://localhost:8000/projects/delete-project",
   editProject:"http://localhost:8000/projects/edit-name",
+  fetchAllContents:"http://localhost:8000/projects/fetch-all-contents",
   getEvents: "http://localhost:8000/cal/get",
   saveEvent: "http://localhost:8000/cal/create-event",
   deleteEvent: "http://localhost:8000/cal/delete-event",

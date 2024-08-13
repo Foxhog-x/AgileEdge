@@ -13,7 +13,7 @@ export const AppRouter = () => {
     <Routes>
       <Route element={<Protected />}>
         <Route
-          path="/project/:projectId"
+          path="/project/:boardId"
           element={
             <Layout>
               <Board />

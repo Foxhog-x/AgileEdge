@@ -23,9 +23,9 @@ function Layout({ children }: props) {
     <>
       <ThemeProvider theme={modernTheme}>
         <Paper>
-          <Box className="flex min-h-full flex-1 shadow-md">
+          <Box className="flex min-h-full  shadow-md ">
             <Box
-              className="hidden sm:flex flex-col min-h-screen min-w-80"
+              className="hidden sm:flex flex-col min-h-screen"
               // style={{ backgroundColor: "#1E1E1E" }}
             >
               <ProfileImage />

@@ -17,7 +17,7 @@ export default function ProjectsNavLinks() {
   const { projects, refresh, setRefresh } = useFetchProjects();
   const { addToast } = useToastStore();
   const axiosInstance = useCustomAxios();
-  const { projectId, saveProjectId } = useManageIdStore();
+  const { boardId, saveBoardId } = useManageIdStore();
   const { openProjectDialog } = useProjectDialog();
   const [editProject, setEditProject] = useState("");
   const [open, setOpen] = useState(false);
@@ -39,12 +39,12 @@ export default function ProjectsNavLinks() {
     }
   };
   const handleEdit = (id, currentName) => {
-    saveProjectId(id);
+    saveBoardId(id);
     setEditProject(currentName);
     setOpen(true);
   };
   const handleEditSubmit = async () => {
-    const project_Id = projectId;
+    const project_Id = boardId;
     const newProjectName = editProject;
 
     try {
@@ -99,7 +99,7 @@ export default function ProjectsNavLinks() {
                     },
                   }}
                 >
-                  <Link to={`/project/${project.project_id}`}>
+                  <Link to={`/project/${project.board_id}`}>
                     {project?.name}
                   </Link>
                 </Button>

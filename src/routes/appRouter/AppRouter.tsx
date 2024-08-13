@@ -13,7 +13,7 @@ export const AppRouter = () => {
     <Routes>
       <Route element={<Protected />}>
         <Route
-          path="/"
+          path="/project/:projectId"
           element={
             <Layout>
               <Board />
@@ -33,6 +33,14 @@ export const AppRouter = () => {
         />
         <Route path="/calendar" element={<CalendarpageWrapper />} />
       </Route>
+      <Route
+        path="/"
+        element={
+          <Layout>
+            <Board />
+          </Layout>
+        }
+      />
       <Route path="/login" element={<Loginpage />} />
     </Routes>
   );

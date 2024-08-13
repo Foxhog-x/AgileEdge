@@ -124,7 +124,7 @@ export const CardOutline = ({ name, items, id }) => {
         <div {...provided.droppableProps} ref={provided.innerRef}>
           <div className="flex justify-between items-center mb-4 p-2 ">
             <h3>{name}</h3>
-            <IconButton onClick={() => openTaskDialog(id)}>
+            <IconButton onClick={() => openTaskDialog(id, name)}>
               <AddCircleOutlineIcon />
             </IconButton>
           </div>

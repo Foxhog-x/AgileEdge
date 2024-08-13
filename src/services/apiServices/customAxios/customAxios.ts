@@ -2,8 +2,7 @@ import { useRef } from "react";
 import axios, { AxiosInstance, AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { getTokenData, removeTokenData } from "../../localStorage/authUtil";
 import { urls } from "../urls/urls";
-import { useToastStore } from "../../../store/useToastStore";
-
+ 
 const useCustomAxios = (contentType = "application/json") => {
   const userToken = getTokenData();
   const customAxiosRef = useRef<AxiosInstance | null>(null);
@@ -14,6 +13,7 @@ const useCustomAxios = (contentType = "application/json") => {
       headers: {
         "Content-Type": contentType,
       },
+    
     });
 
     // Request interceptor

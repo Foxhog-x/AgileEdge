@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 export const ReactquillContainer = () => {
   const quillRef = useRef(null);
-  const [editorValue, setEditorValue] = useState();
+  const [editorValue, setEditorValue] = useState("");
   useEffect(() => {
     const quill = quillRef.current.getEditor();
     console.log(quill);
@@ -12,7 +12,7 @@ export const ReactquillContainer = () => {
       if (description.length > 0) {
         if (description.length > 0) {
           description[0].style.height = "300px";
-          description[0].style.padding = "12px"; // Set your desired height here
+          description[0].style.padding = "12px";
         }
       }
     };
@@ -32,7 +32,6 @@ export const ReactquillContainer = () => {
       applyImageStyles();
     });
 
-    // Apply styles to existing images
     applyImageStyles();
     applyHeight();
   }, []);
@@ -52,7 +51,6 @@ export const ReactquillContainer = () => {
     },
   };
 
-  // Handle change event to update state
   const handleChange = (value) => {
     setEditorValue(value);
   };

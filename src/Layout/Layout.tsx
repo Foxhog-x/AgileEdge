@@ -23,19 +23,19 @@ function Layout({ children }: props) {
     <>
       <ThemeProvider theme={modernTheme}>
         <Paper>
-          <Box className="flex min-h-full  shadow-md ">
-            <Box
+          <div className="flex min-h-full  shadow-md ">
+            <div
               className="hidden sm:flex flex-col min-h-screen"
               // style={{ backgroundColor: "#1E1E1E" }}
             >
               <ProfileImage />
               <NavButton />
-            </Box>
-            <Box className="container ">
+            </div>
+            <div className="flex-1 overflow-hidden">
               <Header />
-              {children}
-            </Box>
-          </Box>
+              <div className="h-screen overflow-x-auto">{children}</div>
+            </div>
+          </div>
         </Paper>
       </ThemeProvider>
     </>

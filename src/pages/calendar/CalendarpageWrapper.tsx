@@ -2,16 +2,22 @@ import { useEffect, useState } from "react";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import Calendar from "./Calenderpage";
+import { holidays } from "./event-utils";
 
 export default function CalendarpageWrapper() {
-  const [initialEventsList, setInitialsEventsList] = useState(null);
+  const [myEventsList, setMyEventList] = useState(null);
   const axiosInstance = useCustomAxios();
+
+  useEffect(() => {
+    setMyEventList(holidays);
+  }, []);
+
   useEffect(() => {
     const getCalEvents = async () => {
       try {
         const response = await axiosInstance.get(urls.getEvents);
         const data = response.data;
-        setInitialsEventsList(data.result);
+        setMyEventList((prev) => [...prev, data.result]);
       } catch (error) {
         console.log(error);
       }
@@ -41,7 +47,8 @@ export default function CalendarpageWrapper() {
     <Calendar
       callDatabase={callDatabase}
       deleteEventCall={deleteEventCall}
-      initialEventsList={initialEventsList}
+      myEventsList={myEventsList}
+      initialEventsList={holidays}
     />
   );
 }

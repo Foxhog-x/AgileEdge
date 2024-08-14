@@ -9,7 +9,10 @@ import useCustomAxios from "../services/apiServices/customAxios/customAxios";
 import { useOnlineStore } from "../store/useOnlineUserStore";
 import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
+import { HandymanOutlined } from "@mui/icons-material";
+import CreateTaskColumn from "../components/formcontainer/component/CreateTaskColumn";
 export default function Header() {
+  const [open, setOpen] = useState(false);
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
       backgroundColor: "#44b700",
@@ -55,7 +58,9 @@ export default function Header() {
       newsocket.disconnect();
     };
   }, [addOnline]);
-
+  const HandleFunction = () => {
+    setOpen(true);
+  };
   return (
     <div className="md:flex justify-between p-4 items-center px-6">
       <div className="flex items-center gap-4">
@@ -83,7 +88,11 @@ export default function Header() {
         </IconButton> */}
 
         <div className="flex gap-2">
-          <Button startIcon={<AddCircleOutlineIcon />} variant="contained">
+          <Button
+            startIcon={<AddCircleOutlineIcon />}
+            variant="contained"
+            onClick={HandleFunction}
+          >
             Task
           </Button>
           <span>
@@ -91,6 +100,7 @@ export default function Header() {
               <FilterAltOutlinedIcon />
             </IconButton>
           </span>
+          <CreateTaskColumn open={open} setOpen={setOpen} />
         </div>
       </div>
     </div>

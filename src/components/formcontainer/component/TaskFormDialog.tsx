@@ -44,17 +44,19 @@ export const TaskFormDialog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formattedDate = dayjs(taskFormCard.endDate).format("YYYY-MM-DD");
-    const data = {
-      columnId: columnId,
-      cardName: taskFormCard.taskTitle,
-      endDate: formattedDate,
-      startDate: dayjs().format("YYYY-MM-DD"),
-      cardPriority: taskFormCard.priority,
-    };
-
+    const formattedEndDate = dayjs(taskFormCard.endDate).format("YYYY-MM-DD");
+    const formattedStartDate = dayjs().format("YYYY-MM-DD");
+    console.log(taskFormCard);
     try {
-      const response = await axiosInstance.post(urls.createCard, data);
+      await axiosInstance.post(urls.createCard, {
+        data: {
+          columnId: columnId,
+          cardName: taskFormCard.taskTitle,
+          endDate: formattedEndDate,
+          startDate: formattedStartDate,
+          cardPriority: taskFormCard.priority,
+        },
+      });
       addToast("Successfully Created", "success");
     } catch (error) {
       console.log(error);

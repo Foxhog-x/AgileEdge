@@ -6,6 +6,8 @@ export const urls = {
   deleteProject:"http://localhost:8000/projects/delete-project",
   editProject:"http://localhost:8000/projects/edit-name",
   fetchAllContents:"http://localhost:8000/projects/fetch-all-contents",
+  addColumn:"http://localhost:8000/columns/add",
+  moveColumn:"http://localhost:8000/columns/move",
   getEvents: "http://localhost:8000/cal/get",
   saveEvent: "http://localhost:8000/cal/create-event",
   deleteEvent: "http://localhost:8000/cal/delete-event",

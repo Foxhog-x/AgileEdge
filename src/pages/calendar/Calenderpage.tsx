@@ -4,15 +4,16 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { createEventId } from "./event-utils";
+import { createEventId, holidays } from "./event-utils";
 export default function Calendar({
   callDatabase,
   deleteEventCall,
   initialEventsList,
+  myEventsList,
 }) {
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [currentEvents, setCurrentEvents] = useState([]);
-  console.log(initialEventsList);
+
   function handleWeekendsToggle() {
     setWeekendsVisible(!weekendsVisible);
   }
@@ -28,7 +29,7 @@ export default function Calendar({
       start: selectInfo.startStr,
       end: selectInfo.endStr,
     };
-    console.log(evenObj);
+
     if (title) callDatabase(evenObj);
     if (title) {
       calendarApi.addEvent({
@@ -80,15 +81,11 @@ export default function Calendar({
           selectMirror={true}
           dayMaxEvents={true}
           weekends={true}
-          initialEvents={[]}
-          events={initialEventsList} // alternatively, use the `events` setting to fetch from a feed
+          events={myEventsList}
           select={handleDateSelect}
-          eventContent={renderEventContent} // custom render function
+          eventContent={renderEventContent}
           eventClick={handleEventClick}
-          eventsSet={handleEvents} // called after events are initialized/added/changed/removed
-          /* you can update a remote database when these fire:
-          
-            */
+          eventsSet={handleEvents}
         />
       </div>
     </div>
@@ -116,7 +113,7 @@ function Sidebar() {
 
 function SidebarEvent({ event }) {
   return (
-    <li key={event.id}>
+    <li key={event.id} style={{ backgroundColor: event.color }}>
       <b>
         {formatDate(event.start, {
           year: "numeric",

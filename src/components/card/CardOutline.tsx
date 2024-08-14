@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useTaskFormStore } from "../../store/useTaskFormStore";
+import { formattedDate } from "../../utils/formatDate";
 export const CardOutline = ({
   column_id,
   column_name,
@@ -25,9 +26,7 @@ export const CardOutline = ({
       sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
     ></Box>
   );
-  const handleNavigate = (cardId) => {
-    navigate(`/card/${cardId}`);
-  };
+
   const card = (item) => (
     <>
       <CardContent>
@@ -42,7 +41,17 @@ export const CardOutline = ({
           <Chip
             size="small"
             label={item.priority}
-            sx={{ marginInlineEnd: 3 }}
+            sx={{
+              marginInlineEnd: 3,
+              backgroundColor:
+                item.priority === "High"
+                  ? "#EF9A9A"
+                  : item.priority === "Medium"
+                    ? "#FFF59D"
+                    : item.priority === "Low"
+                      ? "#A5D6A7"
+                      : "",
+            }}
           />
           <IconButton sx={{ position: "relative", bottom: 5 }}>+</IconButton>
         </Typography>
@@ -82,7 +91,7 @@ export const CardOutline = ({
           }}
         >
           <EventOutlinedIcon />
-          {item.end_date}
+          {formattedDate(item.endDate)}
         </Typography>
       </CardContent>
 
@@ -104,7 +113,7 @@ export const CardOutline = ({
         </Typography>
         <Box>
           <Link
-            to={`/card/5`}
+            to={`/card/${item.card_id}`}
             state={{ someData: "Your data here" }}
             style={{ textDecoration: "none" }}
           >
@@ -114,7 +123,7 @@ export const CardOutline = ({
                 backgroundColor: "transparent",
                 color: "black",
               }}
-              onClick={() => handleNavigate(item.card_id)}
+
               ///here we give the cardId</Box>
             >
               View

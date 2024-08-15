@@ -117,6 +117,12 @@ export default function DrawerRight({ children }: props) {
             </ListItem>
           </Box>
         </div>
+        <div className="flex justify-between items-center">
+          <Box className="flex items-center w-1/2 ">
+            <PeopleAltOutlinedIcon />
+            <ListItem>Description</ListItem>
+          </Box>
+        </div>
       </div>
       {children}
       <LabTabs />

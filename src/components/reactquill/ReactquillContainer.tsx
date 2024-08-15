@@ -6,7 +6,11 @@ export const ReactquillContainer = () => {
   const [editorValue, setEditorValue] = useState("");
   useEffect(() => {
     const quill = quillRef.current.getEditor();
-
+    const applyDefaultFontSize = () => {
+      const fontSize = quill.container.getElementsByClassName("ql-editor");
+      console.log(fontSize);
+      fontSize[0].style.fontSize = "18px";
+    };
     const applyHeight = () => {
       const description = quill.container.getElementsByClassName("ql-blank");
       if (description.length > 0) {
@@ -34,6 +38,7 @@ export const ReactquillContainer = () => {
 
     applyImageStyles();
     applyHeight();
+    applyDefaultFontSize();
   }, []);
 
   const modules = {

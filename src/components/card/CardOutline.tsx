@@ -6,8 +6,6 @@ import Typography from "@mui/material/Typography";
 import { Avatar, Chip } from "@mui/material";
 import EventOutlinedIcon from "@mui/icons-material/EventOutlined";
 import CardActions from "@mui/material/CardActions";
-import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useTaskFormStore } from "../../store/useTaskFormStore";
@@ -15,17 +13,10 @@ import { formattedDate } from "../../utils/formatDate";
 export const CardOutline = ({
   column_id,
   column_name,
-  column_position, //its for me to understand actually i do not need it because we are using dnd index management
+  // column_position, //its for me to understand actually i do not need it because we are using dnd index management
   items,
 }) => {
   const { openTaskDialog } = useTaskFormStore();
-  const navigate = useNavigate();
-  const bull = (
-    <Box
-      component="span"
-      sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-    ></Box>
-  );
 
   const card = (item) => (
     <>
@@ -135,7 +126,7 @@ export const CardOutline = ({
   );
 
   return (
-    <Droppable droppableId={column_id}>
+    <Droppable droppableId={column_id} type="column">
       {(provided) => (
         <div {...provided.droppableProps} ref={provided.innerRef}>
           <div className="flex justify-between items-center mb-4 p-3 shadow-md ">

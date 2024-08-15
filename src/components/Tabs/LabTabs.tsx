@@ -61,6 +61,7 @@ export default function LabTabs() {
     fetchSubTasks();
   }, []);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    event.preventDefault();
     setValue(newValue);
   };
 

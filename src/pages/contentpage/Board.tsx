@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { useFetchProjectDetails } from "../../hooks/projectCustomhook/useFetchProjectDetails";
 import { useManageIdStore } from "../../store/useManageIdStore";
 import { useEffect } from "react";
-import CreateTaskColumn from "../../components/formcontainer/component/CreateTaskColumn";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
@@ -39,14 +38,101 @@ const Board = () => {
       addToast(error.message, "error");
     }
   };
+
+  const internalCardUpdate = (columnId, sourcecard_Id, destinationCard_Id) => {
+    try {
+      axiosInstance.post(urls.moveCardInternal, {
+        columnId,
+        sourcecard_Id,
+        destinationCard_Id,
+      });
+      addToast("Card moved", "success");
+    } catch (error) {
+      console.log(error);
+      addToast(error.message, "error");
+    }
+  };
+
+  const externalCardUpdate = (
+    sourceCardId,
+    destinationCardId,
+    destinationColumn_Id
+  ) => {
+    try {
+      axiosInstance.post(urls.moveCardExternal, {
+        sourceCardId,
+        destinationCardId,
+        destinationColumn_Id,
+      });
+      addToast("updated", "success");
+    } catch (error) {
+      console.log(error);
+      addToast("error occured", "error");
+    }
+  };
+
   const handleDragDrop = (results) => {
     const { source, destination, type } = results;
+
     if (!destination) return;
     if (
-      destination.droppableId === destination.droppableId &&
+      source.droppableId === destination.droppableId &&
       source.index === destination.index
     )
       return;
+
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index !== destination.index &&
+      type === "column"
+    ) {
+      const reorderCard = [...sortedData];
+      const sourceColumn = reorderCard.filter((value) => {
+        if (value.column_id === source.droppableId) {
+          return value;
+        }
+      });
+
+      const sourceIndex = source.index;
+      const destinatinoIndex = destination.index;
+      const sourceCardId = sourceColumn[0].items[sourceIndex].card_id;
+      const destinationCardId = sourceColumn[0].items[destinatinoIndex].card_id;
+      const [removedCard] = sourceColumn[0].items.splice(sourceIndex, 1);
+      sourceColumn[0].items.splice(destinatinoIndex, 0, removedCard);
+      internalCardUpdate(source.droppableId, sourceCardId, destinationCardId);
+    }
+    if (type === "column") {
+      if (source.droppableId !== destination.droppableId) {
+        const sourceIndex = source.index;
+        const destinationIndex = destination.index;
+        const reorderCard = [...sortedData];
+        const sourceColumn = reorderCard.filter((value) => {
+          if (value.column_id === source.droppableId) {
+            return value;
+          }
+        });
+        const destinationColumn = reorderCard.filter((value) => {
+          if (value.column_id === destination.droppableId) {
+            return value;
+          }
+        });
+        const destinationColumn_Id = destination.droppableId;
+        const sourceCardId = sourceColumn[0].items[sourceIndex].card_id;
+        if (destinationColumn[0].items.length - 1 < destinationIndex) {
+          externalCardUpdate(sourceCardId, null, destinationColumn_Id);
+        } else {
+          const destinationCardId =
+            destinationColumn[0].items[destinationIndex].card_id;
+          externalCardUpdate(
+            sourceCardId,
+            destinationCardId,
+            destinationColumn_Id
+          );
+        }
+        const [removedCard] = sourceColumn[0].items.splice(sourceIndex, 1);
+        destinationColumn[0].items.splice(destinationIndex, 0, removedCard);
+      }
+    }
 
     if (type === "group") {
       const reorderColumns = [...sortedData];
@@ -54,13 +140,10 @@ const Board = () => {
       const sourceIndex = source.index;
       const destinatinoIndex = destination.index;
       const [removedStore] = reorderColumns.splice(sourceIndex, 1);
-      console.log(removedStore, "removied store");
       reorderColumns.splice(destinatinoIndex, 0, removedStore);
       updateDatabase(sourceIndex, destinatinoIndex);
       return setSortedData(reorderColumns);
     }
-
-    console.log({ destination, source }, "console");
   };
 
   return (

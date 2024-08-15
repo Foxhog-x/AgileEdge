@@ -1,10 +1,8 @@
 import Checkbox from "@mui/material/Checkbox";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 export default function Subtasks({
   subtask_id,
-  card_id,
   checked,
   description,
   handleSubTasksCheckbox,

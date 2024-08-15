@@ -126,9 +126,8 @@ export default function LabTabs() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
+          <Tab label="Subtasks" {...a11yProps(0)} />
           <Tab label="Comments" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -167,10 +166,7 @@ export default function LabTabs() {
         </div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <CommentSection />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        Item Three
+        <CommentSection value={value} />
       </CustomTabPanel>
     </Box>
   );

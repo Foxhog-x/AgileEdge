@@ -14,13 +14,9 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import { io } from "socket.io-client";
 import { useLocation, useParams } from "react-router-dom";
-export default function CommentSection({ currentTab }: any) {
+export default function CommentSection({ value }: any) {
   const location = useLocation();
   const { cardId } = useParams();
-  const { someData } = location.state || {};
-
-  console.log("Card ID:", cardId);
-  console.log("State:", someData);
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZW1iZXJfaWQiOjgsIm1lbWJlcl9uYW1lIjoiU3dhcGFuaWwgUGF0aWwiLCJlbWFpbCI6Im9ua2FycGF0aWw0NDRAZ21haWwuY29tIiwicGFzc3dvcmQiOiJ3d3BiciIsInR5cGUiOiJhZG1pbiIsImlhdCI6MTcyMzA1MzIwN30.lVFPm5brfsrpZnmuS8XwGgJOU8WOPLM9fIeP5mTISao";
   const [socket, setSocket] = useState(null);
@@ -44,7 +40,7 @@ export default function CommentSection({ currentTab }: any) {
     const tempSocket = io("http://localhost:8000", {
       query: { token },
     });
-    tempSocket.emit("join card", { cardId: 1 });
+    tempSocket.emit("join card", { cardId: cardId });
 
     tempSocket.on("connect to namespace", (namespace) => {
       const nsSocket = io(namespace);
@@ -70,7 +66,7 @@ export default function CommentSection({ currentTab }: any) {
     return () => {
       tempSocket.off("connect to namespace");
     };
-  }, [cardId]);
+  }, [cardId, value]);
   console.log(comments);
   return (
     <div className="max-w-full flex flex-col-reverse">

@@ -1,19 +1,23 @@
 import { useRef } from "react";
-import axios, { AxiosInstance, AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosError,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
 import { getTokenData, removeTokenData } from "../../localStorage/authUtil";
 import { urls } from "../urls/urls";
- 
+
 const useCustomAxios = (contentType = "application/json") => {
   const userToken = getTokenData();
   const customAxiosRef = useRef<AxiosInstance | null>(null);
- 
+
   if (!customAxiosRef.current) {
     customAxiosRef.current = axios.create({
       baseURL: urls.baseUrl,
       headers: {
         "Content-Type": contentType,
       },
-    
     });
 
     // Request interceptor
@@ -27,7 +31,7 @@ const useCustomAxios = (contentType = "application/json") => {
       (error: AxiosError) => {
         console.error("Request error:", error);
         return Promise.reject(error);
-      }
+      },
     );
 
     // Response interceptor
@@ -40,10 +44,10 @@ const useCustomAxios = (contentType = "application/json") => {
           error.response &&
           (error.response.status === 401 || error.response.status === 403)
         )
-        removeTokenData()
+          removeTokenData();
         console.error("Response error:", error);
         return Promise.reject(error);
-      }
+      },
     );
   }
 

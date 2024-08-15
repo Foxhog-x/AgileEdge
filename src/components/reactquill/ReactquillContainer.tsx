@@ -6,7 +6,7 @@ export const ReactquillContainer = () => {
   const [editorValue, setEditorValue] = useState("");
   useEffect(() => {
     const quill = quillRef.current.getEditor();
-    console.log(quill);
+
     const applyHeight = () => {
       const description = quill.container.getElementsByClassName("ql-blank");
       if (description.length > 0) {

@@ -44,9 +44,9 @@ export default function ProjectsNavLinks() {
     setOpen(true);
   };
   const handleEditSubmit = async () => {
-    const project_Id = boardId;
+    const project_Id = boardId; // remember to me that here we actually deal with board directly because board and project are the same
     const newProjectName = editProject;
-
+    console.log(project_Id, newProjectName);
     try {
       await axiosInstance.put(urls.editProject, {
         project_Id,
@@ -82,12 +82,13 @@ export default function ProjectsNavLinks() {
             <div className="flex items-center mr-2" key={index}>
               <li key={index} className="flex-1 flex">
                 <Button
+                  component={Link}
+                  to={`/project/${project.board_id}`}
                   startIcon={<HomeIcon />}
                   fullWidth
                   sx={{
                     justifyContent: "flex-start",
 
-                    height: 30,
                     gap: 1,
                     padding: 1,
                     mb: 1,
@@ -97,16 +98,15 @@ export default function ProjectsNavLinks() {
                     "&:hover": {
                       backgroundColor: "secondary.main",
                     },
+                    display: "flex",
                   }}
                 >
-                  <Link to={`/project/${project.board_id}`}>
-                    {project?.name}
-                  </Link>
+                  <div>{project?.name}</div>
                 </Button>
                 <>
                   <IconButton
                     className="relative bottom-1.5"
-                    onClick={() => handleEdit(project.project_id, project.name)}
+                    onClick={() => handleEdit(project.board_id, project.name)}
                   >
                     <EditOutlinedIcon />
                   </IconButton>

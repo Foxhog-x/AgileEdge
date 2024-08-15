@@ -138,13 +138,13 @@ export const CardOutline = ({
     <Droppable droppableId={column_id}>
       {(provided) => (
         <div {...provided.droppableProps} ref={provided.innerRef}>
-          <div className="flex justify-between items-center mb-4 p-2 ">
+          <div className="flex justify-between items-center mb-4 p-3 shadow-md ">
             <h3>{column_name}</h3>
             <IconButton onClick={() => openTaskDialog(column_id, column_name)}>
               <AddCircleOutlineIcon />
             </IconButton>
           </div>
-          <div className="items-container flex flex-col items-center gap-4 border border-red-400">
+          <div className="items-container flex flex-col items-center gap-4 border">
             {items.map((item, index) => (
               <Draggable
                 draggableId={item.card_id}
@@ -178,8 +178,8 @@ export const CardOutline = ({
                 }}
               </Draggable>
             ))}
+            {provided.placeholder}
           </div>
-          {provided.placeholder}
         </div>
       )}
     </Droppable>

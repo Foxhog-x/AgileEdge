@@ -14,7 +14,7 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import { io } from "socket.io-client";
 import { useLocation, useParams } from "react-router-dom";
-export default function CommentSection({ currentTab }) {
+export default function CommentSection({ currentTab }: any) {
   const location = useLocation();
   const { cardId } = useParams();
   const { someData } = location.state || {};

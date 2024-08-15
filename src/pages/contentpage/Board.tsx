@@ -86,7 +86,7 @@ const Board = () => {
                   {(provided) => (
                     <div
                       key={index}
-                      className="min-w-96  p-4"
+                      className="min-w-96 p-4"
                       {...provided.dragHandleProps}
                       {...provided.draggableProps}
                       /// <reference path="" />

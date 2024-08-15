@@ -1,7 +1,7 @@
- .container-main{
-    display: flex;
- }
+.container-main {
+  display: flex;
+}
 
- .status{
-    background-color: aqua;
- }
+.status {
+  background-color: aqua;
+}

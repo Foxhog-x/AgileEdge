@@ -14,5 +14,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <SimpleSnackbar />
     <FormContainer />
     <AppRouter />
-  </BrowserRouter>
+  </BrowserRouter>,
 );

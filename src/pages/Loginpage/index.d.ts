@@ -1,5 +1,5 @@
-import {FC} from 'react'
+import { FC } from "react";
 
-declare const Loginpage :FC
+declare const Loginpage: FC;
 
-export default Loginpage
+export default Loginpage;

@@ -1,2 +1,2 @@
 import SimpleBackdrop from "./SimpleBackrop";
-export default SimpleBackdrop
+export default SimpleBackdrop;

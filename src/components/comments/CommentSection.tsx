@@ -9,13 +9,11 @@ import {
   ListItemAvatar,
   ListItemText,
   Paper,
-  Divider,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { io } from "socket.io-client";
 import { useLocation, useParams } from "react-router-dom";
 export default function CommentSection({ value }: any) {
-  const location = useLocation();
   const { cardId } = useParams();
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZW1iZXJfaWQiOjgsIm1lbWJlcl9uYW1lIjoiU3dhcGFuaWwgUGF0aWwiLCJlbWFpbCI6Im9ua2FycGF0aWw0NDRAZ21haWwuY29tIiwicGFzc3dvcmQiOiJ3d3BiciIsInR5cGUiOiJhZG1pbiIsImlhdCI6MTcyMzA1MzIwN30.lVFPm5brfsrpZnmuS8XwGgJOU8WOPLM9fIeP5mTISao";

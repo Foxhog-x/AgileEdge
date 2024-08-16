@@ -15,9 +15,11 @@ export const urls = {
   createCard: "http://localhost:8000/cards/create",
   moveCardInternal:"http://localhost:8000/cards/move-internal",
   moveCardExternal:"http://localhost:8000/cards/move-external",
+  deleteCard:"http://localhost:8000/cards/delete",
   addSubTask: "http://localhost:8000/sub-tasks/create",
   getSubTasks: "http://localhost:8000/sub-tasks/get",
   deleteSubTask: "http://localhost:8000/sub-tasks/delete",
   updateSubTaskChecked: "http://localhost:8000/sub-tasks/checked",
+
 
 };

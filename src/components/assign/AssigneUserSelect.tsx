@@ -1,14 +1,14 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 
-export default function AssigneUserSelect({ setCardDataAssign }) {
+export default function AssigneUserSelect({ setAssignee_id }) {
   return (
     <Autocomplete
       multiple
       onChange={(_, value) => {
         console.log(value, "value");
-        setCardDataAssign((prev) => {
-          return { ...prev, assignee_id: value };
+        setAssignee_id((prev) => {
+          return [...prev, value];
         });
       }}
       id="tags-outlined"

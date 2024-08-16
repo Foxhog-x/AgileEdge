@@ -13,51 +13,58 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import AssigneUserSelect from "../../assign/AssigneUserSelect";
 import "dayjs/locale/en-gb";
 import useCustomAxios from "../../../services/apiServices/customAxios/customAxios";
-import { urls } from "../../../services/apiServices/urls/urls";
 import { useToastStore } from "../../../store/useToastStore";
-export const TaskFormDialog = () => {
+import { useParams } from "react-router-dom";
+import { urls } from "../../../services/apiServices/urls/urls";
+import { date } from "zod";
+export const TaskFormDialog = ({ fetchProjectDetails }) => {
+  const { boardId } = useParams<{ boardId: string }>();
   const axiosInstance = useCustomAxios();
   const { addToast } = useToastStore();
   const { taskDialog, columnId, columnName, closeTaskDialog } =
     useTaskFormStore();
   const [priority, setPriority] = React.useState("");
-  const [taskFormCard, setTaskFormCard] = React.useState({
-    taskTitle: "",
-    priority: "",
-    endDate: "",
-    assignee_id: [],
-  });
+  const [taskTitle, setTaskTitle] = React.useState("");
+  const [endDate, setEndDate] = React.useState(null);
+  const [assignee_id, setAssignee_id] = React.useState([]);
+
   const handleClose = () => {
     closeTaskDialog();
   };
   const handleChange = (event: SelectChangeEvent) => {
     setPriority(event.target.value as string);
-    setTaskFormCard((prev) => {
-      return { ...prev, priority: event.target.value as string };
-    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formattedEndDate = dayjs(taskFormCard.endDate).format("YYYY-MM-DD");
-    const formattedStartDate = dayjs().format("YYYY-MM-DD");
-    console.log(taskFormCard);
+    if (!taskTitle || taskTitle.trim() === "") {
+      addToast("no task title", "error");
+      return;
+    }
+    if (endDate === null) {
+      addToast("No endDate added", "info");
+    }
+    const formattedStartDate = new Date().toISOString().split("T")[0];
+
     try {
       await axiosInstance.post(urls.createCard, {
         data: {
           columnId: columnId,
-          cardName: taskFormCard.taskTitle,
-          endDate: formattedEndDate,
+          cardName: taskTitle,
+          endDate: endDate,
           startDate: formattedStartDate,
-          cardPriority: taskFormCard.priority,
+          cardPriority: priority,
         },
       });
       addToast("Successfully Created", "success");
+      fetchProjectDetails(boardId);
+      setTaskTitle("");
+      closeTaskDialog();
     } catch (error) {
       console.log(error);
       addToast(error, "error");
@@ -100,9 +107,7 @@ export const TaskFormDialog = () => {
             type="text"
             variant="outlined"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setTaskFormCard((prev) => {
-                return { ...prev, taskTitle: e.target.value };
-              });
+              setTaskTitle(e.target.value);
             }}
           />
           <FormControl fullWidth>
@@ -123,19 +128,17 @@ export const TaskFormDialog = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="End Date"
-              defaultValue={dayjs()}
               format="DD-MM-YYYY"
-              onChange={(date: Date | any) => {
-                setTaskFormCard((prev) => {
-                  return {
-                    ...prev,
-                    endDate: date,
-                  };
-                });
+              value={endDate ? dayjs(endDate) : null} // Ensure value is a Dayjs object
+              onChange={(date: Dayjs | null) => {
+                if (date && dayjs(date).isValid()) {
+                  const formattedDate = dayjs(date).format("YYYY-MM-DD"); //
+                  setEndDate(formattedDate);
+                }
               }}
             />
           </LocalizationProvider>
-          <AssigneUserSelect setCardDataAssign={setTaskFormCard} />
+          <AssigneUserSelect setAssignee_id={setAssignee_id} />
         </DialogContent>
         <DialogActions sx={{ padding: 2 }}>
           <Button onClick={handleClose}>Cancel</Button>

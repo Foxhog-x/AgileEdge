@@ -7,11 +7,12 @@ import axios, {
 } from "axios";
 import { getTokenData, removeTokenData } from "../../localStorage/authUtil";
 import { urls } from "../urls/urls";
+import useBackdropStore from "../../../store/useBackdropStore";
 
 const useCustomAxios = (contentType = "application/json") => {
   const userToken = getTokenData();
   const customAxiosRef = useRef<AxiosInstance | null>(null);
-
+  const { showBackdrop, hideBackdrop } = useBackdropStore();
   if (!customAxiosRef.current) {
     customAxiosRef.current = axios.create({
       baseURL: urls.baseUrl,
@@ -26,6 +27,7 @@ const useCustomAxios = (contentType = "application/json") => {
         if (userToken) {
           config.headers.Authorization = `Bearer ${userToken}`;
         }
+        showBackdrop()
         return config;
       },
       (error: AxiosError) => {
@@ -33,11 +35,15 @@ const useCustomAxios = (contentType = "application/json") => {
         return Promise.reject(error);
       },
     );
-
+  
     // Response interceptor
     customAxiosRef.current.interceptors.response.use(
+      
       (response: AxiosResponse) => {
+        hideBackdrop()
         return response;
+
+        
       },
       (error: AxiosError) => {
         if (
@@ -49,6 +55,7 @@ const useCustomAxios = (contentType = "application/json") => {
         return Promise.reject(error);
       },
     );
+  
   }
 
   return customAxiosRef.current;

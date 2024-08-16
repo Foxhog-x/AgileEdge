@@ -13,7 +13,9 @@ import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { addTokenData } from "../../services/localStorage/authUtil";
 import { useToastStore } from "../../store/useToastStore";
+import { useNavigate } from "react-router-dom";
 export default function Loginpage() {
+  const navigate = useNavigate();
   const { addToast } = useToastStore();
   const {
     register,
@@ -31,6 +33,7 @@ export default function Loginpage() {
       const { token } = response.data;
       try {
         addTokenData(token);
+        navigate("/");
       } catch (error) {
         console.log(error, "error while storing token in localstorage");
       }

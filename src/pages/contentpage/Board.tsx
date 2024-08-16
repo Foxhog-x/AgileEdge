@@ -7,19 +7,22 @@ import { useEffect } from "react";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
+import { TaskFormDialog } from "../../components/formcontainer/component/TaskFormDialog";
 
 const Board = () => {
   const axiosInstance = useCustomAxios();
   const { addToast } = useToastStore();
   const { boardId } = useParams<{ boardId: string }>();
   const { saveBoardId } = useManageIdStore();
-  const { sortedData, setSortedData } = useFetchProjectDetails({
-    boardId,
-  });
+  const { sortedData, setSortedData, fetchProjectDetails } =
+    useFetchProjectDetails({
+      boardId,
+    });
 
   useEffect(() => {
     saveBoardId(boardId);
   }, [boardId]);
+
   const updateDatabase = async (sourceIndex, destinatinationIndex) => {
     const sourceColumn_Id = sortedData[sourceIndex]?.column_id;
     const destinationColumn_Id = sortedData[destinatinationIndex]?.column_id;
@@ -149,6 +152,7 @@ const Board = () => {
   return (
     <DragDropContext onDragEnd={handleDragDrop}>
       <div>
+        <TaskFormDialog fetchProjectDetails={fetchProjectDetails} />
         <Droppable droppableId={"1"} direction="horizontal" type="group">
           {(provided, snapshot) => (
             <div
@@ -175,7 +179,11 @@ const Board = () => {
                       /// <reference path="" />
                       ref={provided.innerRef}
                     >
-                      <CardOutline {...data} />
+                      <CardOutline
+                        {...data}
+                        sortedData={sortedData}
+                        setSortedData={setSortedData}
+                      />
                     </div>
                   )}
                 </Draggable>

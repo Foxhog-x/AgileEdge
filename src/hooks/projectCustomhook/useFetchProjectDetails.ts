@@ -11,18 +11,21 @@ export const useFetchProjectDetails = ({ boardId }: FetchBoardDataProps) => {
   const [projectDetails, setProjectDetails] = useState([]);
   const [sortedData, setSortedData] = useState([]);
 
+  const fetchProjectDetails = async (boardId: string) => {
+    try {
+      const response = await axiosInstance.post(urls.fetchAllContents, {
+        boardId,
+      });
+      console.log();
+      setProjectDetails(response.data.result);
+    } catch (error) {
+      console.error("Error fetching project details:", error);
+    }
+  };
+
+
   useEffect(() => {
-    const fetchProjectDetails = async (boardId: string) => {
-      try {
-        const response = await axiosInstance.post(urls.fetchAllContents, {
-          boardId,
-        });
-        console.log();
-        setProjectDetails(response.data.result);
-      } catch (error) {
-        console.error("Error fetching project details:", error);
-      }
-    };
+   
 
     if (boardId) {
       fetchProjectDetails(boardId);
@@ -41,5 +44,5 @@ export const useFetchProjectDetails = ({ boardId }: FetchBoardDataProps) => {
   }, [projectDetails]);
   console.log(projectDetails);
   console.log(sortedData, "sorted");
-  return { projectDetails, sortedData, setSortedData };
+  return { projectDetails, sortedData, setSortedData, fetchProjectDetails };
 };

@@ -47,7 +47,7 @@ export default function Calendar({
 
     if (
       confirm(
-        `Are you sure you want to delete the event '${clickInfo.event.title}'`,
+        `Are you sure you want to delete the event '${clickInfo.event.title}'`
       )
     ) {
       deleteEventCall(id);
@@ -60,7 +60,7 @@ export default function Calendar({
   }
 
   return (
-    <div className="demo-app p-2  ">
+    <div className="demo-app p-2">
       <Sidebar
 
       // handleWeekendsToggle={handleWeekendsToggle}
@@ -68,7 +68,7 @@ export default function Calendar({
       />
       <div className="demo-app-main   ">
         <FullCalendar
-          height={"100vh"}
+          height={"99vh"}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
             left: "prev,next today",

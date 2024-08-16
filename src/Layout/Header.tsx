@@ -51,8 +51,8 @@ export default function Header() {
     });
     newsocket.emit("userLogin", token);
     newsocket.on("userUpdate", (users) => {
-      setLocalOnlineUsers(users); // Update local state
-      addOnline(users); // Upda
+      setLocalOnlineUsers(users);
+      addOnline(users);
     });
     return () => {
       newsocket.disconnect();

@@ -32,15 +32,16 @@ export const AppRouter = () => {
           }
         />
         <Route path="/calendar" element={<CalendarpageWrapper />} />
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <Board />
+            </Layout>
+          }
+        />
       </Route>
-      <Route
-        path="/"
-        element={
-          <Layout>
-            <Board />
-          </Layout>
-        }
-      />
+
       <Route path="/login" element={<Loginpage />} />
     </Routes>
   );

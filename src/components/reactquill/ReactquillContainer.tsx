@@ -6,6 +6,7 @@ export const ReactquillContainer = () => {
   const [editorValue, setEditorValue] = useState("");
   useEffect(() => {
     const quill = quillRef.current.getEditor();
+
     const applyDefaultFontSize = () => {
       const fontSize = quill.container.getElementsByClassName("ql-editor");
       console.log(fontSize);
@@ -14,13 +15,16 @@ export const ReactquillContainer = () => {
     const applyHeight = () => {
       const description = quill.container.getElementsByClassName("ql-blank");
       if (description.length > 0) {
-        if (description.length > 0) {
-          description[0].style.height = "300px";
-          description[0].style.padding = "12px";
-        }
+        description[0].style.height = "300px";
+        description[0].style.padding = "12px";
       }
     };
-
+    const clipboardPosition = () => {
+      const getClipboard = quill.container.getElementsByClassName("ql-editing");
+      if (getClipboard > 0) {
+        getClipboard[0].clientLeft = "100px";
+      }
+    };
     const applyImageStyles = () => {
       const images = quill.container.getElementsByTagName("img");
       Array.from(images).forEach((image: HTMLImageElement) => {
@@ -39,6 +43,7 @@ export const ReactquillContainer = () => {
     applyImageStyles();
     applyHeight();
     applyDefaultFontSize();
+    clipboardPosition();
   }, []);
 
   const modules = {
@@ -61,7 +66,7 @@ export const ReactquillContainer = () => {
   };
   console.log(editorValue);
   return (
-    <div style={{ maxWidth: 600, padding: 5 }}>
+    <div style={{ width: "100%" }}>
       <ReactQuill
         ref={quillRef}
         modules={modules}

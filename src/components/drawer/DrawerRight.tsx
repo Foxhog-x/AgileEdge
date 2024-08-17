@@ -8,8 +8,9 @@ import AdjustOutlinedIcon from "@mui/icons-material/AdjustOutlined";
 import EventOutlinedIcon from "@mui/icons-material/EventOutlined";
 import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
-import { ReactquillContainer } from "../reactquill/ReactquillContainer";
+import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import LabTabs from "../Tabs/LabTabs";
+
 import { useNavigate } from "react-router-dom";
 type Anchor = "top" | "left" | "bottom" | "right";
 type props = {
@@ -20,7 +21,7 @@ export default function DrawerRight({ children }: props) {
   const [state, setState] = React.useState({
     right: true,
   });
-
+  const handleFunctionAssign = () => {};
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -115,6 +116,9 @@ export default function DrawerRight({ children }: props) {
                 onDelete={() => "hello"}
               />
             </ListItem>
+            <IconButton onClick={() => handleFunctionAssign()}>
+              <AddBoxOutlinedIcon />
+            </IconButton>
           </Box>
         </div>
         <div className="flex justify-between items-center">

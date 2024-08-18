@@ -21,6 +21,7 @@ import { useToastStore } from "../../../store/useToastStore";
 import { useParams } from "react-router-dom";
 import { urls } from "../../../services/apiServices/urls/urls";
 import { date } from "zod";
+import AssigneeUserNotSelect from "../../assign/AssigneUserNotSelected";
 export const TaskFormDialog = ({ fetchProjectDetails }) => {
   const { boardId } = useParams<{ boardId: string }>();
   const axiosInstance = useCustomAxios();
@@ -138,7 +139,7 @@ export const TaskFormDialog = ({ fetchProjectDetails }) => {
               }}
             />
           </LocalizationProvider>
-          <AssigneUserSelect setAssignee_id={setAssignee_id} />
+          <AssigneeUserNotSelect setAssignee_id={setAssignee_id} />
         </DialogContent>
         <DialogActions sx={{ padding: 2 }}>
           <Button onClick={handleClose}>Cancel</Button>

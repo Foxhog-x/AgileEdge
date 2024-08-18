@@ -13,9 +13,12 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
 const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Logout"];
 import React from "react";
+import { removeTokenData } from "../services/localStorage/authUtil";
+import { useNavigate } from "react-router-dom";
 export const ProfileImage = () => {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -27,8 +30,17 @@ export const ProfileImage = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (data) => {
     setAnchorElUser(null);
+    switch (data) {
+      case "Logout":
+        removeTokenData();
+        navigate("/login");
+        break;
+
+      default:
+        break;
+    }
   };
 
   return (
@@ -58,7 +70,7 @@ export const ProfileImage = () => {
         onClose={handleCloseUserMenu}
       >
         {settings.map((setting) => (
-          <MenuItem key={setting} onClick={handleCloseUserMenu}>
+          <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
             <Typography textAlign="center">{setting}</Typography>
           </MenuItem>
         ))}

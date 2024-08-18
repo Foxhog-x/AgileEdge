@@ -27,7 +27,9 @@ const useCustomAxios = (contentType = "application/json") => {
         if (userToken) {
           config.headers.Authorization = `Bearer ${userToken}`;
         }
-        showBackdrop()
+       
+          showBackdrop()
+      
         return config;
       },
       (error: AxiosError) => {

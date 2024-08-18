@@ -3,28 +3,47 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import ListItem from "@mui/material/ListItem";
-import { Avatar, Chip, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Chip,
+  IconButton,
+  List,
+  Stack,
+  Typography,
+} from "@mui/material";
 import AdjustOutlinedIcon from "@mui/icons-material/AdjustOutlined";
 import EventOutlinedIcon from "@mui/icons-material/EventOutlined";
 import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import LabTabs from "../Tabs/LabTabs";
-
+import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import AssigneUserSelect from "../assign/AssigneUserSelect";
+import { formattedDate } from "../../utils/formatDate";
+import AssigneeUserSelect from "../assign/AssigneUserSelect";
+import AssigneeUserNotSelect from "../assign/AssigneUserNotSelected";
 type Anchor = "top" | "left" | "bottom" | "right";
 type props = {
   children: React.ReactNode;
 };
 export default function DrawerRight({ children }: props) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [assignee, setAssignee] = React.useState([]);
+  const [reactQuillEdit, setReactQuillEdit] = React.useState("");
+  const { itemData } = location.state || {};
   const [state, setState] = React.useState({
     right: true,
   });
-  const handleFunctionAssign = () => {};
+  React.useEffect(() => {
+    setAssignee(itemData.assignees);
+  }, []);
+  console.log(assignee, "assogme");
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
+      console.log(assignee);
       if (
         event.type === "keydown" &&
         ((event as React.KeyboardEvent).key === "Tab" ||
@@ -32,7 +51,7 @@ export default function DrawerRight({ children }: props) {
       ) {
         return;
       }
-
+      console.log(assignee, "assignee");
       setState({ ...state, [anchor]: open });
       navigate(-1);
     };
@@ -54,29 +73,47 @@ export default function DrawerRight({ children }: props) {
             <ListItem>Status</ListItem>
           </Box>
           <Box className="w-3/4">
-            <ListItem>High</ListItem>
-          </Box>
-        </div>
-        <div className="flex justify-between">
-          <Box className="flex items-center w-1/2 ">
-            <EventOutlinedIcon />
-            <ListItem>Due Date</ListItem>
-          </Box>
-          <Box className="w-3/4">
             <ListItem>
-              <Typography
+              <Chip
+                size="small"
+                label={itemData?.priority}
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  fontSize: 14,
+                  marginInlineEnd: 3,
+                  backgroundColor:
+                    itemData.priority === "High"
+                      ? "#EF9A9A"
+                      : itemData.priority === "Medium"
+                        ? "#FFF59D"
+                        : itemData.priority === "Low"
+                          ? "#A5D6A7"
+                          : "",
                 }}
-              >
-                Feb 24, 2024
-              </Typography>
+              />
             </ListItem>
           </Box>
         </div>
+        {itemData.end_date && (
+          <div className="flex justify-between">
+            <Box className="flex items-center w-1/2 ">
+              <EventOutlinedIcon />
+              <ListItem>Due Date</ListItem>
+            </Box>
+            <Box className="w-3/4">
+              <ListItem>
+                <Typography
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    fontSize: 14,
+                  }}
+                >
+                  {formattedDate(itemData.end_date)}
+                </Typography>
+              </ListItem>
+            </Box>
+          </div>
+        )}
         <div className="flex justify-between">
           <Box className="flex items-center w-1/2 ">
             <StyleOutlinedIcon />
@@ -98,27 +135,18 @@ export default function DrawerRight({ children }: props) {
             <ListItem>Assignees</ListItem>
           </Box>
           <Box className="w-3/4 flex  overflow-hidden">
-            <ListItem className="flex-wrap gap-2">
-              <Chip
-                avatar={
-                  <Avatar alt="Natacha" src="/static/images/avatar/1.jpg" />
-                }
-                label="Avatar"
-                variant="outlined"
-                onDelete={() => "hello"}
+            {itemData.assignees ? (
+              <AssigneUserSelect
+                assignee={assignee}
+                setAssignee_id={setAssignee}
               />
-              <Chip
-                avatar={
-                  <Avatar alt="Natacha" src="/static/images/avatar/1.jpg" />
-                }
-                label="Avatar"
-                variant="outlined"
-                onDelete={() => "hello"}
-              />
-            </ListItem>
-            <IconButton onClick={() => handleFunctionAssign()}>
+            ) : (
+              <AssigneeUserNotSelect setAssignee_id={setAssignee} />
+            )}
+
+            {/* <IconButton onClick={() => handleFunctionAssign()}>
               <AddBoxOutlinedIcon />
-            </IconButton>
+            </IconButton> */}
           </Box>
         </div>
         <div className="flex justify-between items-center">

@@ -12,4 +12,8 @@ export const getTokenData = () => {
   return token;
 };
 
+
+export const addUsersDataLocally  = (data)=>{
+  localStorage.setItem("userData", JSON.stringify(data))
+}
 //   const getUserData = () => {   const userDataToken = localStorage.getItem('qweldToken');   try {     return userDataToken ? JSON.parse(userDataToken) : null;   } catch (error) {     return null;   } };  const setUserData = (userData: string) => {   localStorage.setItem('qweldToken', JSON.stringify(userData)); };  const removeUserData = () => {   localStorage.removeItem('qweldToken'); };  export { getUserData, setUserData, removeUserData };

@@ -11,7 +11,10 @@ import styles from "./Loginpage.module.css";
 import { Box, Button, Stack, TextField } from "@mui/material";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
-import { addTokenData } from "../../services/localStorage/authUtil";
+import {
+  addTokenData,
+  addUsersDataLocally,
+} from "../../services/localStorage/authUtil";
 import { useToastStore } from "../../store/useToastStore";
 import { useNavigate } from "react-router-dom";
 export default function Loginpage() {
@@ -33,6 +36,8 @@ export default function Loginpage() {
       const { token } = response.data;
       try {
         addTokenData(token);
+        const userData = response.data.result[0][0];
+        addUsersDataLocally(userData.assignees);
         navigate("/");
       } catch (error) {
         console.log(error, "error while storing token in localstorage");

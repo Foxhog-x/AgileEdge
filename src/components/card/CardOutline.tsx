@@ -118,7 +118,7 @@ export const CardOutline = ({
           <Box>
             <Link
               to={`/card/${item.card_id}`}
-              state={{ someData: "Your data here" }}
+              state={{ itemData: item }}
               style={{ textDecoration: "none" }}
             >
               <Button

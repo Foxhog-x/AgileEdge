@@ -9,12 +9,11 @@ interface User {
 }
 
 interface AssigneeUserSelectProps {
-  assignee: User[]; // Initially assigned users
+  // Initially assigned users
   setAssignee_id: React.Dispatch<React.SetStateAction<User[]>>; // Function to update assigned users
 }
 
-const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
-  assignee = [],
+const AssigneeUserNotSelect: React.FC<AssigneeUserSelectProps> = ({
   setAssignee_id,
 }) => {
   const [users, setUsers] = useState<User[]>([]);
@@ -35,8 +34,8 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
 
   return (
     <Autocomplete
+      fullWidth
       multiple
-      value={assignee}
       onChange={(_, newValue) => {
         setAssignee_id(newValue);
       }}
@@ -78,4 +77,4 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
   );
 };
 
-export default AssigneeUserSelect;
+export default AssigneeUserNotSelect;

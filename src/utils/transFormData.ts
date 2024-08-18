@@ -14,14 +14,13 @@ export const transFormData = async (data) => {
       end_date,
       priority,
       card_column_id,
-      assignees_id,
-      member_names,
+      assignees,
     } = item;
 
     const columnIdStr = String(column_id);
     const cardIdStr = card_id != null ? String(card_id) : null;
     const cardColumnIdStr = String(card_column_id);
-    const assigneesIdStr = String(assignees_id);
+    
 
     if (!columnMap.has(columnIdStr)) {
       columnMap.set(columnIdStr, {
@@ -41,13 +40,13 @@ export const transFormData = async (data) => {
         end_date,
         priority,
         card_column_id: cardColumnIdStr,
-        assignees_id: assigneesIdStr,
-        member_names,
+        assignees 
       });
     }
   });
 
   // Collect the column data
   columnMap.forEach((value) => result.push(value));
+  console.log(result, "result")
   return result;
 };

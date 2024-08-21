@@ -6,7 +6,7 @@ import DrawerRight from "../../components/drawer/DrawerRight";
 import { ReactquillContainer } from "../../components/reactquill/ReactquillContainer";
 import CalendarpageWrapper from "../../pages/calendar/CalendarpageWrapper";
 import Protected from "../../pages/protectedpage/Protected";
-import Loginpage from "../../pages/loginpage";
+import Loginpage from "../../pages/Loginpage";
 
 export const AppRouter = () => {
   return (

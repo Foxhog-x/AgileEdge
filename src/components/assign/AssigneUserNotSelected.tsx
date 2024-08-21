@@ -4,8 +4,8 @@ import TextField from "@mui/material/TextField";
 import { Chip } from "@mui/material";
 
 interface User {
-  assigneeId: number;
-  memberName: string;
+  member_id: number;
+  member_name: string;
 }
 
 interface AssigneeUserSelectProps {
@@ -41,7 +41,7 @@ const AssigneeUserNotSelect: React.FC<AssigneeUserSelectProps> = ({
       }}
       id="assignee-autocomplete"
       options={users}
-      getOptionLabel={(option) => option.memberName}
+      getOptionLabel={(option) => option.member_name}
       filterSelectedOptions
       renderInput={(params) => (
         <TextField
@@ -67,9 +67,9 @@ const AssigneeUserNotSelect: React.FC<AssigneeUserSelectProps> = ({
       renderTags={(value: User[], getTagProps) =>
         value.map((option: User, index: number) => (
           <Chip
-            label={option.memberName}
+            label={option.member_name}
             {...getTagProps({ index })}
-            key={option.assigneeId}
+            key={option.member_id}
           />
         ))
       }

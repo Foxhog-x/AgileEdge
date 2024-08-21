@@ -20,7 +20,9 @@ export const urls = {
   getSubTasks: "http://localhost:8000/sub-tasks/get",
   deleteSubTask: "http://localhost:8000/sub-tasks/delete",
   updateSubTaskChecked: "http://localhost:8000/sub-tasks/checked",
-  getAssignees:"http://localhost:8000/assign/get-assign-members"
+  getAssignees:"http://localhost:8000/assign/get-assign-members",
+  addAssignees:"http://localhost:8000/assign/update-assign",
+  removeAssignee:"http://localhost:8000/assign/delete-assignee"
 
 
 };

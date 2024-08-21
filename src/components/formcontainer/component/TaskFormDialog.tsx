@@ -60,11 +60,13 @@ export const TaskFormDialog = ({ fetchProjectDetails }) => {
           endDate: endDate,
           startDate: formattedStartDate,
           cardPriority: priority,
+          assigneeArray: assignee_id,
         },
       });
       addToast("Successfully Created", "success");
       fetchProjectDetails(boardId);
       setTaskTitle("");
+      setAssignee_id([]);
       closeTaskDialog();
     } catch (error) {
       console.log(error);

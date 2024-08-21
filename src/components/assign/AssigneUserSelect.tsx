@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { Chip } from "@mui/material";
+import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
+import { urls } from "../../services/apiServices/urls/urls";
+import { useLocation } from "react-router-dom";
 
 interface User {
   member_id: number;
@@ -10,18 +13,22 @@ interface User {
 
 interface AssigneeUserSelectProps {
   assignee: User[]; // Initially assigned users
-  setAssignee_id: React.Dispatch<React.SetStateAction<User[]>>; // Function to update assigned users
+  setAssignee_id: React.Dispatch<React.SetStateAction<User[]>>;
+  setFilterAssigneeArray: React.Dispatch<React.SetStateAction<User[]>>;
 }
 
 const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
   assignee = [],
   setAssignee_id,
+  setFilterAssigneeArray,
 }) => {
   const [users, setUsers] = useState<User[]>([]);
+  const location = useLocation();
   const [loading, setLoading] = useState<boolean>(true);
+  const axiosInstance = useCustomAxios();
 
   useEffect(() => {
-    const parsedData = JSON.parse(localStorage.getItem("userData"));
+    const parsedData = JSON.parse(localStorage.getItem("userData") || "[]");
     const users = Array.isArray(parsedData) ? parsedData : [parsedData];
     setTimeout(() => {
       setUsers(users);
@@ -32,15 +39,37 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
   if (loading) {
     return <p>Loading...</p>;
   }
-  const removeFromDatabase = (removedMember) => {
-    console.log(removedMember);
+  const removeAssigneFromdb = async (assigneeObj, cardId) => {
+    try {
+      await axiosInstance.delete(urls.removeAssignee, {
+        data: { assigneeObj, cardId },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const addAssigneToDb = async (assigneeObj, cardId) => {
+    try {
+      await axiosInstance.post(urls.addAssignees, {
+        data: { assigneeObj, cardId },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleChange = (event, newValue: User[], reason: string) => {
+    const path = location.pathname;
+    const match = path.match(/(\d+)$/);
+    const cardId = match ? parseInt(match[0], 10) : null;
     if (reason === "removeOption") {
       const removedMember = assignee.find(
         (member) => !newValue.includes(member)
       );
-      removeFromDatabase(removedMember);
+
+      removeAssigneFromdb(removedMember, cardId);
+    } else if (reason === "selectOption") {
+      const addedMember = newValue.find((member) => !assignee.includes(member));
+      addAssigneToDb(addedMember, cardId);
     }
     setAssignee_id(newValue);
   };
@@ -53,11 +82,14 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
   return (
     <Autocomplete
       multiple
-      value={filteredOptions}
+      value={assignee}
       onChange={handleChange}
       id="assignee-autocomplete"
-      options={users}
-      getOptionLabel={(option) => option.member_name}
+      isOptionEqualToValue={(option, value) =>
+        option.member_id === value.member_id
+      }
+      options={filteredOptions}
+      getOptionLabel={(option) => option?.member_name}
       filterSelectedOptions
       renderInput={(params) => (
         <TextField
@@ -83,9 +115,9 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
       renderTags={(value: User[], getTagProps) =>
         value.map((option: User, index: number) => (
           <Chip
-            label={option.member_name}
+            label={option?.member_name}
             {...getTagProps({ index })}
-            key={option.member_id}
+            key={option?.member_id}
           />
         ))
       }

@@ -4,8 +4,8 @@ import TextField from "@mui/material/TextField";
 import { Chip } from "@mui/material";
 
 interface User {
-  assigneeId: number;
-  memberName: string;
+  member_id: number;
+  member_name: string;
 }
 
 interface AssigneeUserSelectProps {
@@ -32,17 +32,32 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
   if (loading) {
     return <p>Loading...</p>;
   }
+  const removeFromDatabase = (removedMember) => {
+    console.log(removedMember);
+  };
+  const handleChange = (event, newValue: User[], reason: string) => {
+    if (reason === "removeOption") {
+      const removedMember = assignee.find(
+        (member) => !newValue.includes(member)
+      );
+      removeFromDatabase(removedMember);
+    }
+    setAssignee_id(newValue);
+  };
+
+  const filteredOptions = users.filter(
+    (user) =>
+      !assignee.some((selected) => selected.member_id === user.member_id)
+  );
 
   return (
     <Autocomplete
       multiple
-      value={assignee}
-      onChange={(_, newValue) => {
-        setAssignee_id(newValue);
-      }}
+      value={filteredOptions}
+      onChange={handleChange}
       id="assignee-autocomplete"
       options={users}
-      getOptionLabel={(option) => option.memberName}
+      getOptionLabel={(option) => option.member_name}
       filterSelectedOptions
       renderInput={(params) => (
         <TextField
@@ -68,9 +83,9 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
       renderTags={(value: User[], getTagProps) =>
         value.map((option: User, index: number) => (
           <Chip
-            label={option.memberName}
+            label={option.member_name}
             {...getTagProps({ index })}
-            key={option.assigneeId}
+            key={option.member_id}
           />
         ))
       }

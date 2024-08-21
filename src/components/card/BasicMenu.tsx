@@ -26,10 +26,6 @@ export default function BasicMenu({
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleLogout = () => {
-    removeTokenData();
-    navigate("/login");
-  };
 
   const handleDelete = async (card_Id) => {
     setAnchorEl(null);
@@ -68,7 +64,6 @@ export default function BasicMenu({
         }}
       >
         <MenuItem onClick={() => handleDelete(card_Id)}>Delete</MenuItem>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </div>
   );

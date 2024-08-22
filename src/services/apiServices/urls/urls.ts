@@ -22,7 +22,9 @@ export const urls = {
   updateSubTaskChecked: "http://localhost:8000/sub-tasks/checked",
   getAssignees:"http://localhost:8000/assign/get-assign-members",
   addAssignees:"http://localhost:8000/assign/update-assign",
-  removeAssignee:"http://localhost:8000/assign/delete-assignee"
+  removeAssignee:"http://localhost:8000/assign/delete-assignee",
+  myUserUpdate:"http://localhost:8000/my/update-user-profile",
+  getAvatars:"http://localhost:8000/avatar/fetch-avatars"
 
 
 };

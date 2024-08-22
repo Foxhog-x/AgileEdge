@@ -36,8 +36,8 @@ export default function Loginpage() {
       const { token } = response.data;
       try {
         addTokenData(token);
-        const userData = response.data.result[0][0];
-        addUsersDataLocally(userData.assignees);
+        const userData = response.data.result[0];
+        addUsersDataLocally(userData);
         navigate("/");
       } catch (error) {
         console.log(error, "error while storing token in localstorage");

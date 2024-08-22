@@ -51,7 +51,7 @@ export const TaskFormDialog = ({ fetchProjectDetails }) => {
       addToast("No endDate added", "info");
     }
     const formattedStartDate = new Date().toISOString().split("T")[0];
-
+    console.log(assignee_id);
     try {
       await axiosInstance.post(urls.createCard, {
         data: {

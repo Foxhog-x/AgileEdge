@@ -23,6 +23,8 @@ import AssigneUserSelect from "../assign/AssigneUserSelect";
 import { formattedDate } from "../../utils/formatDate";
 import AssigneeUserSelect from "../assign/AssigneUserSelect";
 import AssigneeUserNotSelect from "../assign/AssigneUserNotSelected";
+import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
+import { urls } from "../../services/apiServices/urls/urls";
 type Anchor = "top" | "left" | "bottom" | "right";
 type props = {
   children: React.ReactNode;
@@ -31,15 +33,27 @@ export default function DrawerRight({ children }: props) {
   const navigate = useNavigate();
   const location = useLocation();
   const [assignee, setAssignee] = React.useState([]);
+  const [notSelectedAssigne, setNotSelectedAssigne] = React.useState([]);
   const [reactQuillEdit, setReactQuillEdit] = React.useState("");
   const { itemData } = location.state || {};
+  const axiosInstance = useCustomAxios();
   const [state, setState] = React.useState({
     right: true,
   });
   React.useEffect(() => {
     setAssignee(itemData.assignees);
   }, []);
-  console.log(assignee, "assogme");
+  console.log(notSelectedAssigne, "assogme");
+
+  const assigneeSavedTodb = (notSelectedAssigne, cardId) => {
+    const assigneeObj = notSelectedAssigne;
+    try {
+      axiosInstance.post(urls.addAssignees, { data: { assigneeObj, cardId } });
+      setNotSelectedAssigne([]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -51,7 +65,10 @@ export default function DrawerRight({ children }: props) {
       ) {
         return;
       }
-      console.log(assignee, "assignee");
+      const path = location.pathname;
+      const match = path.match(/(\d+)$/);
+      const cardId = match ? parseInt(match[0], 10) : null;
+      assigneeSavedTodb(notSelectedAssigne, cardId);
       setState({ ...state, [anchor]: open });
       navigate(-1);
     };
@@ -141,7 +158,10 @@ export default function DrawerRight({ children }: props) {
                 setAssignee_id={setAssignee}
               />
             ) : (
-              <AssigneeUserNotSelect setAssignee_id={setAssignee} />
+              <AssigneeUserNotSelect
+                selectedAssignee={notSelectedAssigne}
+                setAssignee_id={setNotSelectedAssigne}
+              />
             )}
 
             {/* <IconButton onClick={() => handleFunctionAssign()}>

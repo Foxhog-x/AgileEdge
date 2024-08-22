@@ -10,10 +10,12 @@ interface User {
 
 interface AssigneeUserSelectProps {
   // Initially assigned users
+  selectedAssignee: User[];
   setAssignee_id: React.Dispatch<React.SetStateAction<User[]>>; // Function to update assigned users
 }
 
 const AssigneeUserNotSelect: React.FC<AssigneeUserSelectProps> = ({
+  selectedAssignee,
   setAssignee_id,
 }) => {
   const [users, setUsers] = useState<User[]>([]);
@@ -41,7 +43,7 @@ const AssigneeUserNotSelect: React.FC<AssigneeUserSelectProps> = ({
       }}
       id="assignee-autocomplete"
       options={users}
-      getOptionLabel={(option) => option.member_name}
+      getOptionLabel={(option) => option?.member_name}
       filterSelectedOptions
       renderInput={(params) => (
         <TextField

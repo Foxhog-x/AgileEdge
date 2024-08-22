@@ -5,6 +5,7 @@ import { Chip } from "@mui/material";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { useLocation } from "react-router-dom";
+import { useToastStore } from "../../store/useToastStore";
 
 interface User {
   member_id: number;
@@ -14,19 +15,17 @@ interface User {
 interface AssigneeUserSelectProps {
   assignee: User[]; // Initially assigned users
   setAssignee_id: React.Dispatch<React.SetStateAction<User[]>>;
-  setFilterAssigneeArray: React.Dispatch<React.SetStateAction<User[]>>;
 }
 
 const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
   assignee = [],
   setAssignee_id,
-  setFilterAssigneeArray,
 }) => {
   const [users, setUsers] = useState<User[]>([]);
   const location = useLocation();
   const [loading, setLoading] = useState<boolean>(true);
   const axiosInstance = useCustomAxios();
-
+  const { addToast } = useToastStore();
   useEffect(() => {
     const parsedData = JSON.parse(localStorage.getItem("userData") || "[]");
     const users = Array.isArray(parsedData) ? parsedData : [parsedData];
@@ -44,8 +43,10 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
       await axiosInstance.delete(urls.removeAssignee, {
         data: { assigneeObj, cardId },
       });
+      addToast("deallocate", "success");
     } catch (error) {
       console.log(error);
+      addToast(error.message, "error");
     }
   };
   const addAssigneToDb = async (assigneeObj, cardId) => {
@@ -53,8 +54,10 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
       await axiosInstance.post(urls.addAssignees, {
         data: { assigneeObj, cardId },
       });
+      addToast("Assign", "success");
     } catch (error) {
       console.log(error);
+      addToast(error.message, "error");
     }
   };
   const handleChange = (event, newValue: User[], reason: string) => {
@@ -76,7 +79,7 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
 
   const filteredOptions = users.filter(
     (user) =>
-      !assignee.some((selected) => selected.member_id === user.member_id)
+      !assignee.some((selected) => selected?.member_id === user?.member_id)
   );
 
   return (
@@ -86,7 +89,7 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
       onChange={handleChange}
       id="assignee-autocomplete"
       isOptionEqualToValue={(option, value) =>
-        option.member_id === value.member_id
+        option?.member_id === value?.member_id
       }
       options={filteredOptions}
       getOptionLabel={(option) => option?.member_name}

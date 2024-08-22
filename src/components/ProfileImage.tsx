@@ -11,24 +11,39 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import React, { useEffect, useState } from "react";
+import { removeTokenData } from "../services/localStorage/authUtil";
+import { useNavigate } from "react-router-dom";
+import useCustomAxios from "../services/apiServices/customAxios/customAxios";
+import { urls } from "../services/apiServices/urls/urls";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Logout"];
-import React from "react";
-import { removeTokenData } from "../services/localStorage/authUtil";
-import { useNavigate } from "react-router-dom";
+
 export const ProfileImage = () => {
+  const axiosInstance = useCustomAxios();
   const navigate = useNavigate();
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [profileAvatar, setProfileAvatar] = useState("");
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
+
+  const fetchUserIcon = async () => {
+    try {
+      const response = await axiosInstance.get(urls.getUserAvatar);
+      const data = response.data.result;
+      setProfileAvatar(data[0]?.avatar);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserIcon();
+  }, []);
 
   const handleCloseUserMenu = (data) => {
     setAnchorElUser(null);
@@ -37,7 +52,6 @@ export const ProfileImage = () => {
         removeTokenData();
         navigate("/login");
         break;
-
       default:
         break;
     }
@@ -48,7 +62,10 @@ export const ProfileImage = () => {
       <Tooltip title="Open settings">
         <div className="flex gap-2 items-center">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            <Avatar
+              alt="Remy Sharp"
+              src={`data:image/jpeg;base64,${profileAvatar}`}
+            />
           </IconButton>
           <h2 className="text-2xl text-black">Onkar</h2>
         </div>

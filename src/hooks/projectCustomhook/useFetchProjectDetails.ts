@@ -42,7 +42,6 @@ export const useFetchProjectDetails = ({ boardId }: FetchBoardDataProps) => {
 
     updateSortedData();
   }, [projectDetails]);
-  console.log(projectDetails);
-  console.log(sortedData, "sorted");
+
   return { projectDetails, sortedData, setSortedData, fetchProjectDetails };
 };

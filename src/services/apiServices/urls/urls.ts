@@ -23,8 +23,11 @@ export const urls = {
   getAssignees:"http://localhost:8000/assign/get-assign-members",
   addAssignees:"http://localhost:8000/assign/update-assign",
   removeAssignee:"http://localhost:8000/assign/delete-assignee",
+  getUserProfile:"http://localhost:8000/my//get-profile",
   myUserUpdate:"http://localhost:8000/my/update-user-profile",
-  getAvatars:"http://localhost:8000/avatar/fetch-avatars"
+  getAvatars:"http://localhost:8000/avatar/fetch-avatars",
+  getUserAvatar:"http://localhost:8000/avatar/fetch-user-avatar"
+  
 
 
 };

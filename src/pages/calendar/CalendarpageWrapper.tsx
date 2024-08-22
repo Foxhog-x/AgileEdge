@@ -5,19 +5,15 @@ import Calendar from "./Calenderpage";
 import { holidays } from "./event-utils";
 
 export default function CalendarpageWrapper() {
-  const [myEventsList, setMyEventList] = useState(null);
+  const [myEventsList, setMyEventList] = useState([...holidays]);
   const axiosInstance = useCustomAxios();
-
-  useEffect(() => {
-    setMyEventList(holidays);
-  }, []);
 
   useEffect(() => {
     const getCalEvents = async () => {
       try {
         const response = await axiosInstance.get(urls.getEvents);
         const data = response.data;
-        setMyEventList((prev) => [...prev, data.result]);
+        setMyEventList((prev) => [...prev, ...data.result]);
       } catch (error) {
         console.log(error);
       }

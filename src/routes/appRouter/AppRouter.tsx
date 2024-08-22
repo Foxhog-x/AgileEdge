@@ -7,6 +7,7 @@ import { ReactquillContainer } from "../../components/reactquill/ReactquillConta
 import CalendarpageWrapper from "../../pages/calendar/CalendarpageWrapper";
 import Protected from "../../pages/protectedpage/Protected";
 import Loginpage from "../../pages/Loginpage";
+import Userprofilepage from "../../pages/profilepage/Userprofilepage";
 
 export const AppRouter = () => {
   return (
@@ -32,6 +33,7 @@ export const AppRouter = () => {
           }
         />
         <Route path="/calendar" element={<CalendarpageWrapper />} />
+        <Route path="/userProfile" element={<Userprofilepage />} />
         <Route
           path="/"
           element={

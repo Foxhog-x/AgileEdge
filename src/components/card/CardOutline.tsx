@@ -24,6 +24,7 @@ export const CardOutline = ({
   const { openTaskDialog } = useTaskFormStore();
 
   const card = (item) => {
+    console.log(item, "item");
     return (
       <>
         <CardContent>
@@ -112,8 +113,13 @@ export const CardOutline = ({
               marginTop: 2,
             }}
           >
-            <Avatar sx={{ height: 30, width: 30 }} />
-            <Avatar sx={{ height: 30, width: 30 }} />
+            {item?.assignees?.map((user) => {
+              return (
+                <Avatar sx={{ height: 30, width: 30 }}>
+                  {user?.member_name.slice(0, 1)}
+                </Avatar>
+              );
+            })}
           </Typography>
           <Box>
             <Link

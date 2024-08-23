@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 type manageIds = {
-  boardId: string;
+  board_Id: string;
   cardId: string;
   sourceColumnId: string;
   destinationColumnId: string;
@@ -17,19 +17,19 @@ type manageIds = {
 };
 
 const useManageIdStore = create<manageIds>((set) => ({
-  boardId: "",
+  board_Id: "",
   cardId: "",
   sourceColumnId: "",
   destinationColumnId: "",
   sourceCardId: "",
   destinationCardId: "",
-  saveBoardId: (id) => set(() => ({ boardId: id })),
+  saveBoardId: (id) => set(() => ({ board_Id: id })),
   saveCardId: (id) => set(() => ({ cardId: id })),
   saveSourceColumnId: (id) => set(() => ({ sourceColumnId: id })),
   saveDestinationColumnId: (id) => set(() => ({ destinationColumnId: id })),
   saveSourceCardId: (id) => set(() => ({ sourceCardId: id })),
   saveDestinationCardId: (id) => set(() => ({ destinationCardId: id })),
-  removeBoardId: () => set(() => ({ boardId: "" })),
+  removeBoardId: () => set(() => ({ board_Id: "" })),
 }));
 
 export { useManageIdStore };

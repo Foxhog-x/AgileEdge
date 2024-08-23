@@ -1,7 +1,7 @@
 import { Button, IconButton } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useCustomAxios from "../services/apiServices/customAxios/customAxios";
 import { urls } from "../services/apiServices/urls/urls";
 import { useProjectDialog } from "../store/useProjectDialog";
@@ -15,14 +15,27 @@ import EditProjectForm from "./formcontainer/component/EditProjectForm";
 import { useManageIdStore } from "../store/useManageIdStore";
 import useBackdropStore from "../store/useBackdropStore";
 export default function ProjectsNavLinks() {
-  const { projects, refresh, setRefresh } = useFetchProjects();
-
+  const { projects, setProjects, refresh, setRefresh } = useFetchProjects();
+  const { boardId } = useParams();
+  const navigate = useNavigate();
   const { addToast } = useToastStore();
   const axiosInstance = useCustomAxios();
-  const { boardId, saveBoardId } = useManageIdStore();
+  const { board_Id, saveBoardId } = useManageIdStore();
   const { openProjectDialog } = useProjectDialog();
   const [editProject, setEditProject] = useState("");
   const [open, setOpen] = useState(false);
+  console.log(projects);
+  const redirectRoute = (project_Id) => {
+    const routes = projects.filter((route) => route.project_id != project_Id);
+    setProjects(routes);
+    if (boardId === board_Id) {
+      const nextProject = routes[0];
+      navigate(`/project/${nextProject?.board_id}`, { replace: true });
+    } else {
+      navigate("/", { replace: true });
+    }
+  };
+
   const handleDeleteProject = async (project_Id: number) => {
     const confirmation = confirm("Do you really want to delete this");
 
@@ -32,6 +45,7 @@ export default function ProjectsNavLinks() {
           data: { project_Id },
         });
         addToast("Deleted", "success");
+        redirectRoute(project_Id);
         setRefresh(!refresh);
       } catch (error) {
         console.log(error);
@@ -46,7 +60,7 @@ export default function ProjectsNavLinks() {
     setOpen(true);
   };
   const handleEditSubmit = async () => {
-    const project_Id = boardId; // remember to me that here we actually deal with board directly because board and project are the same
+    const project_Id = board_Id; // remember to me that here we actually deal with board directly because board and project are the same
     const newProjectName = editProject;
     console.log(project_Id, newProjectName);
     try {
@@ -88,6 +102,7 @@ export default function ProjectsNavLinks() {
                   to={`/project/${project.board_id}`}
                   startIcon={<HomeIcon />}
                   fullWidth
+                  style={{}}
                   sx={{
                     justifyContent: "flex-start",
 
@@ -101,6 +116,8 @@ export default function ProjectsNavLinks() {
                       backgroundColor: "secondary.main",
                     },
                     display: "flex",
+                    backgroundColor:
+                      project?.board_id == board_Id ? "secondary.main" : "",
                   }}
                 >
                   <div>{project?.name}</div>

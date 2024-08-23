@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { UserProfileForm } from "../../components/formcontainer/UserProfileForm";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
+import { Update } from "@mui/icons-material";
 
 const Userprofilepage = () => {
+  const [forceRefresh, setForceRefresh] = useState(false);
   const [currentDetails, setCurrentDetails] = useState({
     firstName: "",
     lastName: "",
@@ -40,14 +42,21 @@ const Userprofilepage = () => {
     address: currentDetails.address,
     avatar: currentDetails.avatar,
   };
-
+  const handleCallback = () => {
+    getUserProfile();
+  };
   useEffect(() => {
     getUserProfile();
   }, []);
   if (!currentUser) {
     return <>Loading</>;
   }
-  return <UserProfileForm currentUser={currentUser} />;
+  return (
+    <UserProfileForm
+      sendFunctionToParent={handleCallback}
+      currentUser={currentUser}
+    />
+  );
 };
 
 export default Userprofilepage;

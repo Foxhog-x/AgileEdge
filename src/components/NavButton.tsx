@@ -10,6 +10,8 @@ export default function NavButton() {
       <ul className="flex flex-col flex-1 gap-3 p-3">
         <li>
           <Button
+            component={Link}
+            to="/"
             startIcon={<HomeIcon />}
             fullWidth
             sx={{
@@ -44,6 +46,8 @@ export default function NavButton() {
         </li>
         <li>
           <Button
+            component={Link}
+            to={"/calendar"}
             startIcon={<HomeIcon />}
             fullWidth
             sx={{
@@ -56,7 +60,7 @@ export default function NavButton() {
               },
             }}
           >
-            <Link to={"/calendar"}>Calender</Link>
+            Calendar
           </Button>
         </li>
         <ProjectsNavLinks />

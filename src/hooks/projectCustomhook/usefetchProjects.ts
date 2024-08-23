@@ -15,7 +15,7 @@ const useFetchProjects = () => {
     getProjects();
   }, [refresh]);
 
-  return { projects, refresh, setRefresh };
+  return { projects,setProjects, refresh, setRefresh };
 };
 
 export default useFetchProjects;

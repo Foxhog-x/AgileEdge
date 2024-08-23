@@ -33,9 +33,11 @@ interface UserProfileFormProps {
     address: string;
     avatar?: string;
   };
+  sendFunctionToParent: (fn) => void;
 }
 
 export const UserProfileForm: React.FC<UserProfileFormProps> = ({
+  sendFunctionToParent,
   currentUser,
 }) => {
   const [fileDetails, setFileDetails] = useState<FileDetails | null>(null);
@@ -86,10 +88,10 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
   }
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    sendFunctionToParent("something");
     try {
       await axiosInstance.post(urls.myUserUpdate, { image: imageBase64, data });
       setImageBase64(null);
-      reset();
     } catch (error) {
       console.log(error);
     }
@@ -193,7 +195,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
             </div>
             <div className="flex justify-between gap-5 p-2 mr-4">
               <div className="flex-1 md:flex gap-10">
-                <div className="flex flex-col flex-1 gap-3 w-1/2 mt-5">
+                <div className="flex flex-col flex-1 gap-3 mt-5">
                   <label>Email</label>
                   <input
                     type="text"
@@ -207,7 +209,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
             </div>
             <div className="flex justify-between gap-5 p-2 mr-4">
               <div className="flex-1 md:flex gap-10">
-                <div className="flex flex-col flex-1 gap-3 w-1/2 mt-5">
+                <div className="flex flex-col flex-1 gap-3 mt-5">
                   <label>Address</label>
                   <textarea
                     rows={5}

@@ -18,7 +18,7 @@ import useCustomAxios from "../services/apiServices/customAxios/customAxios";
 import { urls } from "../services/apiServices/urls/urls";
 
 const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Logout"];
+const settings = ["My-profile", "Logout"];
 
 export const ProfileImage = () => {
   const axiosInstance = useCustomAxios();
@@ -51,6 +51,9 @@ export const ProfileImage = () => {
       case "Logout":
         removeTokenData();
         navigate("/login");
+        break;
+      case "My-profile":
+        navigate("/userprofile");
         break;
       default:
         break;

@@ -12,8 +12,12 @@ import { useTaskFormStore } from "../../store/useTaskFormStore";
 import { formattedDate } from "../../utils/formatDate";
 import Divider from "@mui/material/Divider";
 import BasicMenu from "./BasicMenu";
+import LinearWithValueLabel from "../muix/LinearWithValueLabel";
 
 export const CardOutline = ({
+  progress,
+  avatars,
+
   column_id,
   column_name,
   sortedData,
@@ -22,7 +26,7 @@ export const CardOutline = ({
   items,
 }) => {
   const { openTaskDialog } = useTaskFormStore();
-
+  console.log(avatars, "its avatars");
   const card = (item) => {
     console.log(item, "item");
     return (
@@ -98,7 +102,15 @@ export const CardOutline = ({
             <span>{formattedDate(item.end_date)}</span>
           </Typography>
         </CardContent>
-        <Divider />
+        {progress?.map((cardProgress) => {
+          if (cardProgress.card_id === parseInt(item.card_id)) {
+            return (
+              <LinearWithValueLabel
+                progress={cardProgress.completion_percentage}
+              />
+            );
+          }
+        })}
         <CardActions
           sx={{
             display: "flex",
@@ -114,11 +126,18 @@ export const CardOutline = ({
             }}
           >
             {item?.assignees?.map((user) => {
-              return (
-                <Avatar sx={{ height: 30, width: 30 }}>
-                  {user?.member_name.slice(0, 1)}
-                </Avatar>
-              );
+              return avatars.map((userAvatar) => {
+                if (user.member_id === userAvatar.member_id) {
+                  return (
+                    <Avatar
+                      sx={{ height: 30, width: 30 }}
+                      src={`data:image/jpeg;base64,${userAvatar?.avatar}`}
+                    >
+                      {user?.member_name.slice(0, 1)}
+                    </Avatar>
+                  );
+                }
+              });
             })}
           </Typography>
           <Box>

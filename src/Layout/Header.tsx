@@ -11,7 +11,7 @@ import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
 import { HandymanOutlined } from "@mui/icons-material";
 import CreateTaskColumn from "../components/formcontainer/component/CreateTaskColumn";
-export default function Header() {
+export default function Header({ avatars }) {
   const [open, setOpen] = useState(false);
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -44,6 +44,7 @@ export default function Header() {
 
   const { addOnline, onlineUser } = useOnlineStore();
   const [localOnlineUsers, setLocalOnlineUsers] = useState(onlineUser || []);
+  console.log(localOnlineUsers, "local");
   useEffect(() => {
     const token = getTokenData();
     const newsocket = io("http://localhost:8000/homepage", {
@@ -70,16 +71,25 @@ export default function Header() {
       <div className="flex gap-8">
         <div className="flex items-center gap-1">
           {localOnlineUsers.map((user, index) => {
-            return (
-              <StyledBadge
-                key={index}
-                overlap="circular"
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                variant="dot"
-              >
-                <Avatar alt="Remy Sharp">op</Avatar>
-              </StyledBadge>
-            );
+            return avatars.map((userAvatar) => {
+              if (userAvatar.member_id === user.member_id) {
+                return (
+                  <StyledBadge
+                    key={index}
+                    overlap="circular"
+                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                    variant="dot"
+                  >
+                    <Avatar
+                      alt="pic not available"
+                      src={`data:image/jpeg;base64,${userAvatar?.avatar}`}
+                    >
+                      {user.member_name.slice(0, 2).toLowerCase()}
+                    </Avatar>
+                  </StyledBadge>
+                );
+              }
+            });
           })}
         </div>
         <div className="divider border"></div>

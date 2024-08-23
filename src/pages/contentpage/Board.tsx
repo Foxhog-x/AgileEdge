@@ -1,6 +1,6 @@
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { CardOutline } from "../../components/card/CardOutline";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useFetchProjectDetails } from "../../hooks/projectCustomhook/useFetchProjectDetails";
 import { useManageIdStore } from "../../store/useManageIdStore";
 import { useEffect } from "react";
@@ -8,8 +8,9 @@ import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
 import { TaskFormDialog } from "../../components/formcontainer/component/TaskFormDialog";
+import useFetchTaskProgress from "../../hooks/projectCustomhook/useFetchTaskProgress";
 
-const Board = () => {
+const Board = ({ avatars }) => {
   const axiosInstance = useCustomAxios();
   const { addToast } = useToastStore();
   const { boardId } = useParams<{ boardId: string }>();
@@ -18,6 +19,10 @@ const Board = () => {
     useFetchProjectDetails({
       boardId,
     });
+
+  const { progress } = useFetchTaskProgress();
+
+  const location = useLocation();
 
   useEffect(() => {
     saveBoardId(boardId);
@@ -181,6 +186,8 @@ const Board = () => {
                     >
                       <CardOutline
                         {...data}
+                        avatars={avatars}
+                        progress={progress}
                         sortedData={sortedData}
                         setSortedData={setSortedData}
                       />

@@ -2,9 +2,12 @@ import { Button, Switch } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import ProjectsNavLinks from "./ProjectsNavLinks";
 import TeamsNavLinks from "./TeamsNavLinks";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useManageIdStore } from "../store/useManageIdStore";
 
 export default function NavButton() {
+  const location = useLocation();
+  const { removeBoardId } = useManageIdStore();
   return (
     <div className="flex flex-col flex-1 px-6">
       <ul className="flex flex-col flex-1 gap-3 p-3">
@@ -14,6 +17,7 @@ export default function NavButton() {
             to="/"
             startIcon={<HomeIcon />}
             fullWidth
+            onClick={() => removeBoardId("")}
             sx={{
               justifyContent: "flex-start",
               gap: 1,
@@ -22,6 +26,8 @@ export default function NavButton() {
               "&:hover": {
                 backgroundColor: "secondary.main",
               },
+              backgroundColor:
+                location.pathname === "/" ? "secondary.main" : "",
             }}
           >
             Home

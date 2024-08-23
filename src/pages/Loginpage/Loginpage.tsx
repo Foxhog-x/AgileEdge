@@ -14,6 +14,7 @@ import { urls } from "../../services/apiServices/urls/urls";
 import {
   addTokenData,
   addUsersDataLocally,
+  removeTokenData,
 } from "../../services/localStorage/authUtil";
 import { useToastStore } from "../../store/useToastStore";
 import { useNavigate } from "react-router-dom";
@@ -35,6 +36,7 @@ export default function Loginpage() {
       addToast(response.data.message, "success");
       const { token } = response.data;
       try {
+        removeTokenData();
         addTokenData(token);
         const userData = response.data.result[0];
         addUsersDataLocally(userData);

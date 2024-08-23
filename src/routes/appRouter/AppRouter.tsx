@@ -38,7 +38,7 @@ export const AppRouter = () => {
           path="/"
           element={
             <Layout>
-              <Board />
+              <>analytics data</>
             </Layout>
           }
         />

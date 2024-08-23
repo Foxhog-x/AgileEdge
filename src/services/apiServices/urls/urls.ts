@@ -26,7 +26,8 @@ export const urls = {
   getUserProfile:"http://localhost:8000/my//get-profile",
   myUserUpdate:"http://localhost:8000/my/update-user-profile",
   getAvatars:"http://localhost:8000/avatar/fetch-avatars",
-  getUserAvatar:"http://localhost:8000/avatar/fetch-user-avatar"
+  getUserAvatar:"http://localhost:8000/avatar/fetch-user-avatar",
+  getTaskProgress:"http://localhost:8000/analytics/get-task-progress"
   
 
 

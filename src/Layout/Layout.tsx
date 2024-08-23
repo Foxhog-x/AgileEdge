@@ -13,12 +13,15 @@ import {
   transperentTheme,
 } from "../themes/muiTheme";
 import { Box, Paper } from "@mui/material";
+import React, { ReactElement } from "react";
+import useFetchAvatars from "../hooks/projectCustomhook/useFetchAvatars";
 
 type props = {
   children: React.ReactNode;
 };
-
+const someProp = "hekki";
 function Layout({ children }: props) {
+  const { avatars } = useFetchAvatars();
   return (
     <>
       <ThemeProvider theme={modernTheme}>
@@ -32,8 +35,12 @@ function Layout({ children }: props) {
               <NavButton />
             </div>
             <div className="flex-1 overflow-hidden">
-              <Header />
-              <div className="h-screen overflow-x-auto">{children}</div>
+              <Header avatars={avatars} />
+              <div className="h-screen overflow-x-auto">
+                {React.Children.map(children as ReactElement, (child) =>
+                  React.cloneElement(child, { avatars })
+                )}
+              </div>
             </div>
           </div>
         </Paper>

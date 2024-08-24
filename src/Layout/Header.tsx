@@ -4,14 +4,15 @@ import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { useEffect, useState } from "react";
 import { getTokenData } from "../services/localStorage/authUtil";
 import { io } from "socket.io-client";
-import { urls } from "../services/apiServices/urls/urls";
-import useCustomAxios from "../services/apiServices/customAxios/customAxios";
 import { useOnlineStore } from "../store/useOnlineUserStore";
 import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
-import { HandymanOutlined } from "@mui/icons-material";
 import CreateTaskColumn from "../components/formcontainer/component/CreateTaskColumn";
+import AddIcon from "@mui/icons-material/Add";
+
 export default function Header({ avatars }) {
+  const [showAll, setShowAll] = useState(false);
+
   const [open, setOpen] = useState(false);
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -63,6 +64,10 @@ export default function Header({ avatars }) {
   const HandleFunction = () => {
     setOpen(true);
   };
+
+  const visibleUsers = showAll
+    ? localOnlineUsers
+    : localOnlineUsers.slice(0, 5);
   return (
     <div className="md:flex justify-between p-4 items-center px-6">
       <div className="flex items-center gap-4">
@@ -70,13 +75,13 @@ export default function Header({ avatars }) {
         <h1>12</h1>
       </div>
       <div className="flex gap-8">
-        <div className="flex items-center gap-1">
-          {localOnlineUsers.map((user, index) => {
+        <div className="flex items-center gap-1 flex-row-reverse">
+          {visibleUsers.map((user, index) => {
             return avatars.map((userAvatar) => {
               if (userAvatar.member_id === user.member_id) {
                 return (
                   <StyledBadge
-                    key={index}
+                    key={user.member_id}
                     overlap="circular"
                     anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                     variant="dot"
@@ -90,8 +95,16 @@ export default function Header({ avatars }) {
                   </StyledBadge>
                 );
               }
+              return null;
             });
           })}
+
+          {localOnlineUsers.length > 5 && !showAll && (
+            <IconButton onClick={() => setShowAll(true)} size="small">
+              <AddIcon />
+              {localOnlineUsers.length - 5} more
+            </IconButton>
+          )}
         </div>
         <div className="divider border"></div>
         {/* <IconButton>

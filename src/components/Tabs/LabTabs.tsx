@@ -41,7 +41,7 @@ function a11yProps(index: number) {
   };
 }
 
-export default function LabTabs() {
+export default function LabTabs({ refetchProgress }) {
   const axiosInstance = useCustomAxios();
   const { addToast } = useToastStore();
   const location = useLocation();
@@ -61,6 +61,7 @@ export default function LabTabs() {
     fetchSubTasks();
   }, []);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    refetchProgress();
     event.preventDefault();
     setValue(newValue);
   };

@@ -28,8 +28,9 @@ import { urls } from "../../services/apiServices/urls/urls";
 type Anchor = "top" | "left" | "bottom" | "right";
 type props = {
   children: React.ReactNode;
+  refetchProgress: () => void;
 };
-export default function DrawerRight({ children }: props) {
+export default function DrawerRight({ children, refetchProgress }: props) {
   const navigate = useNavigate();
   const location = useLocation();
   const [assignee, setAssignee] = React.useState([]);
@@ -177,7 +178,7 @@ export default function DrawerRight({ children }: props) {
         </div>
       </div>
       {children}
-      <LabTabs />
+      <LabTabs refetchProgress={refetchProgress} />
     </Box>
   );
 

@@ -17,7 +17,7 @@ import LinearWithValueLabel from "../muix/LinearWithValueLabel";
 export const CardOutline = ({
   progress,
   avatars,
-
+  getProgress,
   column_id,
   column_name,
   sortedData,
@@ -26,7 +26,6 @@ export const CardOutline = ({
   items,
 }) => {
   const { openTaskDialog } = useTaskFormStore();
-  console.log(avatars, "its avatars");
   const card = (item) => {
     console.log(item, "item");
     return (
@@ -63,7 +62,6 @@ export const CardOutline = ({
               column_id={column_id}
             />
           </Typography>
-
           <Typography
             variant="h5"
             component="div"
@@ -76,7 +74,6 @@ export const CardOutline = ({
           >
             {item.name}
           </Typography>
-
           <Typography
             variant="body2"
             sx={{
@@ -111,6 +108,7 @@ export const CardOutline = ({
             );
           }
         })}
+        <Divider />
         <CardActions
           sx={{
             display: "flex",
@@ -193,7 +191,8 @@ export const CardOutline = ({
                         variant="outlined"
                         sx={{
                           maxWidth: 320,
-                          minHeight: 235, // Set minimum height
+                          minHeight: 250,
+                          maxHeight: 250, // Set minimum height
                           // Set maximum height
                           display: "flex",
                           flexDirection: "column",

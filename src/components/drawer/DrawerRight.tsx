@@ -30,7 +30,7 @@ type props = {
   children: React.ReactNode;
   refetchProgress: () => void;
 };
-export default function DrawerRight({ children, refetchProgress }: props) {
+export default function DrawerRight({ children }: props) {
   const navigate = useNavigate();
   const location = useLocation();
   const [assignee, setAssignee] = React.useState([]);
@@ -178,7 +178,7 @@ export default function DrawerRight({ children, refetchProgress }: props) {
         </div>
       </div>
       {children}
-      <LabTabs refetchProgress={refetchProgress} />
+      <LabTabs />
     </Box>
   );
 

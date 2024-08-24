@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { urls } from "../../services/apiServices/urls/urls";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
+import useRefetchProgessStore from "../../store/useRefectchProgressStore";
 
 const useFetchTaskProgress = () => {
+  const {refetchProgress} = useRefetchProgessStore()
   const axiosInstance = useCustomAxios();
     const [progress, setProgress] = useState(1)
     const getProgress = async () => {
@@ -12,7 +14,7 @@ const useFetchTaskProgress = () => {
   useEffect(() => {
    
     getProgress();
-  }, []);
+  }, [refetchProgress]);
  console.log(progress, "pro")
   return {  progress , getProgress};
 };

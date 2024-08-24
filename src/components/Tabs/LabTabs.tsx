@@ -12,6 +12,7 @@ import { useLocation } from "react-router-dom";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
+import useRefetchProgessStore from "../../store/useRefectchProgressStore";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -43,6 +44,7 @@ function a11yProps(index: number) {
 
 export default function LabTabs() {
   const axiosInstance = useCustomAxios();
+  const { refetchProgress, toggleRefetch } = useRefetchProgessStore();
   const { addToast } = useToastStore();
   const location = useLocation();
   const cardId = location.pathname.replace("/card/", "").trim();
@@ -77,6 +79,7 @@ export default function LabTabs() {
     try {
       await axiosInstance.put(urls.updateSubTaskChecked, { id });
       addToast("Updated", "success");
+      toggleRefetch();
     } catch (error) {
       console.log(error);
       addToast(error.message, "error");
@@ -92,6 +95,7 @@ export default function LabTabs() {
       });
       addToast("subTask created", "success");
       fetchSubTasks();
+      toggleRefetch();
     } catch (error) {
       console.log(error);
 
@@ -113,6 +117,7 @@ export default function LabTabs() {
     try {
       axiosInstance.delete(urls.deleteSubTask, { params: { subtask_id } });
       addToast("Successfully Deleted", "success");
+      toggleRefetch();
     } catch (error) {
       console.log(error);
       addToast(error.message, "success");

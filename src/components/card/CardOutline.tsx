@@ -99,15 +99,16 @@ export const CardOutline = ({
             <span>{formattedDate(item.end_date)}</span>
           </Typography>
         </CardContent>
-        {progress?.map((cardProgress) => {
-          if (cardProgress.card_id === parseInt(item.card_id)) {
-            return (
-              <LinearWithValueLabel
-                progress={cardProgress.completion_percentage}
-              />
-            );
-          }
-        })}
+        {progress &&
+          progress?.map((cardProgress) => {
+            if (cardProgress.card_id === parseInt(item.card_id)) {
+              return (
+                <LinearWithValueLabel
+                  progress={cardProgress.completion_percentage}
+                />
+              );
+            }
+          })}
         <Divider />
         <CardActions
           sx={{

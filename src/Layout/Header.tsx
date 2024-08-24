@@ -59,6 +59,7 @@ export default function Header({ avatars }) {
       newsocket.disconnect();
     };
   }, [addOnline]);
+
   const HandleFunction = () => {
     setOpen(true);
   };

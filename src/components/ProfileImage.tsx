@@ -23,7 +23,8 @@ const settings = ["My-profile", "Logout"];
 export const ProfileImage = () => {
   const axiosInstance = useCustomAxios();
   const navigate = useNavigate();
-  const [profileAvatar, setProfileAvatar] = useState("");
+  const [profileAvatar, setProfileAvatar] = useState([]);
+  const [profileName, setProfileName] = useState("");
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -35,7 +36,8 @@ export const ProfileImage = () => {
     try {
       const response = await axiosInstance.get(urls.getUserAvatar);
       const data = response.data.result;
-      setProfileAvatar(data[0]?.avatar);
+
+      setProfileAvatar(data);
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +61,7 @@ export const ProfileImage = () => {
         break;
     }
   };
-
+  console.log(profileAvatar, "profileav");
   return (
     <Box sx={{ flexGrow: 0, display: "flex", padding: 3 }}>
       <Tooltip title="Open settings">
@@ -67,10 +69,12 @@ export const ProfileImage = () => {
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar
               alt="Remy Sharp"
-              src={`data:image/jpeg;base64,${profileAvatar}`}
+              src={`data:image/jpeg;base64,${profileAvatar[0]?.avatar}`}
             />
           </IconButton>
-          <h2 className="text-2xl text-black">Onkar</h2>
+          <h2 className="text-2xl text-black">
+            {profileAvatar[0]?.member_name.split(" ")[0]}
+          </h2>
         </div>
       </Tooltip>
       <Menu

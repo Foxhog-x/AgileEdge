@@ -19,7 +19,6 @@ import useFetchAvatars from "../hooks/projectCustomhook/useFetchAvatars";
 type props = {
   children: React.ReactNode;
 };
-const someProp = "hekki";
 function Layout({ children }: props) {
   const { avatars } = useFetchAvatars();
   return (

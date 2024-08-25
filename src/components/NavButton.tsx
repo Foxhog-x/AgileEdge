@@ -9,7 +9,7 @@ export default function NavButton() {
   const location = useLocation();
   const { removeBoardId } = useManageIdStore();
   return (
-    <div className="flex flex-col flex-1 px-6">
+    <div className="flex flex-col flex-1 px-2">
       <ul className="flex flex-col flex-1 gap-3 p-3">
         <li>
           <Button
@@ -30,7 +30,7 @@ export default function NavButton() {
                 location.pathname === "/" ? "secondary.main" : "",
             }}
           >
-            Home
+            Homepage
           </Button>
         </li>
         <li>

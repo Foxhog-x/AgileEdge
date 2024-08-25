@@ -31,7 +31,10 @@ export default function LinearWithValueLabel({ progress }) {
 
   return (
     <Box sx={{ width: `99%` }}>
-      <LinearProgressWithLabel value={progress} color={getColor(progress)} />
+      <LinearProgressWithLabel
+        value={parseInt(progress)}
+        color={getColor(progress)}
+      />
     </Box>
   );
 }

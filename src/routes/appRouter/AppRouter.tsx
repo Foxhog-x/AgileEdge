@@ -8,6 +8,7 @@ import CalendarpageWrapper from "../../pages/calendar/CalendarpageWrapper";
 import Protected from "../../pages/protectedpage/Protected";
 import Loginpage from "../../pages/Loginpage";
 import Userprofilepage from "../../pages/profilepage/Userprofilepage";
+import Homepage from "../../pages/homepage";
 
 export const AppRouter = () => {
   return (
@@ -38,7 +39,7 @@ export const AppRouter = () => {
           path="/"
           element={
             <Layout>
-              <>analytics data</>
+              <Homepage />
             </Layout>
           }
         />

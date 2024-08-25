@@ -17,7 +17,6 @@ import LinearWithValueLabel from "../muix/LinearWithValueLabel";
 export const CardOutline = ({
   progress,
   avatars,
-  getProgress,
   column_id,
   column_name,
   sortedData,
@@ -100,11 +99,13 @@ export const CardOutline = ({
           </Typography>
         </CardContent>
         {progress &&
-          progress?.map((cardProgress) => {
-            if (cardProgress.card_id === parseInt(item.card_id)) {
+          item.card_id &&
+          progress?.map((cardProgress, index) => {
+            if (cardProgress?.card_id === parseInt(item?.card_id)) {
               return (
                 <LinearWithValueLabel
-                  progress={cardProgress.completion_percentage}
+                  key={index}
+                  progress={cardProgress?.completion_percentage}
                 />
               );
             }
@@ -124,11 +125,12 @@ export const CardOutline = ({
               marginTop: 2,
             }}
           >
-            {item?.assignees?.map((user) => {
+            {item?.assignees?.map((user, index) => {
               return avatars.map((userAvatar) => {
                 if (user.member_id === userAvatar.member_id) {
                   return (
                     <Avatar
+                      key={index}
                       sx={{ height: 30, width: 30 }}
                       src={`data:image/jpeg;base64,${userAvatar?.avatar}`}
                     >

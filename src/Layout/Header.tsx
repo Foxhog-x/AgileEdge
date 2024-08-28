@@ -9,7 +9,7 @@ import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
 import CreateTaskColumn from "../components/formcontainer/component/CreateTaskColumn";
 import AddIcon from "@mui/icons-material/Add";
-
+const baseDomain = import.meta.env.VITE_BASE_URL;
 export default function Header({ avatars }) {
   const [showAll, setShowAll] = useState(false);
 
@@ -45,10 +45,10 @@ export default function Header({ avatars }) {
 
   const { addOnline, onlineUser } = useOnlineStore();
   const [localOnlineUsers, setLocalOnlineUsers] = useState(onlineUser || []);
-  console.log(localOnlineUsers, "local");
+
   useEffect(() => {
     const token = getTokenData();
-    const newsocket = io("http://localhost:8000/homepage", {
+    const newsocket = io(`${baseDomain}/homepage`, {
       query: { token },
     });
     newsocket.emit("userLogin", token);

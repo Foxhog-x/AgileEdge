@@ -9,6 +9,7 @@ import Protected from "../../pages/protectedpage/Protected";
 import Loginpage from "../../pages/Loginpage";
 import Userprofilepage from "../../pages/profilepage/Userprofilepage";
 import Homepage from "../../pages/homepage";
+import Signuppage from "../../pages/signuppage/Signuppage";
 
 export const AppRouter = () => {
   return (
@@ -46,6 +47,7 @@ export const AppRouter = () => {
       </Route>
 
       <Route path="/login" element={<Loginpage />} />
+      <Route path="/signup" element={<Signuppage />} />
     </Routes>
   );
 };

@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
+import { useToastStore } from "../../store/useToastStore";
 
 // Define your Zod schema
 const schema = z.object({
@@ -45,7 +46,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
     currentUser?.avatar || null
   );
   const [imageBase64, setImageBase64] = useState<string | null>(null);
-
+  const { addToast } = useToastStore();
   const axiosInstance = useCustomAxios();
 
   const {
@@ -100,6 +101,10 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        addToast("File size should not exceed 2 MB", "error");
+        return;
+      }
       setFileDetails({
         name: file.name,
         size: file.size / (1024 * 1024), // Size in MB

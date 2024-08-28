@@ -17,7 +17,7 @@ import {
   removeTokenData,
 } from "../../services/localStorage/authUtil";
 import { useToastStore } from "../../store/useToastStore";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 export default function Loginpage() {
   const navigate = useNavigate();
   const { addToast } = useToastStore();
@@ -80,10 +80,12 @@ export default function Loginpage() {
                 flexDirection={"row"}
                 mt={4}
                 justifyContent={"space-between"}
-                margin={5}
               >
                 <Button type="submit" variant="contained" size="large">
                   Login
+                </Button>
+                <Button onClick={() => navigate("/signup")}>
+                  Create new Account
                 </Button>
               </Stack>
             </Box>

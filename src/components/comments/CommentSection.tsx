@@ -15,57 +15,55 @@ import { io } from "socket.io-client";
 import { useLocation, useParams } from "react-router-dom";
 export default function CommentSection({ value }: any) {
   const { cardId } = useParams();
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZW1iZXJfaWQiOjgsIm1lbWJlcl9uYW1lIjoiU3dhcGFuaWwgUGF0aWwiLCJlbWFpbCI6Im9ua2FycGF0aWw0NDRAZ21haWwuY29tIiwicGFzc3dvcmQiOiJ3d3BiciIsInR5cGUiOiJhZG1pbiIsImlhdCI6MTcyMzA1MzIwN30.lVFPm5brfsrpZnmuS8XwGgJOU8WOPLM9fIeP5mTISao";
   const [socket, setSocket] = useState(null);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [users, setUsers] = useState([]);
 
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
-  };
+  // const handleCommentChange = (event) => {
+  //   setComment(event.target.value);
+  // };
 
-  const handleCommentSubmit = () => {
-    if (comment.trim()) {
-      socket.emit("chat message", comment.trim());
-      console.log(users);
-      setComment("");
-    }
-  };
+  // const handleCommentSubmit = () => {
+  //   if (comment.trim()) {
+  //     socket.emit("chat message", comment.trim());
+  //     console.log(users);
+  //     setComment("");
+  //   }
+  // };
 
-  useEffect(() => {
-    const tempSocket = io("http://localhost:8000", {
-      query: { token },
-    });
-    tempSocket.emit("join card", { cardId: cardId });
+  // useEffect(() => {
+  //   const tempSocket = io("https://agile-edge-backend.vercel.app", {
+  //     query: { token },
+  //   });
+  //   tempSocket.emit("join card", { cardId: cardId });
 
-    tempSocket.on("connect to namespace", (namespace) => {
-      const nsSocket = io(namespace);
+  //   tempSocket.on("connect to namespace", (namespace) => {
+  //     const nsSocket = io(namespace);
 
-      nsSocket.on("user joined", ({ userName }) => {
-        setUsers((prevUsers) => [...prevUsers, userName]);
-      });
+  //     nsSocket.on("user joined", ({ userName }) => {
+  //       setUsers((prevUsers) => [...prevUsers, userName]);
+  //     });
 
-      nsSocket.on("user left", ({ userName }) => {
-        setUsers((prevUsers) => prevUsers.filter((user) => user !== userName));
-      });
+  //     nsSocket.on("user left", ({ userName }) => {
+  //       setUsers((prevUsers) => prevUsers.filter((user) => user !== userName));
+  //     });
 
-      nsSocket.on("chat message", (data) => {
-        setComments((prev) => [...prev, data]);
-      });
+  //     nsSocket.on("chat message", (data) => {
+  //       setComments((prev) => [...prev, data]);
+  //     });
 
-      setSocket(nsSocket);
-      return () => {
-        nsSocket.disconnect();
-      };
-    });
+  //     setSocket(nsSocket);
+  //     return () => {
+  //       nsSocket.disconnect();
+  //     };
+  //   });
 
-    return () => {
-      tempSocket.off("connect to namespace");
-    };
-  }, [cardId, value]);
-  console.log(comments);
+  //   return () => {
+  //     tempSocket.off("connect to namespace");
+  //   };
+  // }, [cardId, value]);
+  // console.log(comments);
   return (
     <div className="max-w-full flex flex-col-reverse">
       <Paper elevation={3} className="p-4">

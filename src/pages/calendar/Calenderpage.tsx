@@ -68,7 +68,7 @@ export default function Calendar({
       />
       <div className="demo-app-main   ">
         <FullCalendar
-          height={"99vh"}
+          height={"90vh"}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
             left: "prev,next today",

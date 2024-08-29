@@ -1,7 +1,7 @@
  
 
- const baseDomain = import.meta.env.VITE_BASE_URL;
-// const baseDomain = import.meta.env.VITE_LOCAL_URL;
+//  const baseDomain = import.meta.env.VITE_BASE_URL;
+const baseDomain = import.meta.env.VITE_LOCAL_URL;
 export const urls = {
   baseUrl: `${baseDomain}`,
   memberLogin: `${baseDomain}/member/login`,

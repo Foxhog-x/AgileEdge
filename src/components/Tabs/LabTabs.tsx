@@ -132,7 +132,7 @@ export default function LabTabs() {
           aria-label="basic tabs example"
         >
           <Tab label="Subtasks" {...a11yProps(0)} />
-          <Tab label="Comments" {...a11yProps(1)} />
+          {/* <Tab label="Comments" {...a11yProps(1)} /> */}
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -170,9 +170,9 @@ export default function LabTabs() {
           </div>
         </div>
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
+      {/* <CustomTabPanel value={value} index={1}>
         <CommentSection value={value} />
-      </CustomTabPanel>
+      </CustomTabPanel> */}
     </Box>
   );
 }

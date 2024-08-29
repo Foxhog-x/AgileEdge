@@ -34,7 +34,14 @@ export const AppRouter = () => {
             </Layout>
           }
         />
-        <Route path="/calendar" element={<CalendarpageWrapper />} />
+        <Route
+          path="/calendar"
+          element={
+            <Layout>
+              <CalendarpageWrapper />
+            </Layout>
+          }
+        />
         <Route path="/userProfile" element={<Userprofilepage />} />
         <Route
           path="/"

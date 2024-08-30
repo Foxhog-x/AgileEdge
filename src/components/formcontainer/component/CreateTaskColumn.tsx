@@ -18,7 +18,6 @@ export default function CreateTaskColumn({ open, setOpen }) {
   const handleClose = () => {
     setOpen(false);
     setCreateTaskColumn("");
-    console.log(boardId);
   };
 
   const handleSubmit = async (e) => {

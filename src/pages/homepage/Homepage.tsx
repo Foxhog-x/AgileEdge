@@ -10,8 +10,7 @@ import useFetchAllAnalytics from "../../hooks/projectAnalytics/useFetchAllAnalyt
 export const Homepage: React.FC = () => {
   const { taskByColumnAnalytics, countByPriority, taskCountByMember } =
     useFetchAllAnalytics();
-  console.log(taskByColumnAnalytics, countByPriority, "analytics");
-  console.log();
+
   return (
     <div>
       <div className=" md:flex justify-between p-5 items-center">

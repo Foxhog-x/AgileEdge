@@ -26,7 +26,6 @@ export default function ProjectsNavLinks() {
 
   const redirectRoute = (project_Id) => {
     const routes = projects.filter((route) => route.project_id != project_Id);
-    console.log(routes, "routes");
     setProjects(routes);
     if (routes.length > 0) {
       if (boardId === board_Id) {
@@ -66,7 +65,7 @@ export default function ProjectsNavLinks() {
   const handleEditSubmit = async () => {
     const project_Id = board_Id; // remember to me that here we actually deal with board directly because board and project are the same
     const newProjectName = editProject;
-    console.log(project_Id, newProjectName);
+
     try {
       await axiosInstance.put(urls.editProject, {
         project_Id,

@@ -44,7 +44,6 @@ export default function DrawerRight({ children }: props) {
   React.useEffect(() => {
     setAssignee(itemData.assignees);
   }, []);
-  console.log(notSelectedAssigne, "assogme");
 
   const assigneeSavedTodb = (notSelectedAssigne, cardId) => {
     const assigneeObj = notSelectedAssigne;
@@ -58,7 +57,6 @@ export default function DrawerRight({ children }: props) {
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
-      console.log(assignee);
       if (
         event.type === "keydown" &&
         ((event as React.KeyboardEvent).key === "Tab" ||

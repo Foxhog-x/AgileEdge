@@ -1,4 +1,4 @@
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { CardOutline } from "../../components/card/CardOutline";
 import { useLocation, useParams } from "react-router-dom";
 import { useFetchProjectDetails } from "../../hooks/projectCustomhook/useFetchProjectDetails";

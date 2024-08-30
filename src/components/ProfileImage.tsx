@@ -61,7 +61,7 @@ export const ProfileImage = () => {
         break;
     }
   };
-  console.log(profileAvatar, "profileav");
+
   return (
     <Box sx={{ flexGrow: 0, display: "flex", padding: 3 }}>
       <Tooltip title="Open settings">

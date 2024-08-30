@@ -13,7 +13,7 @@ export default function Calendar({
 }) {
   const [weekendsVisible, setWeekendsVisible] = useState(true);
   const [currentEvents, setCurrentEvents] = useState([]);
-  console.log(myEventsList);
+
   function handleWeekendsToggle() {
     setWeekendsVisible(!weekendsVisible);
   }

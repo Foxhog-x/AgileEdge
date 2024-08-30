@@ -26,7 +26,6 @@ export default function BasicPie({ countByPriority }) {
       };
     }
   });
-  console.log(result, "result");
 
   return (
     <div className="flex flex-col items-center gap-5">

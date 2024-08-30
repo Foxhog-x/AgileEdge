@@ -9,7 +9,7 @@ export const ReactquillContainer = () => {
 
     const applyDefaultFontSize = () => {
       const fontSize = quill.container.getElementsByClassName("ql-editor");
-      console.log(fontSize);
+
       fontSize[0].style.fontSize = "18px";
     };
     const applyHeight = () => {

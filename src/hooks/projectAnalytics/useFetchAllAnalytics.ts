@@ -23,7 +23,7 @@ const useFetchAllAnalytics = () => {
    
     getAnalytics();
   }, []);
- console.log(taskCountByMember,"coumt")
+  
   return {  taskByColumnAnalytics ,countByPriority,taskCountByMember };
 };
 

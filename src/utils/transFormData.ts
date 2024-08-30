@@ -47,6 +47,6 @@ export const transFormData = async (data) => {
 
   // Collect the column data
   columnMap.forEach((value) => result.push(value));
-  console.log(result, "result")
+ 
   return result;
 };

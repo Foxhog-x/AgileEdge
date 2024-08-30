@@ -26,7 +26,6 @@ export const CardOutline = ({
 }) => {
   const { openTaskDialog } = useTaskFormStore();
   const card = (item) => {
-    console.log(item, "item");
     return (
       <>
         <CardContent>

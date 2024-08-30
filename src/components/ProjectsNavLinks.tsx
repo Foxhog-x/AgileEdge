@@ -10,9 +10,10 @@ import useFetchProjects from "../hooks/projectCustomhook/usefetchProjects";
 import CreateProjectForm from "./formcontainer/component/CreateProjectForm";
 import { useToastStore } from "../store/useToastStore";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import EditProjectForm from "./formcontainer/component/EditProjectForm";
 import { useManageIdStore } from "../store/useManageIdStore";
+import AutoAwesomeMosaicOutlinedIcon from "@mui/icons-material/AutoAwesomeMosaicOutlined";
 export default function ProjectsNavLinks() {
   const { projects, setProjects, refresh, setRefresh } = useFetchProjects();
   const { boardId } = useParams();
@@ -103,7 +104,7 @@ export default function ProjectsNavLinks() {
                 <Button
                   component={Link}
                   to={`/project/${project.board_id}`}
-                  startIcon={<HomeIcon />}
+                  startIcon={<AutoAwesomeMosaicOutlinedIcon />}
                   fullWidth
                   style={{}}
                   sx={{

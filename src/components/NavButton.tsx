@@ -4,7 +4,9 @@ import ProjectsNavLinks from "./ProjectsNavLinks";
 import TeamsNavLinks from "./TeamsNavLinks";
 import { Link, useLocation } from "react-router-dom";
 import { useManageIdStore } from "../store/useManageIdStore";
-
+import ScheduleIcon from "@mui/icons-material/Schedule";
+import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 export default function NavButton() {
   const location = useLocation();
   const { removeBoardId } = useManageIdStore();
@@ -15,7 +17,7 @@ export default function NavButton() {
           <Button
             component={Link}
             to="/"
-            startIcon={<HomeIcon />}
+            startIcon={<HomeOutlinedIcon />}
             fullWidth
             onClick={() => removeBoardId("")}
             sx={{
@@ -35,7 +37,7 @@ export default function NavButton() {
         </li>
         <li>
           <Button
-            startIcon={<HomeIcon />}
+            startIcon={<TaskAltOutlinedIcon />}
             fullWidth
             sx={{
               justifyContent: "flex-start",
@@ -54,7 +56,7 @@ export default function NavButton() {
           <Button
             component={Link}
             to={"/calendar"}
-            startIcon={<HomeIcon />}
+            startIcon={<ScheduleIcon />}
             fullWidth
             sx={{
               justifyContent: "flex-start",
@@ -68,7 +70,7 @@ export default function NavButton() {
                 location.pathname === "/calendar" ? "secondary.main" : "",
             }}
           >
-            Calendar
+            schedule
           </Button>
         </li>
         <ProjectsNavLinks />

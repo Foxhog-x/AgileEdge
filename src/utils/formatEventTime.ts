@@ -1,5 +1,8 @@
 export const   extractTimeFromDateTime =(dateTimeString)=> {
-     
+if(dateTimeString === null) return null
+if(dateTimeString === 'all Day') return "all day"
+
+
     if (!dateTimeString.includes('T')) {
         
         return '';

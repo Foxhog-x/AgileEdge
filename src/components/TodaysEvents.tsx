@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useCustomAxios from "../services/apiServices/customAxios/customAxios";
 import { urls } from "../services/apiServices/urls/urls";
 import { extractTimeFromDateTime } from "../utils/formatEventTime";
-import { CheckBox } from "@mui/icons-material";
 
 export default function TodaysEvents() {
   const axiosInstance = useCustomAxios();
   const [todaysEvents, setTodaysEvents] = useState([]);
+
   const getTodayEvents = async () => {
     try {
       const response = await axiosInstance.get(urls.getTodaysEvents);
       const data = response.data.result;
-
       setTodaysEvents(data);
     } catch (error) {
       console.log(error);

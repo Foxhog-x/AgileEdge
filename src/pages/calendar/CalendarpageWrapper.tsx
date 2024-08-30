@@ -12,8 +12,8 @@ export default function CalendarpageWrapper() {
       try {
         const response = await axiosInstance.get(urls.getEvents);
         const data = response.data;
-        console.log(data);
-        // setMyEventList((prev) => [...prev, ...data.result]);
+
+        setMyEventList((prev) => [...prev, ...data.result]);
       } catch (error) {
         console.log(error);
       }

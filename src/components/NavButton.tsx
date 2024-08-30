@@ -64,6 +64,8 @@ export default function NavButton() {
               "&:hover": {
                 backgroundColor: "secondary.main",
               },
+              backgroundColor:
+                location.pathname === "/calendar" ? "secondary.main" : "",
             }}
           >
             Calendar

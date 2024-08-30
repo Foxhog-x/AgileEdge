@@ -7,20 +7,24 @@ const useFetchAllAnalytics = () => {
   const axiosInstance = useCustomAxios();
     const [taskByColumnAnalytics, setTaskByColumnAnalytics] = useState([]);
     const [countByPriority, setCountByPriority] = useState([])
+    const [taskCountByMember, setTaskCountByMember] = useState([])
     const getAnalytics = async () => {
         const response = await axiosInstance.get(urls.getTaskAnalytics);
         const numberOfTaskByColumn = response.data.numberOfTaskByColumn
         const countByPriority = response.data.countByPriority
+        const countByMember = response.data.taskCountsByMember
         setTaskByColumnAnalytics(numberOfTaskByColumn)
         setCountByPriority(countByPriority)
+        setTaskCountByMember(countByMember)
+
      
       };
   useEffect(() => {
    
     getAnalytics();
   }, []);
- 
-  return {  taskByColumnAnalytics ,countByPriority, };
+ console.log(taskCountByMember,"coumt")
+  return {  taskByColumnAnalytics ,countByPriority,taskCountByMember };
 };
 
 export default useFetchAllAnalytics;

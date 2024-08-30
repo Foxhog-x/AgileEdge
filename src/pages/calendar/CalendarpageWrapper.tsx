@@ -3,7 +3,6 @@ import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import Calendar from "./Calenderpage";
 import { holidays } from "./event-utils";
-
 export default function CalendarpageWrapper() {
   const [myEventsList, setMyEventList] = useState([...holidays]);
   const axiosInstance = useCustomAxios();
@@ -13,7 +12,8 @@ export default function CalendarpageWrapper() {
       try {
         const response = await axiosInstance.get(urls.getEvents);
         const data = response.data;
-        setMyEventList((prev) => [...prev, ...data.result]);
+        console.log(data);
+        // setMyEventList((prev) => [...prev, ...data.result]);
       } catch (error) {
         console.log(error);
       }

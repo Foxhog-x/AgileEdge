@@ -155,53 +155,61 @@ const Board = ({ avatars }) => {
   };
 
   return (
-    <DragDropContext onDragEnd={handleDragDrop}>
-      <div>
-        <TaskFormDialog fetchProjectDetails={fetchProjectDetails} />
+    <>
+      {sortedData && sortedData.length > 0 ? (
+        <DragDropContext onDragEnd={handleDragDrop}>
+          <div>
+            <TaskFormDialog fetchProjectDetails={fetchProjectDetails} />
 
-        <Droppable droppableId={"1"} direction="horizontal" type="group">
-          {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className="md:flex"
-              style={{
-                border: snapshot.isDraggingOver ? "1px solid black" : "",
-                gap: 10,
-              }}
-            >
-              {sortedData.map((data, index) => (
-                <Draggable
-                  draggableId={data.column_id}
-                  key={data.column_id}
-                  index={index}
+            <Droppable droppableId={"1"} direction="horizontal" type="group">
+              {(provided, snapshot) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="md:flex"
+                  style={{
+                    border: snapshot.isDraggingOver ? "1px solid black" : "",
+                    gap: 10,
+                  }}
                 >
-                  {(provided) => (
-                    <div
-                      key={index}
-                      className="min-w-80 p-4"
-                      {...provided.dragHandleProps}
-                      {...provided.draggableProps}
-                      /// <reference path="" />
-                      ref={provided.innerRef}
+                  {sortedData.map((data, index) => (
+                    <Draggable
+                      draggableId={data.column_id}
+                      key={data.column_id}
+                      index={index}
                     >
-                      <CardOutline
-                        {...data}
-                        avatars={avatars}
-                        progress={progress}
-                        sortedData={sortedData}
-                        setSortedData={setSortedData}
-                      />
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </div>
-    </DragDropContext>
+                      {(provided) => (
+                        <div
+                          key={index}
+                          className="min-w-80 p-4"
+                          {...provided.dragHandleProps}
+                          {...provided.draggableProps}
+                          /// <reference path="" />
+                          ref={provided.innerRef}
+                        >
+                          <CardOutline
+                            {...data}
+                            avatars={avatars}
+                            progress={progress}
+                            sortedData={sortedData}
+                            setSortedData={setSortedData}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </div>
+        </DragDropContext>
+      ) : (
+        <div className="text-3xl flex justify-center h-1/2 items-center">
+          <div className="flex">No project data available.</div>
+        </div>
+      )}
+    </>
   );
 };
 

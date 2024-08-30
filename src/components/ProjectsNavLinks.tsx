@@ -23,13 +23,18 @@ export default function ProjectsNavLinks() {
   const { openProjectDialog } = useProjectDialog();
   const [editProject, setEditProject] = useState("");
   const [open, setOpen] = useState(false);
-  console.log(projects);
+
   const redirectRoute = (project_Id) => {
     const routes = projects.filter((route) => route.project_id != project_Id);
+    console.log(routes, "routes");
     setProjects(routes);
-    if (boardId === board_Id) {
-      const nextProject = routes[0];
-      navigate(`/project/${nextProject?.board_id}`, { replace: true });
+    if (routes.length > 0) {
+      if (boardId === board_Id) {
+        const nextProject = routes[0];
+        navigate(`/project/${nextProject?.board_id}`, { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
     } else {
       navigate("/", { replace: true });
     }
@@ -85,7 +90,7 @@ export default function ProjectsNavLinks() {
         open={open}
         handleEditSubmit={handleEditSubmit}
       />
-      <span className="flex justify-between items-center mb-2 pr-2 ">
+      <span className="flex justify-between items-center mb-2 min-w-56 pr-2 ">
         Projects
         <IconButton onClick={() => openProjectDialog()}>
           <AddIcon />

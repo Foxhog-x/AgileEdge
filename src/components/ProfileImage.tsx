@@ -67,10 +67,12 @@ export const ProfileImage = () => {
       <Tooltip title="Open settings">
         <div className="flex gap-2 items-center">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar
-              alt="Remy Sharp"
-              src={`data:image/jpeg;base64,${profileAvatar[0]?.avatar}`}
-            />
+            {profileAvatar[0]?.avatar && (
+              <Avatar
+                alt="Remy Sharp"
+                src={`data:image/jpeg;base64,${profileAvatar[0]?.avatar}`}
+              />
+            )}
           </IconButton>
           <h2 className="text-2xl text-black">
             {profileAvatar[0]?.member_name.split(" ")[0]}

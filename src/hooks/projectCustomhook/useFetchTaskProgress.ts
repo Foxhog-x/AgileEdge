@@ -15,7 +15,7 @@ const useFetchTaskProgress = () => {
    
     getProgress();
   }, [refetchProgress]);
- console.log(progress, "pro")
+ 
   return {  progress , getProgress};
 };
 

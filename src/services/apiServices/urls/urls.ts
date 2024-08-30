@@ -33,4 +33,6 @@ export const urls = {
   getAvatars: `${baseDomain}/avatar/fetch-avatars`,
   getUserAvatar: `${baseDomain}/avatar/fetch-user-avatar`,
   getTaskProgress: `${baseDomain}/analytics/get-task-progress`,
+  getTodaysEvents:`${baseDomain}/cal/today-events-list`, 
+  getTaskAnalytics:`${baseDomain}/analytics/get-task-analytics`
 };

@@ -6,13 +6,21 @@ import HorizontalBars from "../../components/muix/HorizontalBars";
 import PriorityPieChart from "../../components/muix/PriorityPieChart";
 import TaskPriorityPieChart from "../../components/muix/TaskPriorityPieChart";
 import BarChartByAssginee from "../../components/muix/BarChartByAssginee";
+import TodaysEvents from "../../components/TodaysEvents";
+import useFetchAllAnalytics from "../../hooks/projectAnalytics/useFetchAllAnalytics";
 export const Homepage: React.FC = () => {
+  const { taskByColumnAnalytics, countByPriority } = useFetchAllAnalytics();
+  console.log(taskByColumnAnalytics, countByPriority, "analytics");
+  console.log();
   return (
     <div>
       <div className=" md:flex justify-between p-5 items-center">
-        <HorizontalBars />
+        <HorizontalBars taskByColumnAnalytics={taskByColumnAnalytics} />
         <BarChartByAssginee />
-        <BasicPie />
+        <BasicPie countByPriority={countByPriority} />
+      </div>
+      <div>
+        <TodaysEvents />
       </div>
     </div>
   );

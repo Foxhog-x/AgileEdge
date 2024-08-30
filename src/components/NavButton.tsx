@@ -70,16 +70,16 @@ export default function NavButton() {
           </Button>
         </li>
         <ProjectsNavLinks />
-        <TeamsNavLinks />
+        {/* <TeamsNavLinks /> */}
       </ul>
-      <div className="flex-shrink-0 p-3">
+      {/* <div className="flex-shrink-0 p-3"> ///futrue upgradation
         <div className="flex flex-col">
           <div className="flex flex-1 py-6 justify-center items-center gap-1 ">
             <Switch size="small" defaultChecked />
             <span>Administration</span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

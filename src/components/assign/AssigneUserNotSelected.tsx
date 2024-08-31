@@ -8,20 +8,21 @@ interface User {
   member_name: string;
 }
 
-interface AssigneeUserNotSelectProps {
-  selectedAssignee?: User[]; // Assuming you need this prop to show selected users
-  setAssignee_id: React.Dispatch<React.SetStateAction<User[]>>; // Function to update selected users
+interface AssigneeUserSelectProps {
+  // Initially assigned users
+  selectedAssignee?: User[];
+  setAssignee_id: React.Dispatch<React.SetStateAction<User[]>>; // Function to update assigned users
 }
 
-const AssigneeUserNotSelect: React.FC<AssigneeUserNotSelectProps> = ({
+const AssigneeUserNotSelect: React.FC<AssigneeUserSelectProps> = ({
+  selectedAssignee,
   setAssignee_id,
 }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const userData = localStorage.getItem("userData");
-    const parsedData = userData ? JSON.parse(userData) : [];
+    const parsedData = JSON.parse(localStorage.getItem("userData"));
     const users = Array.isArray(parsedData) ? parsedData : [parsedData];
     setTimeout(() => {
       setUsers(users);

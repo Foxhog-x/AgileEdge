@@ -47,7 +47,7 @@ export const TaskFormDialog = ({
     setPriority(event.target.value as string);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     if (!taskTitle || taskTitle.trim() === "") {
@@ -149,7 +149,7 @@ export const TaskFormDialog = ({
           </DialogContent>
           <DialogActions sx={{ padding: 2 }}>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit" onClick={handleSubmit}>
               Create
             </Button>
           </DialogActions>

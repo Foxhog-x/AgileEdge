@@ -20,6 +20,7 @@ interface HeaderProps {
 }
 
 export default function Header({ avatars }: HeaderProps) {
+  console.log(avatars, "avatars");
   const [showAll, setShowAll] = useState(false);
 
   const [open, setOpen] = useState(false);
@@ -78,11 +79,11 @@ export default function Header({ avatars }: HeaderProps) {
     ? localOnlineUsers
     : localOnlineUsers.slice(0, 5);
   return (
-    <div className="md:flex justify-between p-4 items-center px-6">
-      <div className="flex items-center gap-4">
+    <div className="flex justify-between items-center gap-4 p-6">
+      <div>
         <h1>alfa</h1>
-        <h1>12</h1>
       </div>
+
       <div className="flex gap-8">
         <div className="flex items-center gap-1 flex-row-reverse">
           {visibleUsers.map((user) => {

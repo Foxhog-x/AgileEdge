@@ -23,7 +23,7 @@ export default function CreateProjectForm({
   const { projectDialog, closeProjectDialog } = useProjectDialog();
   const [createBoard, setCreateBoard] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     if (!createBoard.trim()) {
       addToast("Project name cannot be empty", "error");
       return;
@@ -83,7 +83,7 @@ export default function CreateProjectForm({
           </DialogContent>
           <DialogActions sx={{ padding: 2 }}>
             <Button onClick={closeProjectDialog}>Cancel</Button>
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit" onClick={handleSubmit}>
               Create
             </Button>
           </DialogActions>

@@ -32,27 +32,26 @@ interface ItemData {
 
 interface DrawerRightProps {
   children: React.ReactNode;
-  itemData?: ItemData;
 }
 
-export default function DrawerRight({ children, itemData }: DrawerRightProps) {
+export default function DrawerRight({ children }: DrawerRightProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const [assignee, setAssignee] = React.useState<User[]>([]);
   const [notSelectedAssigne, setNotSelectedAssigne] = React.useState<User[]>(
     []
   );
-
+  const { itemData } = location.state || {};
   const [reactQuillEdit, setReactQuillEdit] = React.useState<string>("");
   const axiosInstance = useCustomAxios();
   const [state, setState] = React.useState({ right: true });
-  const assignees = itemData?.assignees || [];
+  console.log(assignee, "assignee");
   React.useEffect(() => {
-    if (itemData)
-      if (itemData.assignees) {
-        setAssignee(itemData.assignees);
-      }
-  }, [assignees]);
+    if (itemData.assignees) {
+      console.log("setting");
+      setAssignee(itemData.assignees);
+    }
+  }, [itemData.assignees]);
 
   const assigneeSavedTodb = (
     notSelectedAssigne: any,
@@ -164,7 +163,7 @@ export default function DrawerRight({ children, itemData }: DrawerRightProps) {
             <ListItem>Assignees</ListItem>
           </Box>
           <Box className="w-3/4 flex overflow-hidden">
-            {itemData?.assignees && itemData.assignees.length ? (
+            {itemData?.assignees && itemData?.assignees.length ? (
               <AssigneUserSelect
                 assignee={assignee}
                 setAssignee_id={setAssignee}

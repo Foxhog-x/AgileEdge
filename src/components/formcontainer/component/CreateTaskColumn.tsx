@@ -27,7 +27,7 @@ export default function CreateTaskColumn({
     setCreateTaskColumn("");
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     if (!createTaskColumn.trim()) {
       addToast("Project name cannot be empty", "error");
       return;
@@ -75,7 +75,7 @@ export default function CreateTaskColumn({
           </DialogContent>
           <DialogActions sx={{ padding: 2 }}>
             <Button onClick={() => setOpen(false)}>Cancel</Button>
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit" onClick={handleSubmit}>
               Create
             </Button>
           </DialogActions>

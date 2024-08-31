@@ -25,7 +25,7 @@ function Layout({ children }: props) {
         <Paper>
           <Box className="flex min-h-full overflow-hidden  shadow-md ">
             <Box
-              className="hidden md:flex flex-col min-h-screen max-w-72"
+              className="hidden sm:flex flex-col min-h-screen max-w-72"
               // style={{ backgroundColor: "#1E1E1E" }}
             >
               <ProfileImage />

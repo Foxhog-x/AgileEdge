@@ -47,7 +47,7 @@ export default function NavButton() {
               },
             }}
           >
-            Tasks
+            My Tasks
           </Button>
         </li>
         <li>
@@ -68,7 +68,7 @@ export default function NavButton() {
                 location.pathname === "/calendar" ? "secondary.main" : "",
             }}
           >
-            schedule
+            Schedule
           </Button>
         </li>
         <ProjectsNavLinks />

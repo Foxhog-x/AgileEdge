@@ -35,6 +35,8 @@ export default function NavButton() {
         </li>
         <li>
           <Button
+            component={Link}
+            to={"/mytasks"}
             startIcon={<TaskAltOutlinedIcon />}
             fullWidth
             sx={{
@@ -45,6 +47,8 @@ export default function NavButton() {
               "&:hover": {
                 backgroundColor: "secondary.main",
               },
+              backgroundColor:
+                location.pathname === "/mytasks" ? "secondary.main" : "",
             }}
           >
             My Tasks

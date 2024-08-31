@@ -10,6 +10,7 @@ import { removeTokenData } from "../services/localStorage/authUtil";
 import { useNavigate } from "react-router-dom";
 import useCustomAxios from "../services/apiServices/customAxios/customAxios";
 import { urls } from "../services/apiServices/urls/urls";
+import { useManageIdStore } from "../store/useManageIdStore";
 
 const settings = ["My-profile", "Logout"];
 interface ProfileAvatar {
@@ -22,7 +23,7 @@ export const ProfileImage = () => {
   const navigate = useNavigate();
   const [profileAvatar, setProfileAvatar] = useState<ProfileAvatar[]>([]);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
+  const { saveMemberId } = useManageIdStore();
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -31,7 +32,7 @@ export const ProfileImage = () => {
     try {
       const response = await axiosInstance.get(urls.getUserAvatar);
       const data = response.data.result;
-      console.log(data, "avatar");
+      saveMemberId(data[0]?.member_id);
       setProfileAvatar(data);
     } catch (error) {
       console.log(error);

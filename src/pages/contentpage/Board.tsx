@@ -9,6 +9,7 @@ import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
 import { TaskFormDialog } from "../../components/formcontainer/component/TaskFormDialog";
 import useFetchTaskProgress from "../../hooks/projectCustomhook/useFetchTaskProgress";
+import { boolean } from "zod";
 interface Avatar {
   member_id: number;
   avatar: string;
@@ -17,9 +18,10 @@ interface Avatar {
 
 interface HeaderProps {
   avatars?: Avatar[];
+  show?: boolean | undefined;
 }
 
-const Board = ({ avatars = [] }: HeaderProps) => {
+const Board = ({ avatars = [], show }: HeaderProps) => {
   const axiosInstance = useCustomAxios();
   const { addToast } = useToastStore();
   const { boardId } = useParams<{ boardId: string | undefined }>();
@@ -28,12 +30,13 @@ const Board = ({ avatars = [] }: HeaderProps) => {
   const { sortedData, setSortedData, fetchProjectDetails } =
     useFetchProjectDetails({
       boardId,
+      show,
     });
 
   const { progress } = useFetchTaskProgress();
 
   useEffect(() => {
-    saveBoardId(boardId);
+    saveBoardId(boardId as any);
   }, [boardId]);
 
   const updateDatabase = async (

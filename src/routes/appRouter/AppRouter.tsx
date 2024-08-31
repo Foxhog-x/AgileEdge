@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 
 import Layout from "../../Layout/Layout";
 import Board from "../../pages/contentpage";
@@ -10,8 +10,20 @@ import Loginpage from "../../pages/Loginpage";
 import Userprofilepage from "../../pages/profilepage/Userprofilepage";
 import Homepage from "../../pages/homepage";
 import Signuppage from "../../pages/signuppage/Signuppage";
+import { useEffect, useState } from "react";
 
 export const AppRouter = () => {
+  const [show, setShow] = useState<boolean>(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/mytasks") {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  }, [location]);
+
   return (
     <Routes>
       <Route element={<Protected />}>
@@ -27,8 +39,8 @@ export const AppRouter = () => {
           path="/card/:cardId"
           element={
             <Layout>
-              <Board />
-              <DrawerRight >
+              <Board show />
+              <DrawerRight>
                 <ReactquillContainer />
               </DrawerRight>
             </Layout>
@@ -48,6 +60,14 @@ export const AppRouter = () => {
           element={
             <Layout>
               <Homepage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/mytasks"
+          element={
+            <Layout>
+              <Board show />
             </Layout>
           }
         />

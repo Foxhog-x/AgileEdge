@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { transFormData } from "../../utils/transFormData";
+import { useManageIdStore } from "../../store/useManageIdStore";
 interface FetchBoardDataProps {
   boardId: string | undefined;
+  show:boolean | undefined
 }
 interface User {
   member_id: number;
@@ -28,11 +30,12 @@ interface ProjectData {
 }
 
  
-export const useFetchProjectDetails = ({ boardId }: FetchBoardDataProps) => {
+export const useFetchProjectDetails = ({ boardId ,show}: FetchBoardDataProps) => {
   const axiosInstance = useCustomAxios();
   const [projectDetails, setProjectDetails] = useState<ProjectData[]>([]);
   const [sortedData, setSortedData] = useState<ProjectData[]>([]);
-
+  const [myProjectData, setMyProjectData] = useState<ProjectData[]>([])
+const {member_Id} = useManageIdStore()
   const fetchProjectDetails = async (boardId: string) => {
     try {
       const response = await axiosInstance.post(urls.fetchAllContents, {
@@ -50,8 +53,9 @@ console.log(projectDetails, "projectDetails")
    
 
     if (boardId) {
-      fetchProjectDetails(boardId);
+        fetchProjectDetails(boardId);  
     }
+ 
   }, [boardId, axiosInstance]);
 
   useEffect(() => {
@@ -65,5 +69,37 @@ console.log(projectDetails, "projectDetails")
     updateSortedData();
   }, [projectDetails]);
 
+
+  useEffect(()=>{
+
+    if(show){
+    const mySortedData = async ()=>{
+     
+      if(sortedData.length > 0){
+        const copySorted = [...sortedData];
+        const sort = copySorted.map((data)=>{
+           
+        const items =  data.items.filter((value)=>{
+             
+          const result = Array.isArray(value.assignees) && value.assignees.some(assignee => assignee.member_id === member_Id);
+      
+             if(result) return value
+          })
+
+          return {
+            column_id: data.column_id,
+            column_name: data.column_name,
+            column_position: data.column_position,
+            items:items
+      
+          }
+        })
+      setSortedData(sort)
+      } 
+    }
+
+    mySortedData()
+  }
+  },[show, member_Id])
   return { projectDetails, sortedData, setSortedData, fetchProjectDetails };
 };

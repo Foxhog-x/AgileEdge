@@ -1,8 +1,8 @@
-export const transFormData = async (data) => {
+export const transFormData = async (data: any) => {
   const columnMap = new Map();
-  const result = [];
+  const result:any = [];
 
-  data.forEach((item) => {
+  data.forEach((item:any) => {
     const {
       column_id,
       column_name,

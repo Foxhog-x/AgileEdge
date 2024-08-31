@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-export const formattedDate = (date) => {
+export const formattedDate = (date:string | Date) => {
   if(!date){
     return '\u00A0';
   }

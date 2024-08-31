@@ -2,19 +2,11 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import ListItem from "@mui/material/ListItem";
-import {
-  Avatar,
-  Chip,
-  IconButton,
-  List,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Chip, Typography } from "@mui/material";
 import AdjustOutlinedIcon from "@mui/icons-material/AdjustOutlined";
 import EventOutlinedIcon from "@mui/icons-material/EventOutlined";
 import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
-import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import LabTabs from "../Tabs/LabTabs";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";

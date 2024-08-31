@@ -72,11 +72,7 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
     }
   };
 
-  const handleChange = (
-    event: React.ChangeEvent<{}>,
-    newValue: User[],
-    reason: string
-  ) => {
+  const handleChange = (newValue: User[], reason: string) => {
     const path = location.pathname;
     const match = path.match(/(\d+)$/);
     const cardId = match ? parseInt(match[0], 10) : null;
@@ -106,7 +102,7 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
     <Autocomplete
       multiple
       value={assignee}
-      onChange={handleChange}
+      onChange={handleChange as () => void}
       id="assignee-autocomplete"
       isOptionEqualToValue={(option, value) =>
         option.member_id === value.member_id

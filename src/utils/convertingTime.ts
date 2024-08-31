@@ -1,4 +1,4 @@
-export const extractTimeAndTimezone = (time) => {
+export const extractTimeAndTimezone = (time:string) => {
   const splitString = time.split("");
   if(splitString.includes("T")){
     const indexT = splitString.indexOf("T");

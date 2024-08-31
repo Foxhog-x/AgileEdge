@@ -1,4 +1,4 @@
-export const   extractTimeFromDateTime =(dateTimeString)=> {
+export const   extractTimeFromDateTime =(dateTimeString: string)=> {
 if(dateTimeString === null) return null
 if(dateTimeString === 'all Day') return "all day"
 

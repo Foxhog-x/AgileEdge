@@ -1,9 +1,9 @@
-export const formatTitle = (name)=>{
+// export const formatTitle = (name: )=>{
  
 
 
    
-}
+// }
 
 
 

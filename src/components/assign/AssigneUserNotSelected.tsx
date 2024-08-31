@@ -22,7 +22,8 @@ const AssigneeUserNotSelect: React.FC<AssigneeUserSelectProps> = ({
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const parsedData = JSON.parse(localStorage.getItem("userData"));
+    const userData = localStorage.getItem("userData");
+    const parsedData = userData ? JSON.parse(userData) : [];
     const users = Array.isArray(parsedData) ? parsedData : [parsedData];
     setTimeout(() => {
       setUsers(users);

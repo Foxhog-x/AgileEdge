@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { EventApi, formatDate } from "@fullcalendar/core";
+// import { formatDate } from "@fullcalendar/core";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { createEventId, holidays } from "./event-utils";
+import { createEventId } from "./event-utils";
 import {
   DateSelectArg,
   EventClickArg,
   EventContentArg,
 } from "@fullcalendar/core";
 import { EventInput } from "@fullcalendar/core";
-interface EventData {
-  id: string | number | undefined;
-  title: string | undefined;
-  start: string | undefined;
-  end?: string | undefined;
-  color?: string | undefined;
-}
+// interface EventData {
+//   id: string | number | undefined;
+//   title: string | undefined;
+//   start: string | undefined;
+//   end?: string | undefined;
+//   color?: string | undefined;
+// }
 interface MyEvent {
   title: String | null;
   start: String | null;
@@ -25,9 +24,9 @@ interface MyEvent {
   color?: String;
 }
 
-interface SidebarEventProps {
-  event: EventData;
-}
+// interface SidebarEventProps {
+//   event: EventData;
+// }
 interface CalendarProps {
   myEventsList: EventInput[];
   callDatabase: (evenObj: MyEvent | null) => void;
@@ -39,18 +38,18 @@ export default function Calendar({
   deleteEventCall,
   myEventsList,
 }: CalendarProps) {
-  const [weekendsVisible, setWeekendsVisible] = useState(true);
+  // const [weekendsVisible, setWeekendsVisible] = useState(true);
 
-  function handleWeekendsToggle() {
-    setWeekendsVisible(!weekendsVisible);
-  }
+  // function handleWeekendsToggle() {
+  //   setWeekendsVisible(!weekendsVisible);
+  // }
 
   function handleDateSelect(selectInfo: DateSelectArg) {
     let title = prompt("Please enter a new title for your event");
 
     let calendarApi = selectInfo.view.calendar;
 
-    calendarApi.unselect(); // clear date selection
+    calendarApi.unselect();
     const evenObj = {
       title: title,
       start: selectInfo.startStr,
@@ -131,22 +130,22 @@ function Sidebar() {
   );
 }
 
-function SidebarEvent({ event }: SidebarEventProps) {
-  const formattedDate = event.start
-    ? formatDate(event.start, {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      })
-    : "No Date";
+// function SidebarEvent({ event }: SidebarEventProps) {
+//   const formattedDate = event.start
+//     ? formatDate(event.start, {
+//         year: "numeric",
+//         month: "short",
+//         day: "numeric",
+//       })
+//     : "No Date";
 
-  return (
-    <li
-      key={event.id}
-      style={{ backgroundColor: event.color || "transparent" }}
-    >
-      <b>{formattedDate}</b>
-      <i>{event.title}</i>
-    </li>
-  );
-}
+//   return (
+//     <li
+//       key={event.id}
+//       style={{ backgroundColor: event.color || "transparent" }}
+//     >
+//       <b>{formattedDate}</b>
+//       <i>{event.title}</i>
+//     </li>
+//   );
+// }

@@ -1,9 +1,9 @@
-import * as React from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 
-const valueFormatter = (value: number | null) => `${Math.floor(value)}`;
+const valueFormatter = (value: number | null) =>
+  `${Math.floor(value as number)}`;
 
-export default function HorizontalBars({ taskByColumnAnalytics }) {
+export default function HorizontalBars({ taskByColumnAnalytics }: any) {
   const chartSetting = {
     width: 400,
     height: 300,

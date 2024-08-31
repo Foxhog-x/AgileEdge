@@ -1,9 +1,8 @@
-import * as React from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
 
-export default function BasicPie({ countByPriority }) {
+export default function BasicPie({ countByPriority }: any) {
   const copyPriority = [...countByPriority];
-  const result = copyPriority.map((element, i) => {
+  const result: any = copyPriority.map((element) => {
     if (element.priority === "High") {
       return {
         value: element.task_count,

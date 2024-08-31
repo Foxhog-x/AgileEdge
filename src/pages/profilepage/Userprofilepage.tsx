@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import { UserProfileForm } from "../../components/formcontainer/UserProfileForm";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
-import { Update } from "@mui/icons-material";
 
 const Userprofilepage = () => {
-  const [forceRefresh, setForceRefresh] = useState(false);
   const [currentDetails, setCurrentDetails] = useState({
     firstName: "",
     lastName: "",

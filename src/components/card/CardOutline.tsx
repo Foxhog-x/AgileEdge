@@ -14,6 +14,60 @@ import Divider from "@mui/material/Divider";
 import BasicMenu from "./BasicMenu";
 import LinearWithValueLabel from "../muix/LinearWithValueLabel";
 
+interface User {
+  member_id: number;
+  member_name: string;
+}
+interface CardData {
+  assignees: User[];
+  card_id: string;
+  card_column_id: string;
+  column_position: number | string;
+  description: string;
+  end_date: Date;
+  name: string;
+  priority: string;
+}
+
+interface ProjectData {
+  column_id: string;
+  column_name: string;
+  column_position: number | string;
+  items: CardData[];
+}
+
+interface ProgressData {
+  card_id: number;
+  completed_subtasks: string;
+  completion_percentage: string;
+  task_name: string;
+  total_subtasks: number;
+}
+interface Avatar {
+  member_id: number;
+  avatar: string;
+  member_name?: string;
+}
+
+interface CardOutlineProps {
+  progress: ProgressData[];
+  avatars: Avatar[];
+  column_id: string;
+  column_name: string;
+  sortedData: ProjectData[];
+  setSortedData: React.Dispatch<React.SetStateAction<ProjectData[]>>;
+  items: CardData[];
+}
+type ItemProps = {
+  assignees: User[] | null;
+  card_id: string;
+  card_column_id: string;
+  column_position: number | string;
+  description: string;
+  end_date: Date;
+  name: string;
+  priority: string;
+};
 export const CardOutline = ({
   progress,
   avatars,
@@ -23,10 +77,10 @@ export const CardOutline = ({
   setSortedData,
   // column_position, //its for me to understand actually i do not need it because we are using dnd index management
   items,
-}) => {
+}: CardOutlineProps) => {
   const { openTaskDialog } = useTaskFormStore();
-  const card = (item) => {
-    const [header, content] = item.name.split(":").map((part) => part.trim());
+  const card = (item: ItemProps) => {
+    // const [header, content] = item.name.split(":").map((part) => part.trim());
     return (
       <>
         <CardContent>
@@ -128,12 +182,13 @@ export const CardOutline = ({
               marginTop: 2,
             }}
           >
-            {item?.assignees?.map((user, index) => {
-              return avatars.map((userAvatar) => {
+            {item.assignees?.map((user: User | undefined | null) => {
+              if (!user) return null;
+              return avatars.map((userAvatar: Avatar, index: Number) => {
                 if (user.member_id === userAvatar.member_id) {
                   return (
                     <Avatar
-                      key={index}
+                      key={index as number}
                       sx={{ height: 30, width: 30 }}
                       src={`data:image/jpeg;base64,${userAvatar?.avatar}`}
                     >
@@ -198,8 +253,7 @@ export const CardOutline = ({
                         sx={{
                           maxWidth: 320,
                           minHeight: 250,
-                          maxHeight: 250, // Set minimum height
-                          // Set maximum height
+                          maxHeight: 250,
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "space-between",

@@ -4,7 +4,6 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useTaskFormStore } from "../../../store/useTaskFormStore";
 import InputLabel from "@mui/material/InputLabel";
@@ -14,15 +13,23 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
-import AssigneUserSelect from "../../assign/AssigneUserSelect";
 import "dayjs/locale/en-gb";
 import useCustomAxios from "../../../services/apiServices/customAxios/customAxios";
 import { useToastStore } from "../../../store/useToastStore";
 import { useParams } from "react-router-dom";
 import { urls } from "../../../services/apiServices/urls/urls";
-import { date } from "zod";
 import AssigneeUserNotSelect from "../../assign/AssigneUserNotSelected";
-export const TaskFormDialog = ({ fetchProjectDetails }) => {
+interface TaskFormDialogProps {
+  fetchProjectDetails: (boardId: string) => void;
+}
+interface User {
+  member_id: number;
+  member_name: string;
+}
+
+export const TaskFormDialog = ({
+  fetchProjectDetails,
+}: TaskFormDialogProps) => {
   const { boardId } = useParams<{ boardId: string }>();
   const axiosInstance = useCustomAxios();
   const { addToast } = useToastStore();
@@ -30,8 +37,8 @@ export const TaskFormDialog = ({ fetchProjectDetails }) => {
     useTaskFormStore();
   const [priority, setPriority] = React.useState("");
   const [taskTitle, setTaskTitle] = React.useState("");
-  const [endDate, setEndDate] = React.useState(null);
-  const [assignee_id, setAssignee_id] = React.useState([]);
+  const [endDate, setEndDate] = React.useState<string | Date | null>(null);
+  const [assignee_id, setAssignee_id] = React.useState<User[]>([]);
 
   const handleClose = () => {
     closeTaskDialog();
@@ -40,7 +47,7 @@ export const TaskFormDialog = ({ fetchProjectDetails }) => {
     setPriority(event.target.value as string);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!taskTitle || taskTitle.trim() === "") {
@@ -64,13 +71,13 @@ export const TaskFormDialog = ({ fetchProjectDetails }) => {
         },
       });
       addToast("Successfully Created", "success");
-      fetchProjectDetails(boardId);
+      fetchProjectDetails(boardId as string);
       setTaskTitle("");
       setAssignee_id([]);
       closeTaskDialog();
     } catch (error) {
       console.log(error);
-      addToast(error, "error");
+      addToast("error while createing project", "error");
     }
   };
   return (
@@ -83,76 +90,70 @@ export const TaskFormDialog = ({ fetchProjectDetails }) => {
           component: "form",
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries((formData as any).entries());
-            const email = formJson.email;
-
             handleClose();
           },
         }}
       >
         <DialogTitle>{columnName}</DialogTitle>
-        <DialogContent
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 1.5,
-            padding: 4,
-          }}
-        >
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="task"
-            name="TaskName"
-            label="Task Title"
-            type="text"
-            variant="outlined"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setTaskTitle(e.target.value);
+        <form onSubmit={handleSubmit}>
+          <DialogContent
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 1.5,
+              padding: 4,
             }}
-          />
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Priority</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={priority}
-              label="Priority"
-              onChange={handleChange}
-            >
-              <MenuItem value={"High"}>High</MenuItem>
-              <MenuItem value={"Medium"}>Medium</MenuItem>
-              <MenuItem value={"Low"}>Low</MenuItem>
-            </Select>
-          </FormControl>
-
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="End Date"
-              format="DD-MM-YYYY"
-              value={endDate ? dayjs(endDate) : null} // Ensure value is a Dayjs object
-              onChange={(date: Dayjs | null) => {
-                if (date && dayjs(date).isValid()) {
-                  const formattedDate = dayjs(date).format("YYYY-MM-DD"); //
-                  setEndDate(formattedDate);
-                }
+          >
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="task"
+              name="TaskName"
+              label="Task Title"
+              type="text"
+              variant="outlined"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setTaskTitle(e.target.value);
               }}
             />
-          </LocalizationProvider>
-          <AssigneeUserNotSelect setAssignee_id={setAssignee_id} />
-        </DialogContent>
-        <DialogActions sx={{ padding: 2 }}>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button
-            variant="contained"
-            type="submit"
-            onClick={(e) => handleSubmit(e)}
-          >
-            Create
-          </Button>
-        </DialogActions>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={priority}
+                label="Priority"
+                onChange={handleChange}
+              >
+                <MenuItem value={"High"}>High</MenuItem>
+                <MenuItem value={"Medium"}>Medium</MenuItem>
+                <MenuItem value={"Low"}>Low</MenuItem>
+              </Select>
+            </FormControl>
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="End Date"
+                format="DD-MM-YYYY"
+                value={endDate ? dayjs(endDate) : null} // Ensure value is a Dayjs object
+                onChange={(date: Dayjs | null) => {
+                  if (date && dayjs(date).isValid()) {
+                    const formattedDate = dayjs(date).format("YYYY-MM-DD"); //
+                    setEndDate(formattedDate);
+                  }
+                }}
+              />
+            </LocalizationProvider>
+            <AssigneeUserNotSelect setAssignee_id={setAssignee_id} />
+          </DialogContent>
+          <DialogActions sx={{ padding: 2 }}>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button variant="contained" type="submit">
+              Create
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </React.Fragment>
   );

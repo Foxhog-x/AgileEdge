@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 /// here i faced the race condition
 export default function Protected() {

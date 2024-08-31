@@ -24,7 +24,7 @@ export default function ProjectsNavLinks() {
   const [editProject, setEditProject] = useState("");
   const [open, setOpen] = useState(false);
 
-  const redirectRoute = (project_Id) => {
+  const redirectRoute = (project_Id: String | number) => {
     const routes = projects.filter((route) => route.project_id != project_Id);
     setProjects(routes);
     if (routes.length > 0) {
@@ -57,7 +57,7 @@ export default function ProjectsNavLinks() {
       return;
     }
   };
-  const handleEdit = (id, currentName) => {
+  const handleEdit = (id: string, currentName: string) => {
     saveBoardId(id);
     setEditProject(currentName);
     setOpen(true);
@@ -96,7 +96,7 @@ export default function ProjectsNavLinks() {
         </IconButton>
       </span>
       <ul>
-        {projects.map((project, index) => {
+        {projects.map((project: any, index) => {
           return (
             <div className="flex items-center mr-2" key={index}>
               <li key={index} className="flex-1 flex">

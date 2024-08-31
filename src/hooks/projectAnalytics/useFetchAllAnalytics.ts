@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { urls } from "../../services/apiServices/urls/urls";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
-import { C } from "@fullcalendar/core/internal-common";
 const useFetchAllAnalytics = () => {
   
   const axiosInstance = useCustomAxios();

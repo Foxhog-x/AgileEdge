@@ -28,7 +28,7 @@ export const AppRouter = () => {
           element={
             <Layout>
               <Board />
-              <DrawerRight>
+              <DrawerRight >
                 <ReactquillContainer />
               </DrawerRight>
             </Layout>

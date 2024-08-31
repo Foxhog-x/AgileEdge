@@ -1,4 +1,3 @@
-import * as React from "react";
 import LinearProgress, {
   LinearProgressProps,
 } from "@mui/material/LinearProgress";
@@ -22,7 +21,7 @@ function LinearProgressWithLabel(
   );
 }
 
-export default function LinearWithValueLabel({ progress }) {
+export default function LinearWithValueLabel({ progress }: any) {
   const getColor = (progress: number) => {
     if (progress < 50) return "primary"; // Blue (default)
     if (progress < 100) return "warning"; // Yellow

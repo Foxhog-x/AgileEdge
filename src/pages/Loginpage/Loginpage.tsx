@@ -17,16 +17,12 @@ import {
   removeTokenData,
 } from "../../services/localStorage/authUtil";
 import { useToastStore } from "../../store/useToastStore";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 export default function Loginpage() {
   const navigate = useNavigate();
   const { addToast } = useToastStore();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<UserFormData>({
+  const { register, handleSubmit, reset } = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
   });
   const axiosInstance = useCustomAxios();
@@ -45,8 +41,15 @@ export default function Loginpage() {
         console.log(error, "error while storing token in localstorage");
       }
     } catch (error) {
-      console.log(error);
-      addToast(error.response.data.message, "error");
+      if (error instanceof AxiosError) {
+        const errorMessage =
+          error.response?.data?.message || "An unexpected error occurred";
+        console.log(errorMessage);
+        addToast(errorMessage, "error");
+      } else {
+        console.log("An unexpected error occurred");
+        addToast("An unexpected error occurred", "error");
+      }
     }
     reset();
   };

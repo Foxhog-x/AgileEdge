@@ -4,12 +4,6 @@ import { urls } from "../../services/apiServices/urls/urls";
 import Calendar from "./Calenderpage";
 import { holidays } from "./event-utils";
 import { useManageIdStore } from "../../store/useManageIdStore";
-import {
-  EventApi,
-  DateSelectArg,
-  EventClickArg,
-  EventContentArg,
-} from "@fullcalendar/core";
 
 interface EventData {
   id: string;

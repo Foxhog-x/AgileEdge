@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import useCustomAxios from "../services/apiServices/customAxios/customAxios";
 import { urls } from "../services/apiServices/urls/urls";
 import { extractTimeFromDateTime } from "../utils/formatEventTime";
-
+interface TodaysType {
+  title: string;
+  start: string;
+  end: string;
+}
 export default function TodaysEvents() {
   const axiosInstance = useCustomAxios();
-  const [todaysEvents, setTodaysEvents] = useState([]);
+  const [todaysEvents, setTodaysEvents] = useState<TodaysType[]>([]);
 
   const getTodayEvents = async () => {
     try {

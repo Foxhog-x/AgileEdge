@@ -1,7 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import Button from "@mui/material/Button";
 import ListItem from "@mui/material/ListItem";
 import {
   Avatar,
@@ -21,31 +20,52 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import AssigneUserSelect from "../assign/AssigneUserSelect";
 import { formattedDate } from "../../utils/formatDate";
-import AssigneeUserSelect from "../assign/AssigneUserSelect";
 import AssigneeUserNotSelect from "../assign/AssigneUserNotSelected";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
+
+// Define types for props
 type Anchor = "top" | "left" | "bottom" | "right";
-type props = {
+
+interface User {
+  member_id: number;
+  member_name: string;
+}
+
+interface ItemData {
+  assignees: User[];
+  priority: "High" | "Medium" | "Low";
+  end_date?: string; // assuming date is in string format
+}
+
+interface DrawerRightProps {
   children: React.ReactNode;
-  refetchProgress: () => void;
-};
-export default function DrawerRight({ children }: props) {
+  itemData?: ItemData;
+}
+
+export default function DrawerRight({ children, itemData }: DrawerRightProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [assignee, setAssignee] = React.useState([]);
-  const [notSelectedAssigne, setNotSelectedAssigne] = React.useState([]);
-  const [reactQuillEdit, setReactQuillEdit] = React.useState("");
-  const { itemData } = location.state || {};
-  const axiosInstance = useCustomAxios();
-  const [state, setState] = React.useState({
-    right: true,
-  });
-  React.useEffect(() => {
-    setAssignee(itemData.assignees);
-  }, []);
+  const [assignee, setAssignee] = React.useState<User[]>([]);
+  const [notSelectedAssigne, setNotSelectedAssigne] = React.useState<User[]>(
+    []
+  );
 
-  const assigneeSavedTodb = (notSelectedAssigne, cardId) => {
+  const [reactQuillEdit, setReactQuillEdit] = React.useState<string>("");
+  const axiosInstance = useCustomAxios();
+  const [state, setState] = React.useState({ right: true });
+  const assignees = itemData?.assignees || [];
+  React.useEffect(() => {
+    if (itemData)
+      if (itemData.assignees) {
+        setAssignee(itemData.assignees);
+      }
+  }, [assignees]);
+
+  const assigneeSavedTodb = (
+    notSelectedAssigne: any,
+    cardId: number | null
+  ) => {
     const assigneeObj = notSelectedAssigne;
     try {
       axiosInstance.post(urls.addAssignees, { data: { assigneeObj, cardId } });
@@ -54,6 +74,7 @@ export default function DrawerRight({ children }: props) {
       console.log(error);
     }
   };
+
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -79,12 +100,12 @@ export default function DrawerRight({ children }: props) {
       }}
       role="presentation"
     >
-      <div className="p-3 min-h-32 text-4xl line-height leading-normal ml-4 ">
+      <div className="p-3 min-h-32 text-4xl line-height leading-normal ml-4">
         Designing Data Intensive Application
       </div>
-      <div className=" gap-28 p-2 ml-4">
+      <div className="gap-28 p-2 ml-4">
         <div className="flex justify-between">
-          <Box className="flex items-center w-1/2 ">
+          <Box className="flex items-center w-1/2">
             <AdjustOutlinedIcon />
             <ListItem>Status</ListItem>
           </Box>
@@ -92,15 +113,15 @@ export default function DrawerRight({ children }: props) {
             <ListItem>
               <Chip
                 size="small"
-                label={itemData?.priority}
+                label={itemData?.priority ? itemData.priority : ""}
                 sx={{
                   marginInlineEnd: 3,
                   backgroundColor:
-                    itemData.priority === "High"
+                    itemData?.priority && itemData.priority === "High"
                       ? "#EF9A9A"
-                      : itemData.priority === "Medium"
+                      : itemData?.priority && itemData.priority === "Medium"
                         ? "#FFF59D"
-                        : itemData.priority === "Low"
+                        : itemData?.priority && itemData.priority === "Low"
                           ? "#A5D6A7"
                           : "",
                 }}
@@ -108,9 +129,9 @@ export default function DrawerRight({ children }: props) {
             </ListItem>
           </Box>
         </div>
-        {itemData.end_date && (
+        {itemData?.end_date && itemData.end_date && (
           <div className="flex justify-between">
-            <Box className="flex items-center w-1/2 ">
+            <Box className="flex items-center w-1/2">
               <EventOutlinedIcon />
               <ListItem>Due Date</ListItem>
             </Box>
@@ -131,7 +152,7 @@ export default function DrawerRight({ children }: props) {
           </div>
         )}
         <div className="flex justify-between">
-          <Box className="flex items-center w-1/2 ">
+          <Box className="flex items-center w-1/2">
             <StyleOutlinedIcon />
             <ListItem>Tags</ListItem>
           </Box>
@@ -146,12 +167,12 @@ export default function DrawerRight({ children }: props) {
           </Box>
         </div>
         <div className="flex justify-between items-center">
-          <Box className="flex items-center w-1/2 ">
+          <Box className="flex items-center w-1/2">
             <PeopleAltOutlinedIcon />
             <ListItem>Assignees</ListItem>
           </Box>
-          <Box className="w-3/4 flex  overflow-hidden">
-            {itemData.assignees ? (
+          <Box className="w-3/4 flex overflow-hidden">
+            {itemData?.assignees && itemData.assignees.length ? (
               <AssigneUserSelect
                 assignee={assignee}
                 setAssignee_id={setAssignee}
@@ -162,14 +183,10 @@ export default function DrawerRight({ children }: props) {
                 setAssignee_id={setNotSelectedAssigne}
               />
             )}
-
-            {/* <IconButton onClick={() => handleFunctionAssign()}>
-              <AddBoxOutlinedIcon />
-            </IconButton> */}
           </Box>
         </div>
         <div className="flex justify-between items-center">
-          <Box className="flex items-center w-1/2 ">
+          <Box className="flex items-center w-1/2">
             <PeopleAltOutlinedIcon />
             <ListItem>Description</ListItem>
           </Box>

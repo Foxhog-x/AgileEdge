@@ -11,9 +11,8 @@ import CreateTaskColumn from "../components/formcontainer/component/CreateTaskCo
 import AddIcon from "@mui/icons-material/Add";
 const baseDomain = import.meta.env.VITE_BASE_URL;
 interface Avatar {
-  member_id: Number;
-  avatar: String;
-  member_name: String;
+  member_id: number;
+  avatar: string;
 }
 
 interface HeaderProps {

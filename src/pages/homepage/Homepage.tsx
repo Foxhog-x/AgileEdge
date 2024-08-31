@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./Homepage.module.css";
 
 import BasicPie from "../../components/muix/BasicPie";

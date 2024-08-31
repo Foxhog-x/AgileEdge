@@ -4,21 +4,45 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { removeTokenData } from "../../services/localStorage/authUtil";
-import { useNavigate } from "react-router-dom";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
+interface User {
+  member_id: number;
+  member_name: string;
+}
+
+interface CardData {
+  assignees: User[];
+  card_id: string;
+  card_column_id: string;
+  column_position: number | string;
+  description: string;
+  end_date: Date;
+  name: string;
+  priority: string;
+}
+
+interface SortData {
+  column_id: string;
+  column_name: string;
+  column_position: number | string;
+  items: CardData[];
+}
+interface Props {
+  card_Id: string;
+  sortedData: SortData[];
+  setSortedData: (data: SortData[]) => void;
+  column_id: string;
+}
 export default function BasicMenu({
   card_Id,
   sortedData,
   setSortedData,
-  column_id,
-}) {
+}: Props) {
   const axiosInstance = useCustomAxios();
   const { addToast } = useToastStore();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const navigate = useNavigate();
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -27,11 +51,11 @@ export default function BasicMenu({
     setAnchorEl(null);
   };
 
-  const handleDelete = async (card_Id) => {
+  const handleDelete = async (card_Id: String) => {
     setAnchorEl(null);
     const updatedSortedData = sortedData.map((column) => ({
       ...column,
-      items: column.items.filter((card) => card.card_id !== card_Id),
+      items: column.items.filter((card: CardData) => card.card_id !== card_Id),
     }));
     setSortedData(updatedSortedData);
     try {
@@ -39,7 +63,7 @@ export default function BasicMenu({
       addToast("Card Delete successfully", "success");
     } catch (error) {
       console.log(error);
-      addToast(error.message, "error");
+      addToast("ERROR OCCURED", "error");
     }
   };
   return (

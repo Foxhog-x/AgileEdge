@@ -1,5 +1,3 @@
-import { Label } from "@mui/icons-material";
-import styles from "./Profile.module.css";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
@@ -21,10 +19,10 @@ const schema = z.object({
 
 type Inputs = z.infer<typeof schema>;
 
-interface FileDetails {
-  name: string;
-  size: number;
-}
+// interface FileDetails {
+//   name: string;
+//   size: number;
+// }
 
 interface UserProfileFormProps {
   currentUser: {
@@ -34,14 +32,14 @@ interface UserProfileFormProps {
     address: string;
     avatar?: string;
   };
-  sendFunctionToParent: (fn) => void;
+  sendFunctionToParent: (fn: any) => void;
 }
 
 export const UserProfileForm: React.FC<UserProfileFormProps> = ({
   sendFunctionToParent,
   currentUser,
 }) => {
-  const [fileDetails, setFileDetails] = useState<FileDetails | null>(null);
+  // const [fileDetails, setFileDetails] = useState<FileDetails | null>(null);
   const [preview, setPreview] = useState<string | null>(
     currentUser?.avatar || null
   );
@@ -105,10 +103,10 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
         addToast("File size should not exceed 2 MB", "error");
         return;
       }
-      setFileDetails({
-        name: file.name,
-        size: file.size / (1024 * 1024), // Size in MB
-      });
+      // setFileDetails({
+      //   name: file.name,
+      //   size: file.size / (1024 * 1024), // Size in MB
+      // });
       try {
         const base64 = await convertFileToBase64(file);
         setImageBase64(base64);

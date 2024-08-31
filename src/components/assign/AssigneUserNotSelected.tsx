@@ -8,13 +8,12 @@ interface User {
   member_name: string;
 }
 
-interface AssigneeUserSelectProps {
-  // Initially assigned users
-  selectedAssignee: User[];
-  setAssignee_id: React.Dispatch<React.SetStateAction<User[]>>; // Function to update assigned users
+interface AssigneeUserNotSelectProps {
+  selectedAssignee?: User[]; // Assuming you need this prop to show selected users
+  setAssignee_id: React.Dispatch<React.SetStateAction<User[]>>; // Function to update selected users
 }
 
-const AssigneeUserNotSelect: React.FC<AssigneeUserSelectProps> = ({
+const AssigneeUserNotSelect: React.FC<AssigneeUserNotSelectProps> = ({
   setAssignee_id,
 }) => {
   const [users, setUsers] = useState<User[]>([]);

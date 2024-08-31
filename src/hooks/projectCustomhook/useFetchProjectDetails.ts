@@ -3,13 +3,35 @@ import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { transFormData } from "../../utils/transFormData";
 interface FetchBoardDataProps {
-  boardId: string;
+  boardId: string | undefined;
+}
+interface User {
+  member_id: number;
+  member_name: string;
+}
+interface CardData {
+  assignees: User[];
+  card_id: string;
+  card_column_id: string;
+  column_position: number | string;
+  description: string;
+  end_date: Date;
+  name: string;
+  priority: string;
 }
 
+interface ProjectData {
+  column_id: string;
+  column_name: string;
+  column_position: number | string;
+  items: CardData[];
+}
+
+ 
 export const useFetchProjectDetails = ({ boardId }: FetchBoardDataProps) => {
   const axiosInstance = useCustomAxios();
-  const [projectDetails, setProjectDetails] = useState([]);
-  const [sortedData, setSortedData] = useState([]);
+  const [projectDetails, setProjectDetails] = useState<ProjectData[]>([]);
+  const [sortedData, setSortedData] = useState<ProjectData[]>([]);
 
   const fetchProjectDetails = async (boardId: string) => {
     try {
@@ -23,7 +45,7 @@ export const useFetchProjectDetails = ({ boardId }: FetchBoardDataProps) => {
     }
   };
 
-
+console.log(projectDetails, "projectDetails")
   useEffect(() => {
    
 

@@ -5,18 +5,26 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-
+interface EditProjectFormProps {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  editProject: string;
+  setEditProject: (value: string) => void;
+  handleEditSubmit: () => void;
+}
 export default function EditProjectForm({
   setOpen,
   open,
   editProject,
   setEditProject,
   handleEditSubmit,
-}) {
+}: EditProjectFormProps) {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setEditProject(e.target.value);
   };
   return (

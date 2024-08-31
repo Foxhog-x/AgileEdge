@@ -1,11 +1,9 @@
-import Avatar from "@mui/material/Avatar";
 import NavButton from "../components/NavButton";
 import Header from "./Header";
 import { ProfileImage } from "../components/ProfileImage";
 import { ThemeProvider } from "@mui/material/styles";
 import {
   lightTheme,
-  darkTheme,
   cozyTheme,
   minimalTheme,
   modernTheme,
@@ -20,7 +18,7 @@ type props = {
   children: React.ReactNode;
 };
 function Layout({ children }: props) {
-  const { avatars } = useFetchAvatars();
+  const avatars = useFetchAvatars();
   return (
     <>
       <ThemeProvider theme={basicWhitetheme}>

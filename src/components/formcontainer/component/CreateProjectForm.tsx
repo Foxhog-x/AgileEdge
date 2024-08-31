@@ -10,13 +10,20 @@ import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { useProjectDialog } from "../../../store/useProjectDialog";
 import { useToastStore } from "../../../store/useToastStore";
 import { urls } from "../../../services/apiServices/urls/urls";
-export default function CreateProjectForm({ refresh, setRefresh }) {
+interface CreateProjectFormProps {
+  refresh: boolean;
+  setRefresh: (refresh: boolean) => void;
+}
+export default function CreateProjectForm({
+  refresh,
+  setRefresh,
+}: CreateProjectFormProps) {
   const axiosInstance = useCustomAxios();
   const { addToast } = useToastStore();
   const { projectDialog, closeProjectDialog } = useProjectDialog();
   const [createBoard, setCreateBoard] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (!createBoard.trim()) {
       addToast("Project name cannot be empty", "error");
       return;
@@ -32,7 +39,7 @@ export default function CreateProjectForm({ refresh, setRefresh }) {
       setRefresh(!refresh);
     } catch (error) {
       console.log(error);
-      addToast(error.message, "error");
+      addToast("error while creating project", "error");
     }
     setCreateBoard("");
     setDescription("");
@@ -47,38 +54,40 @@ export default function CreateProjectForm({ refresh, setRefresh }) {
         fullWidth={true}
       >
         <DialogTitle>Create Project</DialogTitle>
-        <DialogContent
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 1.5,
-            padding: 2,
-          }}
-        >
-          <TextField
-            autoFocus
-            required
-            fullWidth
-            sx={{ mt: 2 }}
-            name="createProject"
-            label={"Create Project"}
-            variant="outlined"
-            onChange={(e) => setCreateBoard(e.target.value)}
-          />
-          <TextareaAutosize
-            className="w-full text-sm font-normal font-sans leading-normal p-3 rounded-xl rounded-br-none shadow-lg shadow-slate-100 dark:shadow-slate-900 focus:shadow-outline-purple dark:focus:shadow-outline-purple focus:shadow-lg border border-solid border-slate-300 hover:border-purple-500 dark:hover:border-purple-500 focus:border-purple-500 dark:focus:border-purple-500 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-300 focus-visible:outline-0 box-border"
-            aria-label="empty textarea"
-            placeholder="Description.... Optional"
-            name="description"
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions sx={{ padding: 2 }}>
-          <Button onClick={closeProjectDialog}>Cancel</Button>
-          <Button variant="contained" type="submit" onClick={handleSubmit}>
-            Create
-          </Button>
-        </DialogActions>
+        <form onSubmit={handleSubmit}>
+          <DialogContent
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 1.5,
+              padding: 2,
+            }}
+          >
+            <TextField
+              autoFocus
+              required
+              fullWidth
+              sx={{ mt: 2 }}
+              name="createProject"
+              label={"Create Project"}
+              variant="outlined"
+              onChange={(e) => setCreateBoard(e.target.value)}
+            />
+            <TextareaAutosize
+              className="w-full text-sm font-normal font-sans leading-normal p-3 rounded-xl rounded-br-none shadow-lg shadow-slate-100 dark:shadow-slate-900 focus:shadow-outline-purple dark:focus:shadow-outline-purple focus:shadow-lg border border-solid border-slate-300 hover:border-purple-500 dark:hover:border-purple-500 focus:border-purple-500 dark:focus:border-purple-500 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-300 focus-visible:outline-0 box-border"
+              aria-label="empty textarea"
+              placeholder="Description.... Optional"
+              name="description"
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions sx={{ padding: 2 }}>
+            <Button onClick={closeProjectDialog}>Cancel</Button>
+            <Button variant="contained" type="submit">
+              Create
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </React.Fragment>
   );

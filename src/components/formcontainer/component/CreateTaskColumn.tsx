@@ -9,10 +9,17 @@ import useCustomAxios from "../../../services/apiServices/customAxios/customAxio
 import { useToastStore } from "../../../store/useToastStore";
 import { urls } from "../../../services/apiServices/urls/urls";
 import { useManageIdStore } from "../../../store/useManageIdStore";
-export default function CreateTaskColumn({ open, setOpen }) {
+interface CreateTaskColumnProps {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
+export default function CreateTaskColumn({
+  open,
+  setOpen,
+}: CreateTaskColumnProps) {
   const axiosInstance = useCustomAxios();
   const { addToast } = useToastStore();
-  const { boardId } = useManageIdStore();
+  const { board_Id } = useManageIdStore();
   const [createTaskColumn, setCreateTaskColumn] = React.useState("");
 
   const handleClose = () => {
@@ -20,14 +27,14 @@ export default function CreateTaskColumn({ open, setOpen }) {
     setCreateTaskColumn("");
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     if (!createTaskColumn.trim()) {
       addToast("Project name cannot be empty", "error");
       return;
     }
     e.preventDefault();
     const data = {
-      boardId: boardId,
+      boardId: board_Id,
       columnName: createTaskColumn,
     };
     try {
@@ -37,7 +44,7 @@ export default function CreateTaskColumn({ open, setOpen }) {
       setOpen(false);
     } catch (error) {
       console.log(error);
-      addToast(error.message, "error");
+      addToast(" error while creating column", "error");
       setCreateTaskColumn("");
       setOpen(false);
     }
@@ -47,30 +54,32 @@ export default function CreateTaskColumn({ open, setOpen }) {
     <React.Fragment>
       <Dialog open={open} onClose={handleClose} fullWidth={true}>
         <DialogTitle>Create Task Column</DialogTitle>
-        <DialogContent
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 1.5,
-            padding: 2,
-          }}
-        >
-          <TextField
-            required
-            fullWidth
-            sx={{ mt: 2 }}
-            name="createTaskColumn"
-            label={"Create Task Column"}
-            variant="outlined"
-            onChange={(e) => setCreateTaskColumn(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions sx={{ padding: 2 }}>
-          <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button variant="contained" type="submit" onClick={handleSubmit}>
-            Create
-          </Button>
-        </DialogActions>
+        <form onSubmit={handleSubmit}>
+          <DialogContent
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 1.5,
+              padding: 2,
+            }}
+          >
+            <TextField
+              required
+              fullWidth
+              sx={{ mt: 2 }}
+              name="createTaskColumn"
+              label={"Create Task Column"}
+              variant="outlined"
+              onChange={(e) => setCreateTaskColumn(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions sx={{ padding: 2 }}>
+            <Button onClick={() => setOpen(false)}>Cancel</Button>
+            <Button variant="contained" type="submit">
+              Create
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </React.Fragment>
   );

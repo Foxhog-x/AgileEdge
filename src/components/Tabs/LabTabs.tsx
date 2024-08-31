@@ -3,7 +3,6 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { useState } from "react";
-import CommentSection from "../comments/CommentSection";
 import Subtasks from "../subtask/Subtasks";
 import { AddCircleOutline } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
@@ -41,19 +40,25 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
+interface SubtaskProps {
+  card_id: number;
+  subtask_id: number;
+  checked: boolean;
+  description: string;
+}
 export default function LabTabs() {
   const axiosInstance = useCustomAxios();
-  const { refetchProgress, toggleRefetch } = useRefetchProgessStore();
+  const { toggleRefetch } = useRefetchProgessStore();
   const { addToast } = useToastStore();
   const location = useLocation();
   const cardId = location.pathname.replace("/card/", "").trim();
   const [value, setValue] = React.useState(0);
-  const [subTaskInput, setSubTaskInput] = useState("");
-  const [subTasksData, setSubTasksData] = React.useState([]);
+  const [subTaskInput, setSubTaskInput] = useState<String>("");
+  const [subTasksData, setSubTasksData] = React.useState<SubtaskProps[]>([]);
   const fetchSubTasks = async () => {
     try {
       const response = await axiosInstance.get(urls.getSubTasks);
+      console.log(response.data.result, "sub");
       setSubTasksData(response.data.result);
     } catch (error) {
       console.log(error);
@@ -67,7 +72,7 @@ export default function LabTabs() {
     setValue(newValue);
   };
 
-  const handleSubTasksCheckbox = async (id) => {
+  const handleSubTasksCheckbox = async (id: number) => {
     const copySubTasks = [...subTasksData];
     copySubTasks.map((subtask) => {
       if (subtask.subtask_id === id) {
@@ -82,11 +87,11 @@ export default function LabTabs() {
       toggleRefetch();
     } catch (error) {
       console.log(error);
-      addToast(error.message, "error");
+      addToast("error.message in subtask", "error");
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubTaskInput("");
     try {
@@ -103,7 +108,7 @@ export default function LabTabs() {
     }
   };
 
-  const handleSubTaskDelete = (subtask_id) => {
+  const handleSubTaskDelete = (subtask_id: number) => {
     const confirmation = confirm("Do you really want to delete this subtask");
     if (!confirmation) {
       return;
@@ -120,7 +125,7 @@ export default function LabTabs() {
       toggleRefetch();
     } catch (error) {
       console.log(error);
-      addToast(error.message, "success");
+      addToast("error occured while deleting", "error");
     }
   };
   return (
@@ -158,7 +163,7 @@ export default function LabTabs() {
                 name="description"
                 placeholder="type here ..."
                 className="w-full p-2 border rounded-lg"
-                value={subTaskInput}
+                value={subTaskInput as string}
                 onChange={(e) => setSubTaskInput(e.target.value)}
               />
               <Button type="submit">

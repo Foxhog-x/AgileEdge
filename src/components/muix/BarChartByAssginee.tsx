@@ -1,13 +1,20 @@
 import { BarChart } from "@mui/x-charts/BarChart";
 
-export const dataset = [
-  { member_name: "Onkar", task_count: 21 },
-  { member_name: "Swapanil", task_count: 13 },
-  { member_name: "mytask", task_count: 17 },
-  { member_name: "zero", task_count: 17 },
-];
+// export const dataset = [
+//   { member_name: "Onkar", task_count: 21 },
+//   { member_name: "Swapanil", task_count: 13 },
+//   { member_name: "mytask", task_count: 17 },
+//   { member_name: "zero", task_count: 17 },
+// ];
+// interface CountMember {
+//   member_name: string;
+//   task_count: number;
+// }
+// interface BarChartByAssgineeProps {
+//   taskCountByMember: CountMember[];
+// }
 
-export default function BarChartByAssginee({ taskCountByMember }) {
+export default function BarChartByAssginee({ taskCountByMember }: any) {
   const chartSetting = {
     width: 400,
     height: 300,

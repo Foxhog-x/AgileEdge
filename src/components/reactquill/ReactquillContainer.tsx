@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 export const ReactquillContainer = () => {
-  const quillRef = useRef(null);
+  const quillRef = useRef<null | any>(null);
   const [editorValue, setEditorValue] = useState("");
   useEffect(() => {
     const quill = quillRef.current.getEditor();
@@ -27,13 +27,15 @@ export const ReactquillContainer = () => {
     };
     const applyImageStyles = () => {
       const images = quill.container.getElementsByTagName("img");
-      Array.from(images).forEach((image: HTMLImageElement) => {
-        if (!image.style.maxWidth || image.style.maxWidth !== "800px") {
-          image.style.maxWidth = "480px";
-          image.style.width = "auto";
-          image.style.height = "auto";
+      Array.from(images as NodeListOf<HTMLImageElement>).forEach(
+        (image: HTMLImageElement) => {
+          if (!image.style.maxWidth || image.style.maxWidth !== "800px") {
+            image.style.maxWidth = "480px";
+            image.style.width = "auto";
+            image.style.height = "auto";
+          }
         }
-      });
+      );
     };
 
     quill.on("text-change", () => {
@@ -61,7 +63,7 @@ export const ReactquillContainer = () => {
     },
   };
 
-  const handleChange = (value) => {
+  const handleChange = (value: any) => {
     setEditorValue(value);
   };
   console.log(editorValue);

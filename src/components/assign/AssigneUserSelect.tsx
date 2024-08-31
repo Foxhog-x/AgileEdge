@@ -21,7 +21,7 @@ interface AssigneeUserSelectProps {
 const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
   assignee = [],
   setAssignee_id,
-}) => {
+}: AssigneeUserSelectProps) => {
   const [users, setUsers] = useState<User[]>([]);
   const location = useLocation();
   const [loading, setLoading] = useState<boolean>(true);

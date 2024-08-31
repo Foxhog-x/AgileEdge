@@ -1,6 +1,6 @@
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { CardOutline } from "../../components/card/CardOutline";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useFetchProjectDetails } from "../../hooks/projectCustomhook/useFetchProjectDetails";
 import { useManageIdStore } from "../../store/useManageIdStore";
 import { useEffect } from "react";
@@ -9,11 +9,21 @@ import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
 import { TaskFormDialog } from "../../components/formcontainer/component/TaskFormDialog";
 import useFetchTaskProgress from "../../hooks/projectCustomhook/useFetchTaskProgress";
+interface Avatar {
+  member_id: number;
+  avatar: string;
+  member_name?: string;
+}
 
-const Board = ({ avatars }) => {
+interface HeaderProps {
+  avatars?: Avatar[];
+}
+
+const Board = ({ avatars = [] }: HeaderProps) => {
   const axiosInstance = useCustomAxios();
   const { addToast } = useToastStore();
-  const { boardId } = useParams<{ boardId: string }>();
+  const { boardId } = useParams<{ boardId: string | undefined }>();
+
   const { saveBoardId } = useManageIdStore();
   const { sortedData, setSortedData, fetchProjectDetails } =
     useFetchProjectDetails({
@@ -22,13 +32,14 @@ const Board = ({ avatars }) => {
 
   const { progress } = useFetchTaskProgress();
 
-  const location = useLocation();
-
   useEffect(() => {
     saveBoardId(boardId);
   }, [boardId]);
 
-  const updateDatabase = async (sourceIndex, destinatinationIndex) => {
+  const updateDatabase = async (
+    sourceIndex: any,
+    destinatinationIndex: any
+  ) => {
     const sourceColumn_Id = sortedData[sourceIndex]?.column_id;
     const destinationColumn_Id = sortedData[destinatinationIndex]?.column_id;
 
@@ -43,11 +54,15 @@ const Board = ({ avatars }) => {
       addToast("Updated Successfully", "success");
     } catch (error) {
       console.log(error);
-      addToast(error.message, "error");
+      addToast("error occured in fetching", "error");
     }
   };
 
-  const internalCardUpdate = (columnId, sourcecard_Id, destinationCard_Id) => {
+  const internalCardUpdate = (
+    columnId: String,
+    sourcecard_Id: String,
+    destinationCard_Id: String
+  ) => {
     try {
       axiosInstance.post(urls.moveCardInternal, {
         columnId,
@@ -57,14 +72,14 @@ const Board = ({ avatars }) => {
       addToast("Card moved", "success");
     } catch (error) {
       console.log(error);
-      addToast(error.message, "error");
+      addToast("Error while dragging", "error");
     }
   };
 
   const externalCardUpdate = (
-    sourceCardId,
-    destinationCardId,
-    destinationColumn_Id
+    sourceCardId: String,
+    destinationCardId: String | null,
+    destinationColumn_Id: String
   ) => {
     try {
       axiosInstance.post(urls.moveCardExternal, {
@@ -79,7 +94,7 @@ const Board = ({ avatars }) => {
     }
   };
 
-  const handleDragDrop = (results) => {
+  const handleDragDrop = (results: any) => {
     const { source, destination, type } = results;
 
     if (!destination) return;

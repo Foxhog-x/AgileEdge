@@ -26,6 +26,7 @@ export const CardOutline = ({
 }) => {
   const { openTaskDialog } = useTaskFormStore();
   const card = (item) => {
+    const [header, content] = item.name.split(":").map((part) => part.trim());
     return (
       <>
         <CardContent>
@@ -61,13 +62,16 @@ export const CardOutline = ({
             />
           </Typography>
           <Typography
-            variant="h5"
             component="div"
+            className="text-3xl"
             sx={{
               mb: 1.5,
-              whiteSpace: "nowrap",
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              WebkitLineClamp: 2,
+              fontSize: 18,
             }}
           >
             {item.name}

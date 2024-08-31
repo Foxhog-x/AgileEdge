@@ -10,7 +10,17 @@ import Badge from "@mui/material/Badge";
 import CreateTaskColumn from "../components/formcontainer/component/CreateTaskColumn";
 import AddIcon from "@mui/icons-material/Add";
 const baseDomain = import.meta.env.VITE_BASE_URL;
-export default function Header({ avatars }) {
+interface Avatar {
+  member_id: Number;
+  avatar: String;
+  member_name: String;
+}
+
+interface HeaderProps {
+  avatars: Avatar[];
+}
+
+export default function Header({ avatars }: HeaderProps) {
   const [showAll, setShowAll] = useState(false);
 
   const [open, setOpen] = useState(false);
@@ -76,7 +86,7 @@ export default function Header({ avatars }) {
       </div>
       <div className="flex gap-8">
         <div className="flex items-center gap-1 flex-row-reverse">
-          {visibleUsers.map((user, index) => {
+          {visibleUsers.map((user) => {
             return avatars.map((userAvatar) => {
               if (userAvatar.member_id === user.member_id) {
                 return (

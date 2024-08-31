@@ -1,7 +1,5 @@
-import { Button, Switch } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
+import { Button } from "@mui/material";
 import ProjectsNavLinks from "./ProjectsNavLinks";
-import TeamsNavLinks from "./TeamsNavLinks";
 import { Link, useLocation } from "react-router-dom";
 import { useManageIdStore } from "../store/useManageIdStore";
 import ScheduleIcon from "@mui/icons-material/Schedule";

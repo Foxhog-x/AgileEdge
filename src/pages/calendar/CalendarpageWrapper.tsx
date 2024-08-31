@@ -3,9 +3,33 @@ import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import Calendar from "./Calenderpage";
 import { holidays } from "./event-utils";
+import { useManageIdStore } from "../../store/useManageIdStore";
+import {
+  EventApi,
+  DateSelectArg,
+  EventClickArg,
+  EventContentArg,
+} from "@fullcalendar/core";
+
+interface EventData {
+  id: string;
+  title: string;
+  start: string;
+  end?: string;
+  color?: string;
+}
+
 export default function CalendarpageWrapper() {
-  const [myEventsList, setMyEventList] = useState([...holidays]);
+  const initializedHolidays: EventData[] = holidays.map((event, index) => ({
+    ...event,
+    id: `holiday-${index}`,
+  }));
+
+  const [myEventsList, setMyEventList] = useState<EventData[]>([
+    ...initializedHolidays,
+  ]);
   const axiosInstance = useCustomAxios();
+  const { removeBoardId } = useManageIdStore();
 
   useEffect(() => {
     const getCalEvents = async () => {
@@ -20,31 +44,33 @@ export default function CalendarpageWrapper() {
     };
 
     getCalEvents();
-  }, []);
+    removeBoardId("");
+  }, [axiosInstance, removeBoardId]);
 
-  const callDatabase = async (info) => {
+  const callDatabase = async (info: any) => {
     try {
       await axiosInstance.post(urls.saveEvent, info);
     } catch (error) {
       console.log(error);
     }
   };
-  const deleteEventCall = async (id) => {
+
+  const deleteEventCall = async (id: String | Number) => {
     try {
       const response = await axiosInstance.delete(urls.deleteEvent, {
-        data: { id: id },
+        data: { id },
       });
       console.log(response);
     } catch (error) {
-      console.log("error occured", error);
+      console.log("error occurred", error);
     }
   };
+
   return (
     <Calendar
       callDatabase={callDatabase}
       deleteEventCall={deleteEventCall}
       myEventsList={myEventsList}
-      initialEventsList={holidays}
     />
   );
 }

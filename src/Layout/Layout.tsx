@@ -23,25 +23,25 @@ function Layout({ children }: props) {
   const { avatars } = useFetchAvatars();
   return (
     <>
-      <ThemeProvider theme={modernTheme}>
+      <ThemeProvider theme={basicWhitetheme}>
         <Paper>
-          <div className="flex min-h-full  shadow-md ">
-            <div
+          <Box className="flex min-h-full overflow-hidden  shadow-md ">
+            <Box
               className="hidden sm:flex flex-col min-h-screen max-w-72"
               // style={{ backgroundColor: "#1E1E1E" }}
             >
               <ProfileImage />
               <NavButton />
-            </div>
-            <div className="flex-1 overflow-hidden">
+            </Box>
+            <Box className="flex-1 overflow-hidden">
               <Header avatars={avatars} />
-              <div className="h-screen overflow-x-auto">
+              <Box className="h-screen overflow-x-auto">
                 {React.Children.map(children as ReactElement, (child) =>
                   React.cloneElement(child, { avatars })
                 )}
-              </div>
-            </div>
-          </div>
+              </Box>
+            </Box>
+          </Box>
         </Paper>
       </ThemeProvider>
     </>

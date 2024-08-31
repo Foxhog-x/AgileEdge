@@ -15,14 +15,14 @@ interface AssigneeUserSelectProps {
 }
 
 const AssigneeUserNotSelect: React.FC<AssigneeUserSelectProps> = ({
-  selectedAssignee,
   setAssignee_id,
 }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const parsedData = JSON.parse(localStorage.getItem("userData"));
+    const userData = localStorage.getItem("userData");
+    const parsedData = userData ? JSON.parse(userData) : [];
     const users = Array.isArray(parsedData) ? parsedData : [parsedData];
     setTimeout(() => {
       setUsers(users);

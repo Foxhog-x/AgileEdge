@@ -1,24 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { formatDate } from "@fullcalendar/core";
+import { EventApi, formatDate } from "@fullcalendar/core";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { createEventId, holidays } from "./event-utils";
+import {
+  DateSelectArg,
+  EventClickArg,
+  EventContentArg,
+} from "@fullcalendar/core";
+import { EventInput } from "@fullcalendar/core";
+interface EventData {
+  id: string | number | undefined;
+  title: string | undefined;
+  start: string | undefined;
+  end?: string | undefined;
+  color?: string | undefined;
+}
+interface MyEvent {
+  title: String | null;
+  start: String | null;
+  end: String | null;
+  color?: String;
+}
+
+interface SidebarEventProps {
+  event: EventData;
+}
+interface CalendarProps {
+  myEventsList: EventInput[];
+  callDatabase: (evenObj: MyEvent | null) => void;
+  deleteEventCall: (id: Number | String) => void;
+}
+
 export default function Calendar({
   callDatabase,
   deleteEventCall,
-  initialEventsList,
   myEventsList,
-}) {
+}: CalendarProps) {
   const [weekendsVisible, setWeekendsVisible] = useState(true);
-  const [currentEvents, setCurrentEvents] = useState([]);
 
   function handleWeekendsToggle() {
     setWeekendsVisible(!weekendsVisible);
   }
 
-  function handleDateSelect(selectInfo) {
+  function handleDateSelect(selectInfo: DateSelectArg) {
     let title = prompt("Please enter a new title for your event");
 
     let calendarApi = selectInfo.view.calendar;
@@ -42,7 +69,7 @@ export default function Calendar({
     }
   }
 
-  function handleEventClick(clickInfo) {
+  function handleEventClick(clickInfo: EventClickArg) {
     const id = clickInfo.event._def.publicId;
 
     if (
@@ -53,10 +80,6 @@ export default function Calendar({
       deleteEventCall(id);
       clickInfo.event.remove();
     }
-  }
-
-  function handleEvents(events) {
-    setCurrentEvents(events);
   }
 
   return (
@@ -85,16 +108,13 @@ export default function Calendar({
           select={handleDateSelect}
           eventContent={renderEventContent}
           eventClick={handleEventClick}
-          eventsSet={handleEvents}
         />
       </div>
     </div>
   );
 }
 
-function renderEventContent(eventInfo) {
-  const { event } = eventInfo;
-
+function renderEventContent(eventInfo: EventContentArg) {
   return (
     <div>
       <b>{eventInfo.timeText}</b>
@@ -111,16 +131,21 @@ function Sidebar() {
   );
 }
 
-function SidebarEvent({ event }) {
+function SidebarEvent({ event }: SidebarEventProps) {
+  const formattedDate = event.start
+    ? formatDate(event.start, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      })
+    : "No Date";
+
   return (
-    <li key={event.id} style={{ backgroundColor: event.color }}>
-      <b>
-        {formatDate(event.start, {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        })}
-      </b>
+    <li
+      key={event.id}
+      style={{ backgroundColor: event.color || "transparent" }}
+    >
+      <b>{formattedDate}</b>
       <i>{event.title}</i>
     </li>
   );

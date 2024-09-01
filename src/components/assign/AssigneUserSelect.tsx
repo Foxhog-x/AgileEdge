@@ -38,7 +38,7 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
   if (loading) {
     return <p>Loading...</p>;
   }
-  const removeAssigneFromdb = async (assigneeObj, cardId) => {
+  const removeAssigneFromdb = async (assigneeObj: any, cardId: any) => {
     try {
       await axiosInstance.delete(urls.removeAssignee, {
         data: { assigneeObj, cardId },
@@ -46,10 +46,10 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
       addToast("deallocate", "success");
     } catch (error) {
       console.log(error);
-      addToast(error.message, "error");
+      addToast("error occured", "error");
     }
   };
-  const addAssigneToDb = async (assigneeObj, cardId) => {
+  const addAssigneToDb = async (assigneeObj: any, cardId: any) => {
     try {
       await axiosInstance.post(urls.addAssignees, {
         data: { assigneeObj, cardId },
@@ -57,10 +57,15 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
       addToast("Assign", "success");
     } catch (error) {
       console.log(error);
-      addToast(error.message, "error");
+      addToast("error occured whiile assign", "error");
     }
   };
-  const handleChange = (event, newValue: User[], reason: string) => {
+  const handleChange = (
+    event: React.SyntheticEvent,
+    newValue: User[],
+    reason: string
+  ) => {
+    event.preventDefault();
     const path = location.pathname;
     const match = path.match(/(\d+)$/);
     const cardId = match ? parseInt(match[0], 10) : null;

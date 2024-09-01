@@ -3,25 +3,32 @@ import Header from "./Header";
 import { ProfileImage } from "../components/ProfileImage";
 import { ThemeProvider } from "@mui/material/styles";
 import {
-  lightTheme,
-  cozyTheme,
-  minimalTheme,
-  modernTheme,
+  // cozyTheme,
+  // minimalTheme,
+  // modernTheme,
   basicWhitetheme,
-  transperentTheme,
+  // transperentTheme,
 } from "../themes/muiTheme";
 import { Box, Paper } from "@mui/material";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import useFetchAvatars from "../hooks/projectCustomhook/useFetchAvatars";
+import { useLocation } from "react-router-dom";
 
 type props = {
   children: React.ReactNode;
-  show?: boolean | undefined;
 };
-function Layout({ children, show }: props) {
-  console.log(show, "show");
+function Layout({ children }: props) {
   const avatars = useFetchAvatars();
+  const [show, setShow] = useState<boolean>(false);
+  const location = useLocation();
 
+  useEffect(() => {
+    if (location.pathname === "/mytasks") {
+      setShow(true);
+    } else {
+      setShow(false);
+    }
+  }, [location]);
   return (
     <>
       <ThemeProvider theme={basicWhitetheme}>
@@ -36,11 +43,13 @@ function Layout({ children, show }: props) {
             </Box>
             <Box className="flex-1 overflow-hidden">
               <Header avatars={avatars} />
-              <Box className="h-screen overflow-x-auto">
-                {React.Children.map(children as ReactElement, (child) =>
-                  React.cloneElement(child, { avatars })
-                )}
-              </Box>
+              {show && (
+                <Box className="h-screen overflow-x-auto">
+                  {React.Children.map(children as ReactElement, (child) =>
+                    React.cloneElement(child, { avatars })
+                  )}
+                </Box>
+              )}
             </Box>
           </Box>
         </Paper>

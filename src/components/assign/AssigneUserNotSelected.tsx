@@ -15,7 +15,6 @@ interface AssigneeUserSelectProps {
 }
 
 const AssigneeUserNotSelect: React.FC<AssigneeUserSelectProps> = ({
-  selectedAssignee,
   setAssignee_id,
 }) => {
   const [users, setUsers] = useState<User[]>([]);

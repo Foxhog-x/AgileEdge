@@ -19,15 +19,18 @@ import {
 import { useToastStore } from "../../store/useToastStore";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
+import useBackdropStore from "../../store/useBackdropStore";
 export default function Loginpage() {
   const navigate = useNavigate();
   const { addToast } = useToastStore();
+  const { showBackdrop, hideBackdrop } = useBackdropStore();
   const { register, handleSubmit, reset } = useForm<UserFormData>({
     resolver: zodResolver(formSchema),
   });
   const axiosInstance = useCustomAxios();
   const onsubmit: SubmitHandler<UserFormData> = async (data: UserFormData) => {
     try {
+      showBackdrop();
       const response = await axiosInstance.post(urls.memberLogin, data);
       addToast(response.data.message, "success");
       const { token } = response.data;
@@ -37,7 +40,9 @@ export default function Loginpage() {
         const userData = response.data.result[0];
         addUsersDataLocally(userData);
         navigate("/");
+        hideBackdrop();
       } catch (error) {
+        hideBackdrop();
         console.log(error, "error while storing token in localstorage");
       }
     } catch (error) {

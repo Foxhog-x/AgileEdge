@@ -3,6 +3,7 @@ import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { transFormData } from "../../utils/transFormData";
 import { useManageIdStore } from "../../store/useManageIdStore";
+import useBackdropStore from "../../store/useBackdropStore";
 interface FetchBoardDataProps {
   boardId: string | undefined;
   show:boolean | undefined
@@ -34,16 +35,19 @@ export const useFetchProjectDetails = ({ boardId ,show}: FetchBoardDataProps) =>
   const axiosInstance = useCustomAxios();
   const [projectDetails, setProjectDetails] = useState<ProjectData[]>([]);
   const [sortedData, setSortedData] = useState<ProjectData[]>([]);
-  const [myProjectData, setMyProjectData] = useState<ProjectData[]>([])
+  // const [myProjectData, setMyProjectData] = useState<ProjectData[]>([])
+  const { showBackdrop, hideBackdrop } = useBackdropStore();
 const {member_Id} = useManageIdStore()
   const fetchProjectDetails = async (boardId: string) => {
     try {
+      showBackdrop()
       const response = await axiosInstance.post(urls.fetchAllContents, {
         boardId,
       });
-      console.log();
+      hideBackdrop()
       setProjectDetails(response.data.result);
     } catch (error) {
+      hideBackdrop()
       console.error("Error fetching project details:", error);
     }
   };

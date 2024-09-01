@@ -20,7 +20,6 @@ import { useParams } from "react-router-dom";
 import { urls } from "../../../services/apiServices/urls/urls";
 import AssigneeUserNotSelect from "../../assign/AssigneUserNotSelected";
 import useBackdropStore from "../../../store/useBackdropStore";
-import SimpleBackdrop from "../../backdrop";
 interface TaskFormDialogProps {
   fetchProjectDetails: (boardId: string) => void;
 }

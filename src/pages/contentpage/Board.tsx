@@ -30,7 +30,7 @@ const Board = ({ avatars = [], show }: HeaderProps) => {
       boardId,
       show,
     });
-  console.log(sortedData, "sorted");
+
   const { progress } = useFetchTaskProgress();
 
   useEffect(() => {

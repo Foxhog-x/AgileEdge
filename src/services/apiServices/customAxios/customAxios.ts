@@ -7,12 +7,10 @@ import axios, {
 } from "axios";
 import { getTokenData, removeTokenData } from "../../localStorage/authUtil";
 import { urls } from "../urls/urls";
-import useBackdropStore from "../../../store/useBackdropStore";
 
 const useCustomAxios = (contentType = "application/json") => {
   const userToken = getTokenData();
   const customAxiosRef = useRef<AxiosInstance | null>(null);
-  const { showBackdrop, hideBackdrop } = useBackdropStore();
   if (!customAxiosRef.current) {
     customAxiosRef.current = axios.create({
       baseURL: urls.baseUrl,

@@ -1,5 +1,3 @@
-import { Category } from "@mui/icons-material";
-import React from "react";
 const tasks = {
   "Front-end development": [
     {

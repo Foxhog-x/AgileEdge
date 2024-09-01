@@ -1,11 +1,9 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { AppRouter } from "./routes/appRouter/AppRouter.tsx";
 import { BrowserRouter } from "react-router-dom";
 import SimpleBackdrop from "../src/components/backdrop";
 import { SimpleSnackbar } from "./components/toast/SimpleSnackbar.tsx";
-import { TaskFormDialog } from "./components/formcontainer/component/TaskFormDialog.tsx";
 import FormContainer from "./components/formcontainer/FormContainer.tsx";
 <link href="./output.css" rel="stylesheet"></link>;
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -14,5 +12,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <SimpleSnackbar />
     <FormContainer />
     <AppRouter />
-  </BrowserRouter>,
+  </BrowserRouter>
 );

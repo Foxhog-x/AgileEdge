@@ -8,7 +8,7 @@ type onlineObj = {
 
 interface onlineStore {
   onlineUser: onlineObj[];
-  addOnline: (onlineObj) => void;
+  addOnline: (onlineObj: any) => void;
   removeOffline: (id: number) => void;
 }
 

@@ -20,7 +20,6 @@ interface HeaderProps {
 }
 
 export default function Header({ avatars }: HeaderProps) {
-  console.log(avatars, "avatars");
   const [showAll, setShowAll] = useState(false);
 
   const [open, setOpen] = useState(false);

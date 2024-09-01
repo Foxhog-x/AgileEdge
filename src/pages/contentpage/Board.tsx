@@ -25,14 +25,13 @@ const Board = ({ avatars = [], show }: HeaderProps) => {
   const axiosInstance = useCustomAxios();
   const { addToast } = useToastStore();
   const { boardId } = useParams<{ boardId: string | undefined }>();
-
   const { saveBoardId } = useManageIdStore();
   const { sortedData, setSortedData, fetchProjectDetails } =
     useFetchProjectDetails({
       boardId,
       show,
     });
-
+  console.log(sortedData, "sorted");
   const { progress } = useFetchTaskProgress();
 
   useEffect(() => {

@@ -39,7 +39,7 @@ export const AppRouter = () => {
           path="/card/:cardId"
           element={
             <Layout>
-              <Board show />
+              <Board />
               <DrawerRight>
                 <ReactquillContainer />
               </DrawerRight>
@@ -66,7 +66,7 @@ export const AppRouter = () => {
         <Route
           path="/mytasks"
           element={
-            <Layout>
+            <Layout show>
               <Board show />
             </Layout>
           }

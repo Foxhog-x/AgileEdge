@@ -11,14 +11,16 @@ import {
   transperentTheme,
 } from "../themes/muiTheme";
 import { Box, Paper } from "@mui/material";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import useFetchAvatars from "../hooks/projectCustomhook/useFetchAvatars";
 
 type props = {
   children: React.ReactNode;
+  show?: boolean | undefined;
 };
-function Layout({ children }: props) {
+function Layout({ children, show }: props) {
   const avatars = useFetchAvatars();
+
   return (
     <>
       <ThemeProvider theme={basicWhitetheme}>

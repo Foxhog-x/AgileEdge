@@ -18,7 +18,7 @@ const useFetchProjects = () => {
     };
     getProjects();
   }, [refresh]);
-console.log(projects,'xxx')
+
   return { projects,setProjects, refresh, setRefresh };
 };
 

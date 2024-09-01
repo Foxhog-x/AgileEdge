@@ -50,8 +50,7 @@ const {member_Id} = useManageIdStore()
 
 console.log(projectDetails, "projectDetails")
   useEffect(() => {
-   
-
+  console.log("first")
     if (boardId) {
         fetchProjectDetails(boardId);  
     }
@@ -59,6 +58,7 @@ console.log(projectDetails, "projectDetails")
   }, [boardId, axiosInstance]);
 
   useEffect(() => {
+    console.log("second")
     const updateSortedData = async () => {
       if (projectDetails.length > 0) {
         const transformedData = await transFormData(projectDetails);

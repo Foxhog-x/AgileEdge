@@ -21,6 +21,8 @@ export const urls = {
   moveCardInternal: `${baseDomain}/cards/move-internal`,
   moveCardExternal: `${baseDomain}/cards/move-external`,
   deleteCard: `${baseDomain}/cards/delete`,
+  quillCardSave:`${baseDomain}/cards/quill/description`,
+  getQuillData:`${baseDomain}/cards/quill/get-description`,
   addSubTask: `${baseDomain}/sub-tasks/create`,
   getSubTasks: `${baseDomain}/sub-tasks/get`,
   deleteSubTask: `${baseDomain}/sub-tasks/delete`,

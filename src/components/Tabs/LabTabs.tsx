@@ -12,6 +12,7 @@ import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
 import useRefetchProgessStore from "../../store/useRefectchProgressStore";
+import Summary from "../subtask/Summary";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -136,11 +137,14 @@ export default function LabTabs() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Subtasks" {...a11yProps(0)} />
-          {/* <Tab label="Comments" {...a11yProps(1)} /> */}
+          <Tab label="Task Summary" {...a11yProps(0)} />
+          <Tab label="Subtasks" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
+        <Summary />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
         <div className="flex flex-col justify-between shadow-md min-h-72 p-2">
           <div className="rounded-md p-2 mt-2 ">
             {subTasksData &&
@@ -174,10 +178,8 @@ export default function LabTabs() {
             </form>
           </div>
         </div>
+        {/* <CommentSection value={value} /> */}
       </CustomTabPanel>
-      {/* <CustomTabPanel value={value} index={1}>
-        <CommentSection value={value} />
-      </CustomTabPanel> */}
     </Box>
   );
 }

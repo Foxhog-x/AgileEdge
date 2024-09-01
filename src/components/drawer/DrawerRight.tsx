@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import ListItem from "@mui/material/ListItem";
-import { Chip, Typography } from "@mui/material";
+import { Button, Chip, Typography } from "@mui/material";
 import AdjustOutlinedIcon from "@mui/icons-material/AdjustOutlined";
 import EventOutlinedIcon from "@mui/icons-material/EventOutlined";
 import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
@@ -15,6 +15,8 @@ import { formattedDate } from "../../utils/formatDate";
 import AssigneeUserNotSelect from "../assign/AssigneUserNotSelected";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
+import { ReactquillContainer } from "../reactquill/ReactquillContainer";
+import { getLocationUrl } from "../../utils/getUrlLocation";
 
 // Define types for props
 type Anchor = "top" | "left" | "bottom" | "right";
@@ -24,31 +26,45 @@ interface User {
   member_name: string;
 }
 
-interface ItemData {
-  assignees: User[];
-  priority: "High" | "Medium" | "Low";
-  end_date?: string; // assuming date is in string format
-}
-
-interface DrawerRightProps {
-  children: React.ReactNode;
-}
-
-export default function DrawerRight({ children }: DrawerRightProps) {
+export default function DrawerRight() {
   const navigate = useNavigate();
   const location = useLocation();
   const [assignee, setAssignee] = React.useState<User[]>([]);
   const [notSelectedAssigne, setNotSelectedAssigne] = React.useState<User[]>(
     []
   );
+  const [hasChanges, setHasChanges] = React.useState(false); // Track changes
   const { itemData } = location.state || {};
-  const [reactQuillEdit, setReactQuillEdit] = React.useState<string>("");
+  const [reactQuillEdit, setReactQuillEdit] = React.useState<
+    string | undefined
+  >(undefined); // Initialize as undefined
+
+  const [newQuillValues, setNewQuillValues] = React.useState<string>("");
   const axiosInstance = useCustomAxios();
+  // Track changes
+
   const [state, setState] = React.useState({ right: true });
-  console.log(assignee, "assignee");
+  React.useEffect(() => {
+    const getQuillData = async (cardId: any) => {
+      try {
+        const response = await axiosInstance.post(urls.getQuillData, {
+          cardId,
+        });
+        const data = response.data.result;
+        if (data.length > 0) {
+          setReactQuillEdit(data[0].htmlContent);
+        } else {
+          setReactQuillEdit("");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getQuillData(getLocationUrl(location.pathname));
+  }, [axiosInstance]);
   React.useEffect(() => {
     if (itemData.assignees) {
-      console.log("setting");
       setAssignee(itemData.assignees);
     }
   }, [itemData.assignees]);
@@ -65,7 +81,15 @@ export default function DrawerRight({ children }: DrawerRightProps) {
       console.log(error);
     }
   };
-
+  const descriptionSavedTodb = async (cardId: any) => {
+    console.log(reactQuillEdit, "reactquilledit");
+    try {
+      await axiosInstance.post(urls.quillCardSave, { cardId, newQuillValues });
+      setNewQuillValues("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -76,10 +100,13 @@ export default function DrawerRight({ children }: DrawerRightProps) {
       ) {
         return;
       }
-      const path = location.pathname;
-      const match = path.match(/(\d+)$/);
-      const cardId = match ? parseInt(match[0], 10) : null;
-      assigneeSavedTodb(notSelectedAssigne, cardId);
+
+      assigneeSavedTodb(notSelectedAssigne, getLocationUrl(location.pathname));
+
+      if (hasChanges) {
+        descriptionSavedTodb(getLocationUrl(location.pathname));
+      }
+
       setState({ ...state, [anchor]: open });
       navigate(-1);
     };
@@ -183,7 +210,20 @@ export default function DrawerRight({ children }: DrawerRightProps) {
           </Box>
         </div>
       </div>
-      {children}
+      {reactQuillEdit !== undefined ? (
+        <ReactquillContainer
+          hasChanges={hasChanges}
+          setHasChanges={setHasChanges}
+          reactQuillEdit={reactQuillEdit}
+          setReactQuillEdit={setReactQuillEdit}
+          setNewQuillValues={setNewQuillValues}
+        />
+      ) : (
+        <p>Loading...</p>
+      )}
+      <div className="flex justify-end p-2 mr-2">
+        <Button>Create Task Summary</Button>
+      </div>
       <LabTabs />
     </Box>
   );

@@ -3,7 +3,6 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 import Board from "../../pages/contentpage";
 import DrawerRight from "../../components/drawer/DrawerRight";
-import { ReactquillContainer } from "../../components/reactquill/ReactquillContainer";
 import CalendarpageWrapper from "../../pages/calendar/CalendarpageWrapper";
 import Protected from "../../pages/protectedpage/Protected";
 import Loginpage from "../../pages/Loginpage";
@@ -40,9 +39,7 @@ export const AppRouter = () => {
           element={
             <Layout>
               <Board />
-              <DrawerRight>
-                <ReactquillContainer />
-              </DrawerRight>
+              <DrawerRight />
             </Layout>
           }
         />

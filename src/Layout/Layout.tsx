@@ -19,6 +19,7 @@ type props = {
   show?: boolean | undefined;
 };
 function Layout({ children, show }: props) {
+  console.log(show, "show");
   const avatars = useFetchAvatars();
 
   return (

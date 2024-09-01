@@ -9,7 +9,6 @@ import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
 import { TaskFormDialog } from "../../components/formcontainer/component/TaskFormDialog";
 import useFetchTaskProgress from "../../hooks/projectCustomhook/useFetchTaskProgress";
-import { boolean } from "zod";
 interface Avatar {
   member_id: number;
   avatar: string;

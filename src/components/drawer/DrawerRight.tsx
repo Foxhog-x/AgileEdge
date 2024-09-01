@@ -17,6 +17,7 @@ import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { ReactquillContainer } from "../reactquill/ReactquillContainer";
 import { getLocationUrl } from "../../utils/getUrlLocation";
+import { useToastStore } from "../../store/useToastStore";
 
 // Define types for props
 type Anchor = "top" | "left" | "bottom" | "right";
@@ -38,7 +39,7 @@ export default function DrawerRight() {
   const [reactQuillEdit, setReactQuillEdit] = React.useState<
     string | undefined
   >(undefined); // Initialize as undefined
-
+  const { addToast } = useToastStore();
   const [newQuillValues, setNewQuillValues] = React.useState<string>("");
   const axiosInstance = useCustomAxios();
   // Track changes
@@ -77,8 +78,10 @@ export default function DrawerRight() {
     try {
       axiosInstance.post(urls.addAssignees, { data: { assigneeObj, cardId } });
       setNotSelectedAssigne([]);
+      addToast("saved", "success");
     } catch (error) {
       console.log(error);
+      addToast("Error", "error");
     }
   };
   const descriptionSavedTodb = async (cardId: any) => {
@@ -86,8 +89,10 @@ export default function DrawerRight() {
     try {
       await axiosInstance.post(urls.quillCardSave, { cardId, newQuillValues });
       setNewQuillValues("");
+      addToast("updated", "success");
     } catch (error) {
       console.log(error);
+      addToast("error", "error");
     }
   };
   const toggleDrawer =

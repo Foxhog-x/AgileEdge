@@ -43,13 +43,13 @@ function Layout({ children }: props) {
             </Box>
             <Box className="flex-1 overflow-hidden">
               <Header avatars={avatars} />
-              {show && (
+               
                 <Box className="h-screen overflow-x-auto">
                   {React.Children.map(children as ReactElement, (child) =>
-                    React.cloneElement(child, { avatars })
+                    React.cloneElement(child, { avatars,show })
                   )}
                 </Box>
-              )}
+              
             </Box>
           </Box>
         </Paper>

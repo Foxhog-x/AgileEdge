@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { Chip } from "@mui/material";
+import { Box, Chip, CircularProgress } from "@mui/material";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { useLocation } from "react-router-dom";
@@ -36,7 +36,16 @@ const AssigneeUserSelect: React.FC<AssigneeUserSelectProps> = ({
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (<Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+          // Light background color
+      }}
+    >
+      <CircularProgress size={20} />
+    </Box>);
   }
   const removeAssigneFromdb = async (assigneeObj: any, cardId: any) => {
     try {

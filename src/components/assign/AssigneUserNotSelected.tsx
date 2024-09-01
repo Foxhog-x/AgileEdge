@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { Chip } from "@mui/material";
-
+import { Box, Chip } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
 interface User {
   member_id: number;
   member_name: string;
@@ -31,7 +31,16 @@ const AssigneeUserNotSelect: React.FC<AssigneeUserSelectProps> = ({
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (<Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#f5f5f5'  // Light background color
+    }}
+  >
+    <CircularProgress />
+  </Box>)
   }
 
   return (

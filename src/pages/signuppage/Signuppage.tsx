@@ -7,6 +7,7 @@ import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
 import { useNavigate } from "react-router-dom";
 import styles from "./Signuppage.module.css";
+import useBackdropStore from "../../store/useBackdropStore";
 
 const formSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
@@ -21,6 +22,7 @@ type UserFormData = z.infer<typeof formSchema>;
 export default function Signuppage() {
   const navigate = useNavigate();
   const { addToast } = useToastStore();
+  const { showBackdrop, hideBackdrop } = useBackdropStore();
   const {
     register,
     handleSubmit,
@@ -32,12 +34,15 @@ export default function Signuppage() {
   const axiosInstance = useCustomAxios();
 
   const onsubmit: SubmitHandler<UserFormData> = async (data: UserFormData) => {
+    showBackdrop();
     try {
       const response = await axiosInstance.post(urls.createMember, data);
       addToast(response.data.message, "success");
       navigate("/login");
       reset();
+      hideBackdrop();
     } catch (error) {
+      hideBackdrop();
       console.log(error, "Error while storing token in local storage");
     }
   };

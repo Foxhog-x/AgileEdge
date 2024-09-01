@@ -46,6 +46,7 @@ export default function Loginpage() {
         console.log(error, "error while storing token in localstorage");
       }
     } catch (error) {
+      hideBackdrop();
       if (error instanceof AxiosError) {
         const errorMessage =
           error.response?.data?.message || "An unexpected error occurred";

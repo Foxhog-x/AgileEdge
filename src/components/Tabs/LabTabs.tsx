@@ -137,14 +137,14 @@ export default function LabTabs() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Task Summary" {...a11yProps(0)} />
-          <Tab label="Subtasks" {...a11yProps(1)} />
+          {/* <Tab label="Task Summary" {...a11yProps(0)} /> */}
+          <Tab label="Subtasks" {...a11yProps(0)} />
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
+      {/* <CustomTabPanel value={value} index={0}>
         <Summary />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
+      </CustomTabPanel> */}
+      <CustomTabPanel value={value} index={0}>
         <div className="flex flex-col justify-between shadow-md min-h-72 p-2">
           <div className="rounded-md p-2 mt-2 ">
             {subTasksData &&

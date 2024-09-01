@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import ListItem from "@mui/material/ListItem";
-import { Button, Chip, Typography } from "@mui/material";
+import { Button, Chip, CircularProgress, Typography } from "@mui/material";
 import AdjustOutlinedIcon from "@mui/icons-material/AdjustOutlined";
 import EventOutlinedIcon from "@mui/icons-material/EventOutlined";
 import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
@@ -143,10 +143,10 @@ export default function DrawerRight() {
                     itemData?.priority && itemData.priority === "High"
                       ? "#EF9A9A"
                       : itemData?.priority && itemData.priority === "Medium"
-                        ? "#FFF59D"
-                        : itemData?.priority && itemData.priority === "Low"
-                          ? "#A5D6A7"
-                          : "",
+                      ? "#FFF59D"
+                      : itemData?.priority && itemData.priority === "Low"
+                      ? "#A5D6A7"
+                      : "",
                 }}
               />
             </ListItem>
@@ -224,10 +224,19 @@ export default function DrawerRight() {
           setNewQuillValues={setNewQuillValues}
         />
       ) : (
-        <p>Loading...</p>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            // Light background color
+          }}
+        >
+          <CircularProgress />
+        </Box>
       )}
       <div className="flex justify-end p-2 mr-2">
-        <Button>Create Task Summary</Button>
+        {/* <Button>Create Task Summary</Button> */}
       </div>
       <LabTabs />
     </Box>

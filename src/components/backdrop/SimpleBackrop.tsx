@@ -9,7 +9,7 @@ export default function SimpleBackdrop() {
 
   return (
     <Backdrop
-      sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 999 }}
       open={backdrop}
       onClick={handleClose}
     >

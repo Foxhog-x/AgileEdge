@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { UserProfileForm } from "../../components/formcontainer/UserProfileForm";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
+import useBackdropStore from "../../store/useBackdropStore";
 
 const Userprofilepage = () => {
+  const { showBackdrop, hideBackdrop } = useBackdropStore();
   const [currentDetails, setCurrentDetails] = useState({
     firstName: "",
     lastName: "",
@@ -15,6 +17,7 @@ const Userprofilepage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getUserProfile = async () => {
     try {
+      showBackdrop();
       const response = await axiosInstance.get(urls.getUserProfile);
       const data = response.data.result;
 
@@ -28,6 +31,7 @@ const Userprofilepage = () => {
           address: data[0]?.address,
         };
       });
+      hideBackdrop();
     } catch (error) {
       console.log(error);
     }

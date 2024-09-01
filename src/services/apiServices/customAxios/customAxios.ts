@@ -28,7 +28,7 @@ const useCustomAxios = (contentType = "application/json") => {
           config.headers.Authorization = `Bearer ${userToken}`;
         }
        
-          showBackdrop()
+         
       
         return config;
       },
@@ -42,7 +42,7 @@ const useCustomAxios = (contentType = "application/json") => {
     customAxiosRef.current.interceptors.response.use(
       
       (response: AxiosResponse) => {
-        hideBackdrop()
+       
         return response;
 
         

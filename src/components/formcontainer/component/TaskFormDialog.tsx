@@ -19,6 +19,8 @@ import { useToastStore } from "../../../store/useToastStore";
 import { useParams } from "react-router-dom";
 import { urls } from "../../../services/apiServices/urls/urls";
 import AssigneeUserNotSelect from "../../assign/AssigneUserNotSelected";
+import useBackdropStore from "../../../store/useBackdropStore";
+import SimpleBackdrop from "../../backdrop";
 interface TaskFormDialogProps {
   fetchProjectDetails: (boardId: string) => void;
 }
@@ -39,6 +41,7 @@ export const TaskFormDialog = ({
   const [taskTitle, setTaskTitle] = React.useState("");
   const [endDate, setEndDate] = React.useState<string | Date | null>(null);
   const [assignee_id, setAssignee_id] = React.useState<User[]>([]);
+  const { showBackdrop, hideBackdrop } = useBackdropStore();
 
   const handleClose = () => {
     closeTaskDialog();
@@ -60,6 +63,7 @@ export const TaskFormDialog = ({
     const formattedStartDate = new Date().toISOString().split("T")[0];
 
     try {
+      showBackdrop();
       await axiosInstance.post(urls.createCard, {
         data: {
           columnId: columnId,
@@ -70,12 +74,14 @@ export const TaskFormDialog = ({
           assigneeArray: assignee_id,
         },
       });
+      hideBackdrop();
       addToast("Successfully Created", "success");
       fetchProjectDetails(boardId as string);
       setTaskTitle("");
       setAssignee_id([]);
       closeTaskDialog();
     } catch (error) {
+      hideBackdrop();
       console.log(error);
       addToast("error while createing project", "error");
     }

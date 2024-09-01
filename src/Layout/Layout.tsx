@@ -11,7 +11,7 @@ import {
   transperentTheme,
 } from "../themes/muiTheme";
 import { Box, Paper } from "@mui/material";
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement } from "react";
 import useFetchAvatars from "../hooks/projectCustomhook/useFetchAvatars";
 
 type props = {

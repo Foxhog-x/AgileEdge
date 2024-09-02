@@ -9,6 +9,7 @@ import useCustomAxios from "../../../services/apiServices/customAxios/customAxio
 import { useProjectDialog } from "../../../store/useProjectDialog";
 import { useToastStore } from "../../../store/useToastStore";
 import { urls } from "../../../services/apiServices/urls/urls";
+import useBackdropStore from "../../../store/useBackdropStore";
 interface CreateProjectFormProps {
   refresh: boolean;
   setRefresh: (refresh: boolean) => void;
@@ -22,6 +23,7 @@ export default function CreateProjectForm({
   const { projectDialog, closeProjectDialog } = useProjectDialog();
   const [createBoard, setCreateBoard] = React.useState("");
   const [description, setDescription] = React.useState("");
+  const { showBackdrop, hideBackdrop } = useBackdropStore();
   const handleSubmit = async (e: React.SyntheticEvent) => {
     if (!createBoard.trim()) {
       addToast("Project name cannot be empty", "error");
@@ -33,10 +35,13 @@ export default function CreateProjectForm({
       projectDescription: description,
     };
     try {
+      showBackdrop();
       await axiosInstance.post(urls.createProject, data);
       addToast("Successfully Created", "success");
       setRefresh(!refresh);
+      hideBackdrop();
     } catch (error) {
+      hideBackdrop();
       console.log(error);
       addToast("error while creating project", "error");
     }

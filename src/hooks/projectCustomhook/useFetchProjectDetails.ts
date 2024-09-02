@@ -74,36 +74,36 @@ console.log(projectDetails, "projectDetails")
   }, [projectDetails]);
 
 
-  useEffect(()=>{
+  // useEffect(()=>{
 
-    if(show){
-    const mySortedData = async ()=>{
+  //   if(show){
+  //   const mySortedData = async ()=>{
      
-      if(sortedData.length > 0){
-        const copySorted = [...sortedData];
-        const sort = copySorted.map((data)=>{
+  //     if(sortedData.length > 0){
+  //       const copySorted = [...sortedData];
+  //       const sort = copySorted.map((data)=>{
            
-        const items =  data.items.filter((value)=>{
+  //       const items =  data.items.filter((value)=>{
              
-          const result = Array.isArray(value.assignees) && value.assignees.some(assignee => assignee.member_id === member_Id);
+  //         const result = Array.isArray(value.assignees) && value.assignees.some(assignee => assignee.member_id === member_Id);
       
-             if(result) return value
-          })
+  //            if(result) return value
+  //         })
 
-          return {
-            column_id: data.column_id,
-            column_name: data.column_name,
-            column_position: data.column_position,
-            items:items
+  //         return {
+  //           column_id: data.column_id,
+  //           column_name: data.column_name,
+  //           column_position: data.column_position,
+  //           items:items
       
-          }
-        })
-      setSortedData(sort)
-      } 
-    }
+  //         }
+  //       })
+  //     setSortedData(sort)
+  //     } 
+  //   }
 
-    mySortedData()
-  }
-  },[show, member_Id])
+  //   mySortedData()
+  // }
+  // },[show, member_Id])
   return { projectDetails, sortedData, setSortedData, fetchProjectDetails };
 };

@@ -1,7 +1,7 @@
  
 
- const baseDomain = import.meta.env.VITE_BASE_URL; //PRODUCTION
 // const baseDomain = import.meta.env.VITE_LOCAL_URL;  ///FOR DEVELOPEMENT PURPOSE
+ const baseDomain = import.meta.env.VITE_BASE_URL; //PRODUCTION
 export const urls = {
   baseUrl: `${baseDomain}`,
   memberLogin: `${baseDomain}/member/login`,

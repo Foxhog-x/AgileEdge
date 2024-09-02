@@ -105,7 +105,6 @@ export default function ProjectsNavLinks() {
                   to={`/project/${project.board_id}`}
                   startIcon={<AutoAwesomeMosaicOutlinedIcon />}
                   fullWidth
-                  style={{}}
                   sx={{
                     justifyContent: "flex-start",
 

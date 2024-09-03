@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import useCustomAxios from "../services/apiServices/customAxios/customAxios";
 import { urls } from "../services/apiServices/urls/urls";
 import { useManageIdStore } from "../store/useManageIdStore";
-
+import profileImageOnline from "../assets/profileimage.png";
 const settings = ["My-profile", "Logout"];
 interface ProfileAvatar {
   avatar: string;
@@ -21,7 +21,10 @@ interface ProfileAvatar {
 export const ProfileImage = () => {
   const axiosInstance = useCustomAxios();
   const navigate = useNavigate();
-  const [profileAvatar, setProfileAvatar] = useState<ProfileAvatar[]>([]);
+  const [profileAvatar, setProfileAvatar] = useState<String | null | undefined>(
+    null
+  );
+  const [profileName, setProfileName] = useState<String | null>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const { saveMemberId } = useManageIdStore();
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -30,16 +33,18 @@ export const ProfileImage = () => {
 
   const fetchUserIcon = async () => {
     try {
-      const response = await axiosInstance.get(urls.getUserAvatar);
+      const response = await axiosInstance.get(urls.getUserProfile);
       const data = response.data.result;
       console.log(data, "data");
       saveMemberId(data[0]?.member_id);
-      setProfileAvatar(data);
+      setProfileAvatar(data[0]?.avatar);
+
+      setProfileName(data[0]?.first_name);
     } catch (error) {
       console.log(error);
     }
   };
-
+  console.log(saveMemberId, profileAvatar, "pppp");
   useEffect(() => {
     fetchUserIcon();
   }, []);
@@ -58,6 +63,7 @@ export const ProfileImage = () => {
         break;
     }
   };
+  const base64Pattern = /^[A-Za-z0-9+/]+[=]{0,2}$/;
 
   return (
     <Box sx={{ flexGrow: 0, display: "flex", padding: 3 }}>
@@ -65,13 +71,11 @@ export const ProfileImage = () => {
         <div className="flex gap-2 items-center">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar
-              alt="Remy Sharp"
-              src={`data:image/jpeg;base64,${profileAvatar[0]?.avatar}`}
+              alt="Guest"
+              src={`data:image/jpeg;base64,${profileAvatar}`}
             />
           </IconButton>
-          <h2 className="text-2xl text-black">
-            {profileAvatar[0]?.member_name.split(" ")[0]}
-          </h2>
+          <h2 className="text-2xl text-black">{profileName}</h2>
         </div>
       </Tooltip>
       <Menu

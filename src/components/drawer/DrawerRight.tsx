@@ -38,13 +38,12 @@ export default function DrawerRight() {
   const { itemData } = location.state || {};
   const [reactQuillEdit, setReactQuillEdit] = React.useState<
     string | undefined
-  >(undefined); // Initialize as undefined
+  >(undefined);
   const { addToast } = useToastStore();
   const [newQuillValues, setNewQuillValues] = React.useState<string>("");
   const axiosInstance = useCustomAxios();
-  // Track changes
-
   const [state, setState] = React.useState({ right: true });
+
   React.useEffect(() => {
     const getQuillData = async (cardId: any) => {
       try {
@@ -124,7 +123,7 @@ export default function DrawerRight() {
       role="presentation"
     >
       <div className="p-3 min-h-32 text-4xl line-height leading-normal ml-4">
-        Designing Data Intensive Application
+        {itemData.name}
       </div>
       <div className="gap-28 p-2 ml-4">
         <div className="flex justify-between">
@@ -174,7 +173,7 @@ export default function DrawerRight() {
             </Box>
           </div>
         )}
-        <div className="flex justify-between">
+        {/* <div className="flex justify-between">
           <Box className="flex items-center w-1/2">
             <StyleOutlinedIcon />
             <ListItem>Tags</ListItem>
@@ -188,7 +187,7 @@ export default function DrawerRight() {
               />
             </ListItem>
           </Box>
-        </div>
+        </div> */}
         <div className="flex justify-between items-center">
           <Box className="flex items-center w-1/2">
             <PeopleAltOutlinedIcon />

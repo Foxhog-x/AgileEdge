@@ -169,7 +169,7 @@ const Board = ({ avatars = [], show }: HeaderProps) => {
       return setSortedData(reorderColumns);
     }
   };
-
+ 
   return (
     <>
       {sortedData && sortedData.length > 0 ? (
@@ -182,10 +182,10 @@ const Board = ({ avatars = [], show }: HeaderProps) => {
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className="md:flex"
+                  className="md:flex rounded "
                   style={{
                     border: snapshot.isDraggingOver ? "1px solid black" : "",
-                    gap: 10,
+                    gap: 35,
                   }}
                 >
                   {sortedData.map((data, index) => (
@@ -197,10 +197,9 @@ const Board = ({ avatars = [], show }: HeaderProps) => {
                       {(provided) => (
                         <div
                           key={index}
-                          className="min-w-80 p-4"
+                          className="min-w-80"
                           {...provided.dragHandleProps}
                           {...provided.draggableProps}
-                          /// <reference path="" />
                           ref={provided.innerRef}
                         >
                           <CardOutline

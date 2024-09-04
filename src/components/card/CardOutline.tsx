@@ -101,10 +101,10 @@ export const CardOutline = ({
                   item.priority === "High"
                     ? "#EF9A9A"
                     : item.priority === "Medium"
-                      ? "#FFF59D"
-                      : item.priority === "Low"
-                        ? "#A5D6A7"
-                        : "",
+                    ? "#FFF59D"
+                    : item.priority === "Low"
+                    ? "#A5D6A7"
+                    : "",
               }}
             />
 
@@ -233,7 +233,7 @@ export const CardOutline = ({
               <AddCircleOutlineIcon />
             </IconButton>
           </div>
-          <div className="items-container flex flex-col items-center gap-4 border">
+          <div className="items-container flex flex-col items-center gap-2 border rounded-lg">
             {items.map((item, index) => (
               <Draggable
                 draggableId={item.card_id}

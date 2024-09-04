@@ -33,10 +33,10 @@ export default function NavButton() {
             Homepage
           </Button>
         </li>
-        <li>
+        {/* <li>
           <Button
             component={Link}
-            to={"/mytasks"}
+            to={"/mytasks/"}
             startIcon={<TaskAltOutlinedIcon />}
             fullWidth
             sx={{
@@ -53,7 +53,7 @@ export default function NavButton() {
           >
             My Tasks
           </Button>
-        </li>
+        </li> */}
         <li>
           <Button
             component={Link}

@@ -35,7 +35,6 @@ export const useFetchProjectDetails = ({ boardId ,show}: FetchBoardDataProps) =>
   const axiosInstance = useCustomAxios();
   const [projectDetails, setProjectDetails] = useState<ProjectData[]>([]);
   const [sortedData, setSortedData] = useState<ProjectData[]>([]);
-  // const [myProjectData, setMyProjectData] = useState<ProjectData[]>([])
   const { showBackdrop, hideBackdrop } = useBackdropStore();
 
   const fetchProjectDetails = async (boardId: string) => {
@@ -54,7 +53,7 @@ export const useFetchProjectDetails = ({ boardId ,show}: FetchBoardDataProps) =>
 
 console.log(projectDetails, "projectDetails")
   useEffect(() => {
-  console.log("first")
+ 
     if (boardId) {
         fetchProjectDetails(boardId);  
     }
@@ -62,7 +61,7 @@ console.log(projectDetails, "projectDetails")
   }, [boardId, axiosInstance]);
 
   useEffect(() => {
-    console.log("second")
+    
     const updateSortedData = async () => {
       if (projectDetails.length > 0) {
         const transformedData = await transFormData(projectDetails);

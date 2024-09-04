@@ -19,7 +19,7 @@ export default function ProjectsNavLinks() {
   const navigate = useNavigate();
   const { addToast } = useToastStore();
   const axiosInstance = useCustomAxios();
-  const { board_Id, saveBoardId } = useManageIdStore();
+  const { board_Id, saveBoardId, saveProjectName } = useManageIdStore();
   const { openProjectDialog } = useProjectDialog();
   const [editProject, setEditProject] = useState("");
   const [open, setOpen] = useState(false);
@@ -105,13 +105,12 @@ export default function ProjectsNavLinks() {
                   to={`/project/${project.board_id}`}
                   startIcon={<AutoAwesomeMosaicOutlinedIcon />}
                   fullWidth
+                  onClick={() => saveProjectName(project.name)}
                   sx={{
                     justifyContent: "flex-start",
-
                     gap: 1,
                     padding: 1,
                     mb: 1,
-
                     alignItems: "center",
 
                     "&:hover": {

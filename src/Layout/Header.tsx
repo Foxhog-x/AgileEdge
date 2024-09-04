@@ -82,12 +82,27 @@ export default function Header({ avatars }: HeaderProps) {
     : localOnlineUsers.slice(0, 5);
 
   useEffect(() => {
-    const parts = location.pathname.split("/");
-    const projectName = parts[2];
-    setApplyProjectName(projectName);
-  }, [applyprojectName]);
+    const path = location.pathname;
 
-  console.log(applyprojectName, "resume");
+    // Check if the pathname is one of the specific routes
+    if (path === "/" || path === "/homepage") {
+      setApplyProjectName("Dashboard");
+    }
+    if (path === "/" || path === "/calendar") {
+      setApplyProjectName("Schedule");
+    } else {
+      // Match pathname format /project/<projectName>/<someId>
+      const match = path.match(/^\/project\/([^\/]+)\/\d+$/);
+
+      if (match) {
+        // Extract projectName from the matched groups
+        const projectName = match[1];
+        setApplyProjectName(projectName);
+      }
+      // Otherwise, keep the last valid project name (no update needed)
+    }
+  }, [location.pathname]);
+
   return (
     <div className="flex justify-between items-center gap-4 p-6">
       <div>

@@ -15,7 +15,7 @@ export const AppRouter = () => {
     <Routes>
       <Route element={<Protected />}>
         <Route
-          path="/project/:boardId"
+          path="/project/:projectName/:boardId"
           element={
             <Layout>
               <Board />

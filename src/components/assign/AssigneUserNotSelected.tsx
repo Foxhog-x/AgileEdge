@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { Box, Chip } from "@mui/material";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 interface User {
   member_id: number;
   member_name: string;
@@ -31,16 +31,20 @@ const AssigneeUserNotSelect: React.FC<AssigneeUserSelectProps> = ({
   }, []);
 
   if (loading) {
-    return (<Box
-    sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#f5f5f5'  // Light background color
-    }}
-  >
-    <CircularProgress />
-  </Box>)
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "end",
+          alignItems: "center",
+          marginTop: 10,
+          marginLeft: 40,
+          backgroundColor: "transparent", // Light background color
+        }}
+      >
+        <CircularProgress size={30} />
+      </Box>
+    );
   }
 
   return (

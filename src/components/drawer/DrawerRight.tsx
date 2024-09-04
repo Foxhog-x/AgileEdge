@@ -5,7 +5,6 @@ import ListItem from "@mui/material/ListItem";
 import { Chip, CircularProgress, Typography } from "@mui/material";
 import AdjustOutlinedIcon from "@mui/icons-material/AdjustOutlined";
 import EventOutlinedIcon from "@mui/icons-material/EventOutlined";
-import StyleOutlinedIcon from "@mui/icons-material/StyleOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import LabTabs from "../Tabs/LabTabs";
 import { useLocation } from "react-router-dom";
@@ -175,8 +174,8 @@ export default function DrawerRight() {
         )}
         {/* <div className="flex justify-between">
           <Box className="flex items-center w-1/2">
-            <StyleOutlinedIcon />
-            <ListItem>Tags</ListItem>
+            // <StyleOutlinedIcon />
+            // <ListItem>Tags</ListItem>
           </Box>
           <Box className="w-3/4 flex-wrap">
             <ListItem className="flex-wrap">

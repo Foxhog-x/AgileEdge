@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { transFormData } from "../../utils/transFormData";
-import { useManageIdStore } from "../../store/useManageIdStore";
 import useBackdropStore from "../../store/useBackdropStore";
 interface FetchBoardDataProps {
   boardId: string | undefined;
@@ -36,7 +35,7 @@ export const useFetchProjectDetails = ({ boardId ,show}: FetchBoardDataProps) =>
   const [projectDetails, setProjectDetails] = useState<ProjectData[]>([]);
   const [sortedData, setSortedData] = useState<ProjectData[]>([]);
   const { showBackdrop, hideBackdrop } = useBackdropStore();
-
+console.log(show)
   const fetchProjectDetails = async (boardId: string) => {
     try {
       showBackdrop()

@@ -10,17 +10,9 @@ import { removeTokenData } from "../services/localStorage/authUtil";
 import { useNavigate } from "react-router-dom";
 import useCustomAxios from "../services/apiServices/customAxios/customAxios";
 import { urls } from "../services/apiServices/urls/urls";
-import { useManageIdStore } from "../store/useManageIdStore";
-import profileImageOnline from "../assets/profileimage.png";
 import useBackdropStore from "../store/useBackdropStore";
 
 const settings = ["My-profile", "Logout"];
-
-interface ProfileAvatar {
-  avatar: string;
-  member_id: number;
-  member_name: string;
-}
 
 export const ProfileImage = () => {
   const axiosInstance = useCustomAxios();

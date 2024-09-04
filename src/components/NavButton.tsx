@@ -3,7 +3,6 @@ import ProjectsNavLinks from "./ProjectsNavLinks";
 import { Link, useLocation } from "react-router-dom";
 import { useManageIdStore } from "../store/useManageIdStore";
 import ScheduleIcon from "@mui/icons-material/Schedule";
-import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 export default function NavButton() {
   const location = useLocation();

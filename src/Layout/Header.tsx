@@ -9,7 +9,7 @@ import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
 import CreateTaskColumn from "../components/formcontainer/component/CreateTaskColumn";
 import AddIcon from "@mui/icons-material/Add";
-import { useManageIdStore } from "../store/useManageIdStore";
+import { useLocation } from "react-router-dom";
 const baseDomain = import.meta.env.VITE_BASE_URL;
 interface Avatar {
   member_id: number;
@@ -21,8 +21,10 @@ interface HeaderProps {
 }
 
 export default function Header({ avatars }: HeaderProps) {
+  const location = useLocation();
+
   const [showAll, setShowAll] = useState(false);
-  const { projectName } = useManageIdStore();
+  const [applyprojectName, setApplyProjectName] = useState("");
   const [open, setOpen] = useState(false);
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -78,10 +80,18 @@ export default function Header({ avatars }: HeaderProps) {
   const visibleUsers = showAll
     ? localOnlineUsers
     : localOnlineUsers.slice(0, 5);
+
+  useEffect(() => {
+    const parts = location.pathname.split("/");
+    const projectName = parts[2];
+    setApplyProjectName(projectName);
+  }, [applyprojectName]);
+
+  console.log(applyprojectName, "resume");
   return (
     <div className="flex justify-between items-center gap-4 p-6">
       <div>
-        <h1>{projectName}</h1>
+        <h1>{applyprojectName} </h1>
       </div>
       <div className="flex gap-8">
         <div className="flex items-center gap-1 flex-row-reverse">

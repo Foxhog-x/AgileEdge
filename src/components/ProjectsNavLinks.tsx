@@ -102,7 +102,7 @@ export default function ProjectsNavLinks() {
               <li key={index} className="flex-1 flex">
                 <Button
                   component={Link}
-                  to={`/project/${project.board_id}`}
+                  to={`/project/${project.name}/${project.board_id}`}
                   startIcon={<AutoAwesomeMosaicOutlinedIcon />}
                   fullWidth
                   onClick={() => saveProjectName(project.name)}

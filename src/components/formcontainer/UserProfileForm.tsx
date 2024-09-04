@@ -60,7 +60,6 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
         lastName: currentUser.lastName,
         email: currentUser.email,
         address: currentUser.address,
-        image: currentUser.avatar,
       });
     }
   }, [currentUser, reset]);

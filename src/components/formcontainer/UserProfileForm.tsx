@@ -19,11 +19,6 @@ const schema = z.object({
 
 type Inputs = z.infer<typeof schema>;
 
-// interface FileDetails {
-//   name: string;
-//   size: number;
-// }
-
 interface UserProfileFormProps {
   currentUser: {
     firstName: string;
@@ -32,21 +27,16 @@ interface UserProfileFormProps {
     address: string;
     avatar?: string;
   };
-  sendFunctionToParent: (fn: any) => void;
 }
 
 export const UserProfileForm: React.FC<UserProfileFormProps> = ({
-  sendFunctionToParent,
   currentUser,
 }) => {
   // const [fileDetails, setFileDetails] = useState<FileDetails | null>(null);
-  const [preview, setPreview] = useState<string | null>(
-    currentUser?.avatar || null
-  );
+  const [preview, setPreview] = useState<string | null>(null);
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   const { addToast } = useToastStore();
   const axiosInstance = useCustomAxios();
-
   const {
     register,
     handleSubmit,
@@ -70,6 +60,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
         lastName: currentUser.lastName,
         email: currentUser.email,
         address: currentUser.address,
+        image: currentUser.avatar,
       });
     }
   }, [currentUser, reset]);
@@ -79,7 +70,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
       const reader = new FileReader();
       reader.onload = () => {
         const base64String = reader.result as string;
-        resolve(base64String.split(",")[1]); // Remove the data URL prefix
+        resolve(base64String.split(",")[1]);
       };
       reader.onerror = (error) => reject(error);
       reader.readAsDataURL(file);
@@ -87,7 +78,6 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
   }
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    sendFunctionToParent("something");
     try {
       await axiosInstance.post(urls.myUserUpdate, { image: imageBase64, data });
       setImageBase64(null);
@@ -157,7 +147,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
                   </button>
                   <img
                     src={
-                      preview || `data:image/jpeg;base64,${currentUser?.avatar}`
+                      preview || `data:image/jpeg;base64,${currentUser.avatar}`
                     }
                     alt="Profile Preview"
                     style={{

@@ -82,7 +82,6 @@ export default function Header({ avatars }: HeaderProps) {
       <div>
         <h1>alfa</h1>
       </div>
-
       <div className="flex gap-8">
         <div className="flex items-center gap-1 flex-row-reverse">
           {visibleUsers.map((user) => {

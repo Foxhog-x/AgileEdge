@@ -12,58 +12,77 @@ import useCustomAxios from "../services/apiServices/customAxios/customAxios";
 import { urls } from "../services/apiServices/urls/urls";
 import { useManageIdStore } from "../store/useManageIdStore";
 import profileImageOnline from "../assets/profileimage.png";
+import useBackdropStore from "../store/useBackdropStore";
+
 const settings = ["My-profile", "Logout"];
+
 interface ProfileAvatar {
   avatar: string;
   member_id: number;
   member_name: string;
 }
+
 export const ProfileImage = () => {
   const axiosInstance = useCustomAxios();
   const navigate = useNavigate();
-  const [profileAvatar, setProfileAvatar] = useState<String | null | undefined>(
-    null
-  );
-  const [profileName, setProfileName] = useState<String | null>(null);
+  const { showBackdrop, hideBackdrop } = useBackdropStore();
+  const [currentDetails, setCurrentDetails] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: "",
+    avatar: "",
+  });
+
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const { saveMemberId } = useManageIdStore();
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
 
   const fetchUserIcon = async () => {
     try {
+      showBackdrop();
       const response = await axiosInstance.get(urls.getUserProfile);
       const data = response.data.result;
-      console.log(data, "data");
-      saveMemberId(data[0]?.member_id);
-      setProfileAvatar(data[0]?.avatar);
-
-      setProfileName(data[0]?.first_name);
+      setCurrentDetails((prev) => {
+        return {
+          ...prev,
+          avatar: data[0]?.avatar,
+          firstName: data[0]?.first_name,
+          lastName: data[0]?.last_name,
+          email: data[0]?.email,
+          address: data[0]?.address,
+        };
+      });
+      hideBackdrop();
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(saveMemberId, profileAvatar, "pppp");
+
   useEffect(() => {
     fetchUserIcon();
   }, []);
 
-  const handleCloseUserMenu = (data: String) => {
+  if (!currentDetails) {
+    return <>Loading</>;
+  }
+
+  const handleCloseUserMenu = (setting: string) => {
     setAnchorElUser(null);
-    switch (data) {
+    switch (setting) {
       case "Logout":
         removeTokenData();
         navigate("/login");
         break;
       case "My-profile":
-        navigate("/userprofile");
+        navigate("/userprofile", { state: currentDetails });
         break;
       default:
         break;
     }
   };
-  const base64Pattern = /^[A-Za-z0-9+/]+[=]{0,2}$/;
 
   return (
     <Box sx={{ flexGrow: 0, display: "flex", padding: 3 }}>
@@ -71,11 +90,17 @@ export const ProfileImage = () => {
         <div className="flex gap-2 items-center">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar
-              alt="Guest"
-              src={`data:image/jpeg;base64,${profileAvatar}`}
+              alt={currentDetails?.firstName || "Guest"}
+              src={`data:image/jpeg;base64,${currentDetails.avatar}`}
             />
           </IconButton>
-          <h2 className="text-2xl text-black">{profileName}</h2>
+          <Typography
+            variant="h6"
+            component="h2"
+            className="text-2xl text-black"
+          >
+            {currentDetails.firstName || "Guest"}
+          </Typography>
         </div>
       </Tooltip>
       <Menu
@@ -92,7 +117,7 @@ export const ProfileImage = () => {
           horizontal: "right",
         }}
         open={Boolean(anchorElUser)}
-        onClose={handleCloseUserMenu}
+        onClose={() => setAnchorElUser(null)}
       >
         {settings.map((setting) => (
           <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>

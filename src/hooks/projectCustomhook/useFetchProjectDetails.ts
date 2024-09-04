@@ -37,7 +37,7 @@ export const useFetchProjectDetails = ({ boardId ,show}: FetchBoardDataProps) =>
   const [sortedData, setSortedData] = useState<ProjectData[]>([]);
   // const [myProjectData, setMyProjectData] = useState<ProjectData[]>([])
   const { showBackdrop, hideBackdrop } = useBackdropStore();
-const {member_Id} = useManageIdStore()
+
   const fetchProjectDetails = async (boardId: string) => {
     try {
       showBackdrop()

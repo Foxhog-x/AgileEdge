@@ -122,13 +122,13 @@ function renderEventContent(eventInfo: EventContentArg) {
   );
 }
 // { weekendsVisible, handleWeekendsToggle, currentEvents }
-function Sidebar() {
-  return (
-    <div className="demo-app-sidebar">
-      <div className="demo-app-sidebar-section"></div>
-    </div>
-  );
-}
+// function Sidebar() {
+//   return (
+//     <div className="demo-app-sidebar">
+//       <div className="demo-app-sidebar-section"></div>
+//     </div>
+//   );
+// }
 
 // function SidebarEvent({ event }: SidebarEventProps) {
 //   const formattedDate = event.start

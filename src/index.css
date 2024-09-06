@@ -25,7 +25,8 @@ a:hover {
 body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; 
+  box-sizing: border-box;
+ 
 }
 
 h1 {
@@ -44,8 +45,8 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
+    background-color: #ffffff;
   }
-  
   a:hover {
     color: #747bff;
   }

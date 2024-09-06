@@ -13,7 +13,11 @@ import { useState } from "react";
 import EditProjectForm from "./formcontainer/component/EditProjectForm";
 import { useManageIdStore } from "../store/useManageIdStore";
 import AutoAwesomeMosaicOutlinedIcon from "@mui/icons-material/AutoAwesomeMosaicOutlined";
-export default function ProjectsNavLinks() {
+
+interface ProjectNavProps {
+  setShowSidebar: (value: boolean) => void;
+}
+export default function ProjectsNavLinks({ setShowSidebar }: ProjectNavProps) {
   const { projects, setProjects, refresh, setRefresh } = useFetchProjects();
   const { boardId } = useParams();
   const navigate = useNavigate();
@@ -32,10 +36,10 @@ export default function ProjectsNavLinks() {
         const nextProject = routes[0];
         navigate(`/project/${nextProject?.board_id}`, { replace: true });
       } else {
-        navigate("/", { replace: true });
+        navigate("/dashboard", { replace: true });
       }
     } else {
-      navigate("/", { replace: true });
+      navigate("/dashboard", { replace: true });
     }
   };
 
@@ -79,6 +83,10 @@ export default function ProjectsNavLinks() {
       addToast("ERROR", "error");
     }
   };
+  const handleProject = (projectName: string) => {
+    saveProjectName(projectName);
+    setShowSidebar(false);
+  };
   return (
     <div>
       <CreateProjectForm refresh={refresh} setRefresh={setRefresh} />
@@ -105,7 +113,7 @@ export default function ProjectsNavLinks() {
                   to={`/project/${project.name}/${project.board_id}`}
                   startIcon={<AutoAwesomeMosaicOutlinedIcon />}
                   fullWidth
-                  onClick={() => saveProjectName(project.name)}
+                  onClick={() => handleProject(project.name)}
                   sx={{
                     justifyContent: "flex-start",
                     gap: 1,

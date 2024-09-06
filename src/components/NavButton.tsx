@@ -4,19 +4,26 @@ import { Link, useLocation } from "react-router-dom";
 import { useManageIdStore } from "../store/useManageIdStore";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-export default function NavButton() {
+interface NavButtonProps {
+  setShowSidebar: (value: boolean) => void;
+}
+export default function NavButton({ setShowSidebar }: NavButtonProps) {
   const location = useLocation();
   const { removeBoardId } = useManageIdStore();
+  const handleClickDashboard = () => {
+    removeBoardId("");
+    setShowSidebar(false);
+  };
   return (
     <div className="flex flex-col flex-1 px-2">
       <ul className="flex flex-col flex-1 gap-3 p-3">
         <li>
           <Button
             component={Link}
-            to="/"
+            to="/dashboard"
             startIcon={<HomeOutlinedIcon />}
             fullWidth
-            onClick={() => removeBoardId("")}
+            onClick={() => handleClickDashboard()}
             sx={{
               justifyContent: "flex-start",
               gap: 1,
@@ -29,7 +36,7 @@ export default function NavButton() {
                 location.pathname === "/" ? "secondary.main" : "",
             }}
           >
-            Homepage
+            Dashboard
           </Button>
         </li>
         {/* <li>
@@ -59,6 +66,7 @@ export default function NavButton() {
             to={"/calendar"}
             startIcon={<ScheduleIcon />}
             fullWidth
+            onClick={() => setShowSidebar(false)}
             sx={{
               justifyContent: "flex-start",
               height: 30,
@@ -74,7 +82,7 @@ export default function NavButton() {
             Schedule
           </Button>
         </li>
-        <ProjectsNavLinks />
+        <ProjectsNavLinks setShowSidebar={setShowSidebar} />
         {/* <TeamsNavLinks /> */}
       </ul>
       {/* <div className="flex-shrink-0 p-3"> ///futrue upgradation

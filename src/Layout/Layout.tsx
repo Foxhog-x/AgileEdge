@@ -1,6 +1,4 @@
-import NavButton from "../components/NavButton";
 import Header from "./Header";
-import { ProfileImage } from "../components/ProfileImage";
 import { ThemeProvider } from "@mui/material/styles";
 import {
   // cozyTheme,
@@ -13,6 +11,7 @@ import { Box, Paper } from "@mui/material";
 import React, { ReactElement, useEffect, useState } from "react";
 import useFetchAvatars from "../hooks/projectCustomhook/useFetchAvatars";
 import { useLocation } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 type props = {
   children: React.ReactNode;
@@ -21,7 +20,7 @@ function Layout({ children }: props) {
   const avatars = useFetchAvatars();
   const [show, setShow] = useState<boolean>(false);
   const location = useLocation();
-
+  const [showSidebar, setShowSidebar] = useState<boolean>(false);
   useEffect(() => {
     if (location.pathname === "/mytasks") {
       setShow(true);
@@ -33,23 +32,23 @@ function Layout({ children }: props) {
     <>
       <ThemeProvider theme={basicWhitetheme}>
         <Paper>
-          <Box className="flex min-h-full overflow-hidden  shadow-md ">
+          <Box className="flex min-h-full overflow-hidden shadow-md ">
             <Box
-              className="hidden sm:flex flex-col min-h-screen max-w-72"
+              className={`${
+                showSidebar ? "" : "hidden"
+              }  sm:flex flex-col min-h-screen max-w-72`}
               // style={{ backgroundColor: "#1E1E1E" }}
             >
-              <ProfileImage />
-              <NavButton />
+              <Sidebar setShowSidebar={setShowSidebar} />
             </Box>
             <Box className="flex-1 overflow-hidden">
-              <Header avatars={avatars} />
-               
-                <Box className="h-screen overflow-x-auto">
-                  {React.Children.map(children as ReactElement, (child) =>
-                    React.cloneElement(child, { avatars,show })
-                  )}
-                </Box>
-              
+              <Header avatars={avatars} setShowSidebar={setShowSidebar} />
+
+              <Box className="overflow-x-auto">
+                {React.Children.map(children as ReactElement, (child) =>
+                  React.cloneElement(child, { avatars, show })
+                )}
+              </Box>
             </Box>
           </Box>
         </Paper>

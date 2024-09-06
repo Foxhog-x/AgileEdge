@@ -39,7 +39,7 @@ export default function Loginpage() {
         addTokenData(token);
         const userData = response.data.result[0];
         addUsersDataLocally(userData);
-        navigate("/");
+        navigate("/dashboard");
         hideBackdrop();
       } catch (error) {
         hideBackdrop();

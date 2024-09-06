@@ -83,12 +83,12 @@ export default function Calendar({
 
   return (
     <div className="demo-app p-2">
-      <Sidebar
+      {/* <Sidebar
 
       // handleWeekendsToggle={handleWeekendsToggle}
       // currentEvents={currentEvents}
-      />
-      <div className="demo-app-main   ">
+      /> */}
+      <div className="demo-app-main">
         <FullCalendar
           height={"90vh"}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}

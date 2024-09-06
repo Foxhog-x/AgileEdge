@@ -7,9 +7,11 @@ import { io } from "socket.io-client";
 import { useOnlineStore } from "../store/useOnlineUserStore";
 import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
+import MenuIcon from "@mui/icons-material/Menu";
 import CreateTaskColumn from "../components/formcontainer/component/CreateTaskColumn";
 import AddIcon from "@mui/icons-material/Add";
 import { useLocation } from "react-router-dom";
+
 const baseDomain = import.meta.env.VITE_BASE_URL;
 interface Avatar {
   member_id: number;
@@ -18,9 +20,10 @@ interface Avatar {
 
 interface HeaderProps {
   avatars: Avatar[];
+  setShowSidebar: (value: boolean) => void;
 }
 
-export default function Header({ avatars }: HeaderProps) {
+export default function Header({ avatars, setShowSidebar }: HeaderProps) {
   const location = useLocation();
 
   const [showAll, setShowAll] = useState(false);
@@ -85,7 +88,7 @@ export default function Header({ avatars }: HeaderProps) {
     const path = location.pathname;
 
     // Check if the pathname is one of the specific routes
-    if (path === "/" || path === "/homepage") {
+    if (path === "/" || path === "/dashboard") {
       setApplyProjectName("Dashboard");
     }
     if (path === "/" || path === "/calendar") {
@@ -102,14 +105,22 @@ export default function Header({ avatars }: HeaderProps) {
       // Otherwise, keep the last valid project name (no update needed)
     }
   }, [location.pathname]);
-
+  const handleSidebar = () => {
+    setShowSidebar(true);
+  };
   return (
-    <div className="flex justify-between items-center gap-4 p-6">
-      <div>
-        <h1>{applyprojectName} </h1>
+    <div className="md:flex justify-between items-center p-6">
+      <div className="flex justify-start gap-1 items-center md:flex">
+        <div className="md:hidden">
+          <IconButton onClick={handleSidebar}>
+            <MenuIcon fontSize={"large"} />
+          </IconButton>
+        </div>
+        <h1 className="md:text-4xl sm:text-2xl">{applyprojectName} </h1>
       </div>
-      <div className="flex gap-8">
-        <div className="flex items-center gap-1 flex-row-reverse">
+
+      <div className="flex justify-between md:flex gap-4">
+        <div className="md:flex items-center gap-1 flex-row-reverse">
           {visibleUsers.map((user) => {
             return avatars.map((userAvatar) => {
               if (userAvatar.member_id === user.member_id) {
@@ -145,7 +156,7 @@ export default function Header({ avatars }: HeaderProps) {
           <FilterAltIcon />
         </IconButton> */}
 
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <Button
             startIcon={<AddCircleOutlineIcon />}
             variant="contained"

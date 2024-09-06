@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import Layout from "../../Layout/Layout";
 import Board from "../../pages/contentpage";
@@ -14,6 +14,7 @@ export const AppRouter = () => {
   return (
     <Routes>
       <Route element={<Protected />}>
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route
           path="/project/:projectName/:boardId"
           element={
@@ -41,7 +42,7 @@ export const AppRouter = () => {
         />
         <Route path="/userProfile" element={<Userprofilepage />} />
         <Route
-          path="/"
+          path="/dashboard"
           element={
             <Layout>
               <Homepage />

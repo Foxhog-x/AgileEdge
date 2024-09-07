@@ -34,7 +34,7 @@ export default function BasicPie({ countByPriority }: any) {
             data: result,
           },
         ]}
-        width={500}
+        width={425}
         height={200}
       />
       <h4>Task Priorities Distribution</h4>

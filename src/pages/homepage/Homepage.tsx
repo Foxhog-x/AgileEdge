@@ -12,14 +12,14 @@ export const Homepage: React.FC = () => {
     useFetchAllAnalytics();
 
   return (
-    <div>
-      <div className=" md:flex justify-between p-5 items-center">
+    <div className="flex flex-col items-center">
+      <div className="flex flex-col-reverse md:flex justify-between gap-10 p-5 items-center min-h-full">
         <HorizontalBars taskByColumnAnalytics={taskByColumnAnalytics} />
         <BarChartByAssginee taskCountByMember={taskCountByMember} />
         <BasicPie countByPriority={countByPriority} />
-      </div>
-      <div>
-        <TodaysEvents />
+        <div className="min-w-80">
+          <TodaysEvents />
+        </div>
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ function Layout({ children }: props) {
             <Box className="flex-1 overflow-hidden">
               <Header avatars={avatars} setShowSidebar={setShowSidebar} />
 
-              <Box className="overflow-x-auto">
+              <Box className="h-[92vh] overflow-x-auto">
                 {React.Children.map(children as ReactElement, (child) =>
                   React.cloneElement(child, { avatars, show })
                 )}

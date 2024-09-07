@@ -1,56 +1,66 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+ 
+
+ 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  /* background-image: url('./assets/kindpng_1262350.png');
-  background-repeat: no-repeat; */
-
+  color: var(--color-text, rgba(255, 255, 255, 0.87)); /* Fallback color */
+  background-color: var(--background-color, #242424); /* Fallback color */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+ 
 a:hover {
-  color: #535bf2;
+  color: var(--link-hover-color, #535bf2); 
 }
 
+ 
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
- 
 }
 
+ 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
+ 
 button:hover {
-  border-color: #646cff;
+  border-color: var(--button-border-color, #646cff);  
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+ 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: rgba(255, 255, 255, 0.87);
+    --background-color: #242424;
+    --link-hover-color: #535bf2;
+    --button-border-color: #646cff;
+  }
+}
+
+ 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+    --color-text: #213547;
+    --background-color: #ffffff;
+    --link-hover-color: #747bff;
+    --button-border-color: #646cff;
   }
 }

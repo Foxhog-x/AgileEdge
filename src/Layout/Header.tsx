@@ -109,7 +109,7 @@ export default function Header({ avatars, setShowSidebar }: HeaderProps) {
     setShowSidebar(true);
   };
   return (
-    <div className="md:flex justify-between items-center p-6">
+    <div className="md:flex justify-between items-center p-4">
       <div className="flex justify-start gap-1 items-center md:flex">
         <div className="md:hidden">
           <IconButton onClick={handleSidebar}>

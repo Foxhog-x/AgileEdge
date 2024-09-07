@@ -124,7 +124,7 @@ export const CardOutline = ({
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
               textOverflow: "ellipsis",
-              WebkitLineClamp: 2,
+              WebkitLineClamp: 2, // Truncate after 2 lines
               fontSize: 18,
             }}
           >
@@ -252,8 +252,8 @@ export const CardOutline = ({
                         variant="outlined"
                         sx={{
                           maxWidth: 320,
-                          minHeight: 250,
-                          maxHeight: 250,
+                          minHeight: 260,
+                          maxHeight: 260,
                           display: "flex",
                           flexDirection: "column",
                           justifyContent: "space-between",

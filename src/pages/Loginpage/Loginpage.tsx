@@ -79,6 +79,7 @@ export default function Loginpage() {
                 />
                 <TextField
                   autoComplete="false"
+                  type="password"
                   id="password"
                   label="Password"
                   variant="outlined"

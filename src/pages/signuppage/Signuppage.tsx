@@ -5,7 +5,7 @@ import { Box, Button, Stack, TextField } from "@mui/material";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import styles from "./Signuppage.module.css";
 import useBackdropStore from "../../store/useBackdropStore";
 
@@ -126,7 +126,7 @@ export default function Signuppage() {
                 <Button type="submit" variant="contained" size="large">
                   Signup
                 </Button>
-                <Button>Login</Button>
+                <Button onClick={() => navigate("/login")}>Login</Button>
               </Stack>
             </Box>
           </form>

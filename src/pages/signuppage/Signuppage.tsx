@@ -5,7 +5,7 @@ import { Box, Button, Stack, TextField } from "@mui/material";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./Signuppage.module.css";
 import useBackdropStore from "../../store/useBackdropStore";
 

@@ -11,11 +11,13 @@ import { useNavigate } from "react-router-dom";
 import useCustomAxios from "../services/apiServices/customAxios/customAxios";
 import { urls } from "../services/apiServices/urls/urls";
 import useBackdropStore from "../store/useBackdropStore";
+import { useManageIdStore } from "../store/useManageIdStore";
 
 const settings = ["My-profile", "Logout"];
 
 export const ProfileImage = () => {
   const axiosInstance = useCustomAxios();
+  const { saveMemberId } = useManageIdStore();
   const navigate = useNavigate();
   const { showBackdrop, hideBackdrop } = useBackdropStore();
   const [currentDetails, setCurrentDetails] = useState({
@@ -37,6 +39,7 @@ export const ProfileImage = () => {
       showBackdrop();
       const response = await axiosInstance.get(urls.getUserProfile);
       const data = response.data.result;
+      saveMemberId(response.data.member_id);
       setCurrentDetails((prev) => {
         return {
           ...prev,

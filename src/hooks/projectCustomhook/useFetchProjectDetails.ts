@@ -3,9 +3,13 @@ import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { transFormData } from "../../utils/transFormData";
 import useBackdropStore from "../../store/useBackdropStore";
+import { useManageIdStore } from "../../store/useManageIdStore";
+import { Console } from "console";
+import { Filter } from "@mui/icons-material";
 interface FetchBoardDataProps {
   boardId: string | undefined;
-  show:boolean | undefined
+  show:boolean | undefined;
+  selectedOption: string;
 }
 interface User {
   member_id: number;
@@ -30,12 +34,16 @@ interface ProjectData {
 }
 
  
-export const useFetchProjectDetails = ({ boardId ,show}: FetchBoardDataProps) => {
+export const useFetchProjectDetails = ({ boardId ,show, selectedOption}: FetchBoardDataProps) => {
+  // const {filterBy} = useManageIdStore()
   const axiosInstance = useCustomAxios();
+  const { member_Id } = useManageIdStore();
   const [projectDetails, setProjectDetails] = useState<ProjectData[]>([]);
   const [sortedData, setSortedData] = useState<ProjectData[]>([]);
   const { showBackdrop, hideBackdrop } = useBackdropStore();
-console.log(show)
+  const {filterBy} = useManageIdStore()
+ console.log(filterBy,"filter")
+ 
   const fetchProjectDetails = async (boardId: string) => {
     try {
       showBackdrop()
@@ -50,7 +58,7 @@ console.log(show)
     }
   };
 
-console.log(projectDetails, "projectDetails")
+ 
   useEffect(() => {
  
     if (boardId) {
@@ -59,14 +67,15 @@ console.log(projectDetails, "projectDetails")
  
   }, [boardId, axiosInstance]);
 
+  const updateSortedData = async () => {
+    if (projectDetails.length > 0) {
+      const transformedData = await transFormData(projectDetails);
+      setSortedData(transformedData);
+    }
+  };
   useEffect(() => {
     
-    const updateSortedData = async () => {
-      if (projectDetails.length > 0) {
-        const transformedData = await transFormData(projectDetails);
-        setSortedData(transformedData);
-      }
-    };
+ 
 
     updateSortedData();
   }, [projectDetails]);
@@ -103,5 +112,73 @@ console.log(projectDetails, "projectDetails")
   //   mySortedData()
   // }
   // },[show, member_Id])
+ 
+  const filterByOption = async () => {
+    const copySorted = [...sortedData];
+    if (selectedOption === "My tasks") {
+      if (member_Id === null) return;
+      const filteredData = await copySorted.map((data) => {
+        // If items exist and are an array, filter them based on assignees' member_id
+        if (Array.isArray(data.items)) {
+          const filteredItems = data.items.filter((item) => {
+            return (
+              Array.isArray(item.assignees) &&
+              item.assignees.some(
+                (assignee) => assignee.member_id === member_Id
+              )
+            );
+          });
+
+          return {
+            ...data,
+            items: filteredItems,
+          };
+        }
+
+        return {
+          ...data,
+          items: [],
+        };
+      });
+      setSortedData(filteredData);
+    }
+    if(selectedOption === "All tasks"){
+      updateSortedData()
+    }
+    console.log(selectedOption,"se")
+    if(selectedOption === "High priority" || "Medium priority" || "Low priority"){
+      const option = selectedOption
+      const filteredData = copySorted.map((data) => {
+        if (Array.isArray(data.items)) {
+          const filteredItems = data.items.filter((item) => {
+            return item.priority === option; // Filter items with "High" priority
+          });
+  
+          return {
+            ...data,
+            items: filteredItems,
+          };
+        }
+        return {
+          ...data,
+          items: [],
+        };
+      });
+      setSortedData(filteredData);
+    }
+     
+  };
+
+ useEffect(()=>{
+ 
+   filterByOption()
+ }, [selectedOption])
+   
+     
+    
+   
+   
+ 
+  
   return { projectDetails, sortedData, setSortedData, fetchProjectDetails };
 };

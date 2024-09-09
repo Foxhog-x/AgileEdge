@@ -20,7 +20,6 @@ const useFetchAvatars = () => {
         if (Array.isArray(response.data.result)) {
           setAvatars(response.data.result[0]);
         } else if (response.data.result) {
-          // If response.data.result[0] contains the avatars array
           setAvatars(response.data.result[0]);
         } else {
           console.error("Unexpected response structure:", response.data);

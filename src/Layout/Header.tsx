@@ -1,6 +1,5 @@
 import { Avatar, Button, IconButton } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { useEffect, useState } from "react";
 import { getTokenData } from "../services/localStorage/authUtil";
 import { io } from "socket.io-client";
@@ -11,6 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CreateTaskColumn from "../components/formcontainer/component/CreateTaskColumn";
 import AddIcon from "@mui/icons-material/Add";
 import { useLocation } from "react-router-dom";
+import CustomSelect from "../components/CustomSelect";
 
 const baseDomain = import.meta.env.VITE_BASE_URL;
 interface Avatar {
@@ -22,18 +22,23 @@ interface HeaderProps {
   avatars: Avatar[];
   showSidebar: boolean;
   setShowSidebar: (value: boolean) => void;
+  selectedOption: string;
+  setSelectedOption: (option: string) => void;
 }
 
 export default function Header({
   avatars,
   setShowSidebar,
   showSidebar,
+  setSelectedOption,
+  selectedOption,
 }: HeaderProps) {
   const location = useLocation();
-
   const [showAll, setShowAll] = useState(false);
-  const [applyprojectName, setApplyProjectName] = useState("");
+  const [applyprojectName, setApplyProjectName] = useState<string>("");
   const [open, setOpen] = useState(false);
+  const [FilterHide, setFilterHide] = useState(false);
+
   const StyledBadge = styled(Badge)(({ theme }) => ({
     "& .MuiBadge-badge": {
       backgroundColor: "#44b700",
@@ -62,7 +67,7 @@ export default function Header({
       },
     },
   }));
-
+  console.log(selectedOption);
   const { addOnline, onlineUser } = useOnlineStore();
   const [localOnlineUsers, setLocalOnlineUsers] = useState(onlineUser || []);
   console.log(localOnlineUsers, "localhost");
@@ -92,22 +97,21 @@ export default function Header({
   useEffect(() => {
     const path = location.pathname;
 
-    // Check if the pathname is one of the specific routes
     if (path === "/" || path === "/dashboard") {
+      setFilterHide(true);
       setApplyProjectName("Dashboard");
     }
     if (path === "/" || path === "/calendar") {
       setApplyProjectName("Schedule");
+      setFilterHide(true);
     } else {
-      // Match pathname format /project/<projectName>/<someId>
       const match = path.match(/^\/project\/([^\/]+)\/\d+$/);
 
       if (match) {
-        // Extract projectName from the matched groups
         const projectName = match[1];
         setApplyProjectName(projectName);
+        setFilterHide(false);
       }
-      // Otherwise, keep the last valid project name (no update needed)
     }
   }, [location.pathname]);
   const handleSidebar = () => {
@@ -157,24 +161,34 @@ export default function Header({
             </IconButton>
           )}
         </div>
+
+        {FilterHide ? (
+          ""
+        ) : (
+          <CustomSelect
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
+        )}
+
         <div className="divider border"></div>
         {/* <IconButton>
-          <FilterAltIcon />
+        
         </IconButton> */}
 
         <div className="flex gap-3">
-          <Button
-            startIcon={<AddCircleOutlineIcon />}
-            variant="contained"
-            onClick={HandleFunction}
-          >
-            Task
-          </Button>
-          <span>
-            <IconButton>
-              <FilterAltOutlinedIcon />
-            </IconButton>
-          </span>
+          {FilterHide ? (
+            ""
+          ) : (
+            <Button
+              startIcon={<AddCircleOutlineIcon />}
+              variant="contained"
+              onClick={HandleFunction}
+            >
+              Task
+            </Button>
+          )}
+
           <CreateTaskColumn open={open} setOpen={setOpen} />
         </div>
       </div>

@@ -9,10 +9,16 @@ import CardActions from "@mui/material/CardActions";
 import { Link } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useTaskFormStore } from "../../store/useTaskFormStore";
-import { formattedDate } from "../../utils/formatDate";
+import {
+  formattedDate,
+  getMuiColorBasedOnTimeLeft,
+  timeLeftFromNow,
+} from "../../utils/formatDate";
 import Divider from "@mui/material/Divider";
 import BasicMenu from "./BasicMenu";
 import LinearWithValueLabel from "../muix/LinearWithValueLabel";
+import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
+import { displayName } from "react-quill";
 
 interface User {
   member_id: number;
@@ -80,10 +86,17 @@ const CardOutline = ({
 }: CardOutlineProps) => {
   const { openTaskDialog } = useTaskFormStore();
   const card = (item: ItemProps) => {
+    const timeColor = getMuiColorBasedOnTimeLeft(item.end_date);
     // const [header, content] = item.name.split(":").map((part) => part.trim());
     return (
       <>
-        <CardContent>
+        <CardContent
+          sx={{
+            padding: "16px",
+            height: "130px",
+            overflowY: "hidden",
+          }}
+        >
           <Typography
             display={"flex"}
             justifyContent={"space-between"}
@@ -124,7 +137,7 @@ const CardOutline = ({
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
               textOverflow: "ellipsis",
-              WebkitLineClamp: 2, // Truncate after 2 lines
+              WebkitLineClamp: 2,
               fontSize: 18,
             }}
           >
@@ -133,7 +146,6 @@ const CardOutline = ({
           <Typography
             variant="body2"
             sx={{
-              mb: 1.5,
               display: "-webkit-box",
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
@@ -151,7 +163,11 @@ const CardOutline = ({
               fontSize: 14,
             }}
           >
-            {item.end_date ? <EventOutlinedIcon /> : ""}
+            {item.end_date && item?.end_date ? (
+              <EventOutlinedIcon />
+            ) : (
+              <span>""</span>
+            )}
             <span>{formattedDate(item.end_date)}</span>
           </Typography>
         </CardContent>
@@ -165,8 +181,11 @@ const CardOutline = ({
                   progress={cardProgress?.completion_percentage}
                 />
               );
+            } else {
+              return <div className="h-5"></div>;
             }
           })}
+
         <Divider />
         <CardActions
           sx={{
@@ -199,7 +218,19 @@ const CardOutline = ({
               });
             })}
           </Typography>
-          <Box>
+          <Box style={{ display: "flex", gap: 20 }}>
+            <Typography
+              component={"div"}
+              sx={{
+                display: "flex",
+                marginTop: 2,
+                gap: 1,
+              }}
+            >
+              <AccessTimeOutlinedIcon fontSize="small" color={timeColor} />
+              <small>{timeLeftFromNow(item.end_date)}</small>
+            </Typography>
+
             <Link
               to={`/card/${item.card_id}`}
               state={{ itemData: item }}
@@ -252,7 +283,7 @@ const CardOutline = ({
                         variant="outlined"
                         sx={{
                           maxWidth: 320,
-                          minHeight: 260,
+                          minHeight: 230,
                           maxHeight: 260,
                           display: "flex",
                           flexDirection: "column",

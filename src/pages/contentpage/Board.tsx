@@ -22,17 +22,30 @@ interface Avatar {
 interface HeaderProps {
   avatars?: Avatar[];
   show?: boolean | undefined;
+  selectedOption: string;
+  setSelectedOption: (value: string) => void;
 }
 
-const Board = ({ avatars = [], show }: HeaderProps) => {
+const Board = ({
+  avatars = [],
+  show,
+  selectedOption,
+  setSelectedOption,
+}: HeaderProps) => {
   const axiosInstance = useCustomAxios();
   const { addToast } = useToastStore();
   const { boardId } = useParams<{ boardId: string }>();
   const { saveBoardId } = useManageIdStore();
+  console.log(selectedOption, "selectedoption");
+  useEffect(() => {
+    setSelectedOption("All tasks");
+  }, []);
+
   const { sortedData, setSortedData, fetchProjectDetails } =
     useFetchProjectDetails({
       boardId,
       show,
+      selectedOption,
     });
 
   const { progress } = useFetchTaskProgress();

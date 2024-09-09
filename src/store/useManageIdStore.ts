@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 type manageIds = {
+  filterBy: string
   projectName: string;
   member_Id:number | null;
   board_Id: string;
@@ -9,6 +10,7 @@ type manageIds = {
   destinationColumnId: string;
   sourceCardId: string;
   destinationCardId: string;
+  saveFilterBy: (option:string)=> void;
   saveProjectName:(name:string) => void;
   saveMemberId: (id: number | null) => void;
   saveBoardId: (id: string) => void;
@@ -21,6 +23,7 @@ type manageIds = {
 };
 
 const useManageIdStore = create<manageIds>((set) => ({
+  filterBy: "",
   projectName:"",
   member_Id: null,
   board_Id: "",
@@ -29,6 +32,7 @@ const useManageIdStore = create<manageIds>((set) => ({
   destinationColumnId: "",
   sourceCardId: "",
   destinationCardId: "",
+  saveFilterBy:(option) =>set(()=> ({filterBy: option})),
   saveProjectName:(name)=>set(()=> ({projectName: name})),
   saveMemberId: (id) => set(()=> ({member_Id: id})),
   saveBoardId: (id) => set(() => ({ board_Id: id })),

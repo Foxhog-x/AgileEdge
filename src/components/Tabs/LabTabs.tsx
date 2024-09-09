@@ -58,7 +58,6 @@ export default function LabTabs() {
   const fetchSubTasks = async () => {
     try {
       const response = await axiosInstance.get(urls.getSubTasks);
-      console.log(response.data.result, "sub");
       setSubTasksData(response.data.result);
     } catch (error) {
       console.log(error);

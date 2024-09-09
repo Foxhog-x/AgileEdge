@@ -9,6 +9,8 @@ import useCustomAxios from "../../../services/apiServices/customAxios/customAxio
 import { useToastStore } from "../../../store/useToastStore";
 import { urls } from "../../../services/apiServices/urls/urls";
 import { useManageIdStore } from "../../../store/useManageIdStore";
+import useBackdropStore from "../../../store/useBackdropStore";
+import useRefetchProjectDetails from "../../../store/useRefetchProjectDetails";
 interface CreateTaskColumnProps {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -21,7 +23,8 @@ export default function CreateTaskColumn({
   const { addToast } = useToastStore();
   const { board_Id } = useManageIdStore();
   const [createTaskColumn, setCreateTaskColumn] = React.useState("");
-
+  const { showBackdrop, hideBackdrop } = useBackdropStore();
+  const { toggleRefetch } = useRefetchProjectDetails();
   const handleClose = () => {
     setOpen(false);
     setCreateTaskColumn("");
@@ -38,12 +41,16 @@ export default function CreateTaskColumn({
       columnName: createTaskColumn,
     };
     try {
+      showBackdrop();
       await axiosInstance.post(urls.addColumn, data);
-      addToast("Successfully Created", "success");
+      toggleRefetch();
+      hideBackdrop();
       setCreateTaskColumn("");
       setOpen(false);
+      addToast("Successfully Created", "success");
     } catch (error) {
       console.log(error);
+      hideBackdrop();
       addToast(" error while creating column", "error");
       setCreateTaskColumn("");
       setOpen(false);

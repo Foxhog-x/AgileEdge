@@ -37,9 +37,9 @@ export default function CreateProjectForm({
     try {
       showBackdrop();
       await axiosInstance.post(urls.createProject, data);
-      addToast("Successfully Created", "success");
       setRefresh(!refresh);
       hideBackdrop();
+      addToast("Successfully Created", "success");
     } catch (error) {
       hideBackdrop();
       console.log(error);

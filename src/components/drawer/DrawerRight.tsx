@@ -83,7 +83,6 @@ export default function DrawerRight() {
     }
   };
   const descriptionSavedTodb = async (cardId: any) => {
-    console.log(reactQuillEdit, "reactquilledit");
     try {
       await axiosInstance.post(urls.quillCardSave, { cardId, newQuillValues });
       setNewQuillValues("");

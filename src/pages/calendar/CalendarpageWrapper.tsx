@@ -60,11 +60,19 @@ export default function CalendarpageWrapper() {
     }
   };
 
+  const updateEventDatabase = async (evenObj: any) => {
+    try {
+      await axiosInstance.put(urls.updateEvent, evenObj);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Calendar
       callDatabase={callDatabase}
       deleteEventCall={deleteEventCall}
       myEventsList={myEventsList}
+      updateEventDatabase={updateEventDatabase}
     />
   );
 }

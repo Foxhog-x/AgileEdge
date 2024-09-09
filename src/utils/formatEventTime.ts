@@ -30,7 +30,7 @@ if(dateTimeString === 'all Day') return "all day"
    
     const formattedHour = hour % 12 || 12;  
     const period = hour < 12 ? 'am' : 'pm'; 
-console.log(period,"period")
+ 
     return `${formattedHour}:${minute.toString().padStart(2, '0')}${period}`;
 }
  

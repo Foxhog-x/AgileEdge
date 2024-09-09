@@ -29,7 +29,6 @@ export const ReactquillContainer: React.FC<ReactquillContainerProp> = ({
 
   useEffect(() => {
     if (!hasChanges) {
-      console.log("happen");
       setReactQuillEdit(editorValue);
     }
   }, [reactQuillEdit, hasChanges]);

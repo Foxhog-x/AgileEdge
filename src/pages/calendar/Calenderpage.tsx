@@ -18,9 +18,10 @@ import { EventInput } from "@fullcalendar/core";
 //   color?: string | undefined;
 // }
 interface MyEvent {
+  id?: string;
   title: String | null;
-  start: String | null;
-  end: String | null;
+  start: String | null | Date;
+  end: String | null | Date;
   color?: String;
 }
 
@@ -31,12 +32,14 @@ interface CalendarProps {
   myEventsList: EventInput[];
   callDatabase: (evenObj: MyEvent | null) => void;
   deleteEventCall: (id: Number | String) => void;
+  updateEventDatabase: (evenObj: MyEvent) => void;
 }
 
 export default function Calendar({
   callDatabase,
   deleteEventCall,
   myEventsList,
+  updateEventDatabase,
 }: CalendarProps) {
   // const [weekendsVisible, setWeekendsVisible] = useState(true);
 
@@ -80,6 +83,18 @@ export default function Calendar({
       clickInfo.event.remove();
     }
   }
+  const handleEventDrop = (dropInfo: EventClickArg) => {
+    const event = dropInfo.event;
+
+    const evenObj = {
+      id: event._def.publicId,
+      title: event.title,
+      start: event.start,
+      end: event.end,
+    };
+
+    updateEventDatabase(evenObj);
+  };
 
   return (
     <div className="demo-app p-2">
@@ -107,6 +122,7 @@ export default function Calendar({
           select={handleDateSelect}
           eventContent={renderEventContent}
           eventClick={handleEventClick}
+          eventDrop={handleEventDrop}
         />
       </div>
     </div>

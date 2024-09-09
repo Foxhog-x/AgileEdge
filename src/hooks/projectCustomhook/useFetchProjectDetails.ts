@@ -4,6 +4,7 @@ import { urls } from "../../services/apiServices/urls/urls";
 import { transFormData } from "../../utils/transFormData";
 import useBackdropStore from "../../store/useBackdropStore";
 import { useManageIdStore } from "../../store/useManageIdStore";
+import useRefetchProjectDetails from "../../store/useRefetchProjectDetails";
 
 interface FetchBoardDataProps {
   boardId: string | undefined;
@@ -40,7 +41,7 @@ export const useFetchProjectDetails = ({ boardId , selectedOption}: FetchBoardDa
   const [projectDetails, setProjectDetails] = useState<ProjectData[]>([]);
   const [sortedData, setSortedData] = useState<ProjectData[]>([]);
   const { showBackdrop, hideBackdrop } = useBackdropStore();
-   
+   const {refetchProgress} = useRefetchProjectDetails()
 
  
   const fetchProjectDetails = async (boardId: string) => {
@@ -64,7 +65,7 @@ export const useFetchProjectDetails = ({ boardId , selectedOption}: FetchBoardDa
         fetchProjectDetails(boardId);  
     }
  
-  }, [boardId, axiosInstance]);
+  }, [boardId, axiosInstance,refetchProgress ]);
 
   const updateSortedData = async () => {
     if (projectDetails.length > 0) {

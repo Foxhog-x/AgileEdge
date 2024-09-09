@@ -74,11 +74,11 @@ export const TaskFormDialog = ({
         },
       });
       hideBackdrop();
-      addToast("Successfully Created", "success");
       fetchProjectDetails(boardId as string);
       setTaskTitle("");
       setAssignee_id([]);
       closeTaskDialog();
+      addToast("Successfully Created", "success");
     } catch (error) {
       hideBackdrop();
       console.log(error);

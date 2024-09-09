@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 export const formattedDate = (date:string | Date) => {
-  console.log(date)
+ 
   if(!date){
     return '\u00A0';
   }

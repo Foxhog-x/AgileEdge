@@ -36,7 +36,6 @@ const Board = ({
   const { addToast } = useToastStore();
   const { boardId } = useParams<{ boardId: string }>();
   const { saveBoardId } = useManageIdStore();
-  console.log(selectedOption, "selectedoption");
   useEffect(() => {
     setSelectedOption("All tasks");
   }, []);

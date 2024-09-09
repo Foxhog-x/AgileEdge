@@ -37,7 +37,6 @@ const CustomSelect = ({
   };
 
   const handleCustomValueChange = (event: any) => {
-    console.log(event.target.value, "value");
     setCustomValue(event.target.value);
   };
 

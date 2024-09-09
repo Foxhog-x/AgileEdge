@@ -70,7 +70,6 @@ export default function Header({
   console.log(selectedOption);
   const { addOnline, onlineUser } = useOnlineStore();
   const [localOnlineUsers, setLocalOnlineUsers] = useState(onlineUser || []);
-  console.log(localOnlineUsers, "localhost");
   useEffect(() => {
     const token = getTokenData();
     const newsocket = io(`${baseDomain}/homepage`, {
@@ -115,7 +114,6 @@ export default function Header({
     }
   }, [location.pathname]);
   const handleSidebar = () => {
-    console.log(showSidebar, "show");
     setShowSidebar(!showSidebar);
   };
   return (

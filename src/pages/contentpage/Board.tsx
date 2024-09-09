@@ -1,5 +1,5 @@
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { CardOutline } from "../../components/card/CardOutline";
+import CardOutline from "../../components/card/CardOutline";
 import { useParams } from "react-router-dom";
 import { useFetchProjectDetails } from "../../hooks/projectCustomhook/useFetchProjectDetails";
 import { useManageIdStore } from "../../store/useManageIdStore";
@@ -9,6 +9,10 @@ import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
 import { TaskFormDialog } from "../../components/formcontainer/component/TaskFormDialog";
 import useFetchTaskProgress from "../../hooks/projectCustomhook/useFetchTaskProgress";
+// const CardOutline = React.lazy(
+//   () => import("../../components/card/CardOutline")
+// );
+
 interface Avatar {
   member_id: number;
   avatar: string;
@@ -23,7 +27,7 @@ interface HeaderProps {
 const Board = ({ avatars = [], show }: HeaderProps) => {
   const axiosInstance = useCustomAxios();
   const { addToast } = useToastStore();
-  const { boardId } = useParams<{ boardId: string  }>();
+  const { boardId } = useParams<{ boardId: string }>();
   const { saveBoardId } = useManageIdStore();
   const { sortedData, setSortedData, fetchProjectDetails } =
     useFetchProjectDetails({
@@ -169,7 +173,7 @@ const Board = ({ avatars = [], show }: HeaderProps) => {
       return setSortedData(reorderColumns);
     }
   };
- 
+
   return (
     <>
       {sortedData && sortedData.length > 0 ? (

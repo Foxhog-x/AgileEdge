@@ -9,6 +9,7 @@ import Loginpage from "../../pages/Loginpage";
 import Userprofilepage from "../../pages/profilepage/Userprofilepage";
 import Homepage from "../../pages/homepage";
 import Signuppage from "../../pages/signuppage/Signuppage";
+import { Suspense } from "react";
 
 export const AppRouter = () => {
   return (

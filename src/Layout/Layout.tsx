@@ -42,7 +42,11 @@ function Layout({ children }: props) {
               <Sidebar setShowSidebar={setShowSidebar} />
             </Box>
             <Box className="flex-1 overflow-hidden">
-              <Header avatars={avatars} setShowSidebar={setShowSidebar} />
+              <Header
+                avatars={avatars}
+                showSidebar={showSidebar}
+                setShowSidebar={setShowSidebar}
+              />
 
               <Box className="h-[92vh] overflow-x-auto">
                 {React.Children.map(children as ReactElement, (child) =>

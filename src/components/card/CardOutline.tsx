@@ -68,7 +68,7 @@ type ItemProps = {
   name: string;
   priority: string;
 };
-export const CardOutline = ({
+const CardOutline = ({
   progress,
   avatars,
   column_id,
@@ -274,3 +274,5 @@ export const CardOutline = ({
     </Droppable>
   );
 };
+
+export default CardOutline;

@@ -20,10 +20,15 @@ interface Avatar {
 
 interface HeaderProps {
   avatars: Avatar[];
+  showSidebar: boolean;
   setShowSidebar: (value: boolean) => void;
 }
 
-export default function Header({ avatars, setShowSidebar }: HeaderProps) {
+export default function Header({
+  avatars,
+  setShowSidebar,
+  showSidebar,
+}: HeaderProps) {
   const location = useLocation();
 
   const [showAll, setShowAll] = useState(false);
@@ -106,7 +111,8 @@ export default function Header({ avatars, setShowSidebar }: HeaderProps) {
     }
   }, [location.pathname]);
   const handleSidebar = () => {
-    setShowSidebar(true);
+    console.log(showSidebar, "show");
+    setShowSidebar(!showSidebar);
   };
   return (
     <div className="md:flex justify-between items-center p-4">

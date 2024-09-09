@@ -1,23 +1,9 @@
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
-
-// Define your Zod schema
-const schema = z.object({
-  firstName: z.string().min(2, "First name is required"),
-  lastName: z.string().min(2, "Last name is required"),
-  email: z.string().email("Invalid email address"),
-  address: z.string().optional(),
-  image: z.instanceof(File).optional(),
-});
-
-type Inputs = z.infer<typeof schema>;
 
 interface UserProfileFormProps {
   currentUser: {
@@ -32,39 +18,32 @@ interface UserProfileFormProps {
 export const UserProfileForm: React.FC<UserProfileFormProps> = ({
   currentUser,
 }) => {
-  // const [fileDetails, setFileDetails] = useState<FileDetails | null>(null);
+  const [formData, setFormData] = useState({
+    firstName: currentUser?.firstName || "",
+    lastName: currentUser?.lastName || "",
+    email: currentUser?.email || "",
+    address: currentUser?.address || "",
+    image: null as File | null,
+  });
+
   const [preview, setPreview] = useState<string | null>(null);
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   const { addToast } = useToastStore();
   const axiosInstance = useCustomAxios();
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    reset,
-    formState: { errors },
-  } = useForm<Inputs>({
-    defaultValues: {
-      firstName: currentUser?.firstName,
-      lastName: currentUser?.lastName,
-      email: currentUser?.email,
-      address: currentUser?.address,
-    },
-    resolver: zodResolver(schema),
-  });
 
   useEffect(() => {
     if (currentUser) {
-      reset({
+      setFormData({
         firstName: currentUser.firstName,
         lastName: currentUser.lastName,
         email: currentUser.email,
         address: currentUser.address,
+        image: null,
       });
     }
-  }, [currentUser, reset]);
+  }, [currentUser]);
 
-  function convertFileToBase64(file: File): Promise<string> {
+  const convertFileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => {
@@ -74,15 +53,6 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
       reader.onerror = (error) => reject(error);
       reader.readAsDataURL(file);
     });
-  }
-
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    try {
-      await axiosInstance.post(urls.myUserUpdate, { image: imageBase64, data });
-      setImageBase64(null);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,24 +62,71 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
         addToast("File size should not exceed 2 MB", "error");
         return;
       }
-      // setFileDetails({
-      //   name: file.name,
-      //   size: file.size / (1024 * 1024), // Size in MB
-      // });
       try {
         const base64 = await convertFileToBase64(file);
         setImageBase64(base64);
         setPreview(URL.createObjectURL(file));
+        setFormData({ ...formData, image: file });
       } catch (error) {
         console.error("Error converting file to Base64:", error);
       }
-      setValue("image", file);
     }
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleButtonClick = () => {
     const fileInput = document.getElementById("fileInput") as HTMLInputElement;
     fileInput.click();
+  };
+
+  const validateForm = () => {
+    if (!formData.firstName || formData.firstName.length < 2) {
+      addToast(
+        "First name is required and must be at least 2 characters",
+        "error"
+      );
+      return false;
+    }
+    if (!formData.lastName || formData.lastName.length < 2) {
+      addToast(
+        "Last name is required and must be at least 2 characters",
+        "error"
+      );
+      return false;
+    }
+    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
+      addToast("Invalid email address", "error");
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    try {
+      await axiosInstance.post(urls.myUserUpdate, {
+        image: imageBase64,
+        data: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          address: formData.address,
+        },
+      });
+      addToast("Profile updated successfully", "success");
+      setImageBase64(null);
+    } catch (error) {
+      console.error("Error submitting form", error);
+      addToast("Failed to update profile", "error");
+    }
   };
 
   return (
@@ -129,7 +146,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
                       padding: "1rem",
                       borderRadius: "1rem",
                       display: "flex",
-                      alignContent: "center",
+                      alignItems: "center",
                       gap: 6,
                     }}
                   >
@@ -140,8 +157,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
                       type="file"
                       accept="image/*"
                       style={{ display: "none" }}
-                      {...register("image")}
-                      onChange={(e) => handleFileChange(e)}
+                      onChange={handleFileChange}
                     />
                   </button>
                   <img
@@ -162,7 +178,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
               </div>
             </div>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit}>
             <div className="flex justify-between gap-5 p-2 mr-4">
               <div className="flex-1 md:flex gap-10">
                 <div className="flex flex-col flex-1 gap-3 mt-5">
@@ -170,18 +186,20 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
                   <input
                     type="text"
                     className="p-3 border border-gray-400"
-                    {...register("firstName")}
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
                   />
-                  {errors.firstName && <p>{errors.firstName.message}</p>}
                 </div>
                 <div className="flex flex-col flex-1 gap-3 mt-5">
                   <label>Last Name</label>
                   <input
                     type="text"
                     className="p-3 border border-gray-400"
-                    {...register("lastName")}
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
                   />
-                  {errors.lastName && <p>{errors.lastName.message}</p>}
                 </div>
               </div>
             </div>
@@ -192,10 +210,11 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
                   <input
                     type="text"
                     className="p-3 border border-gray-400"
-                    {...register("email")}
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     disabled
                   />
-                  {errors.email && <p>{errors.email.message}</p>}
                 </div>
               </div>
             </div>
@@ -206,9 +225,10 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({
                   <textarea
                     rows={5}
                     className="p-3 border border-gray-400"
-                    {...register("address")}
+                    name="address"
+                    value={formData.address}
+                    onChange={handleInputChange}
                   />
-                  {errors.address && <p>{errors.address.message}</p>}
                 </div>
               </div>
             </div>

@@ -4,7 +4,6 @@ import { basicWhitetheme } from "../themes/muiTheme";
 import { Box, Paper } from "@mui/material";
 import React, { ReactElement, useEffect, useState } from "react";
 import useFetchAvatars from "../hooks/projectCustomhook/useFetchAvatars";
-import { useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 
 type Props = {
@@ -13,18 +12,8 @@ type Props = {
 
 function Layout({ children }: Props) {
   const avatars = useFetchAvatars();
-  const [show, setShow] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>("");
-  const location = useLocation();
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (location.pathname === "/mytasks") {
-      setShow(true);
-    } else {
-      setShow(false);
-    }
-  }, [location]);
 
   useEffect(() => {
     const option = localStorage.getItem("filterBy");
@@ -35,11 +24,6 @@ function Layout({ children }: Props) {
       setSelectedOption(option);
     }
   }, []);
-
-  // Render null or a fallback UI if selectedOption is empty
-  if (!selectedOption) {
-    return null; // or a fallback UI
-  }
 
   return (
     <>
@@ -66,7 +50,7 @@ function Layout({ children }: Props) {
                 {React.Children.map(children as ReactElement, (child) =>
                   React.cloneElement(child, {
                     avatars,
-                    show,
+
                     selectedOption,
                     setSelectedOption,
                   })

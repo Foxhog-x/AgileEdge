@@ -21,14 +21,14 @@ interface Avatar {
 
 interface HeaderProps {
   avatars?: Avatar[];
-  show?: boolean | undefined;
+
   selectedOption: string;
   setSelectedOption: (value: string) => void;
 }
 
 const Board = ({
   avatars = [],
-  show,
+
   selectedOption,
   setSelectedOption,
 }: HeaderProps) => {
@@ -44,7 +44,6 @@ const Board = ({
   const { sortedData, setSortedData, fetchProjectDetails } =
     useFetchProjectDetails({
       boardId,
-      show,
       selectedOption,
     });
 

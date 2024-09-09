@@ -56,9 +56,9 @@ const CustomSelect = ({
       >
         <MenuItem value="All tasks">All Tasks</MenuItem>
         <MenuItem value="My tasks">My tasks</MenuItem>
-        <MenuItem value="High priority">High prority</MenuItem>
-        <MenuItem value="Medium priority">Medium prority</MenuItem>
-        <MenuItem value="Low priority">Low prority</MenuItem>
+        <MenuItem value="High priority">High priority</MenuItem>
+        <MenuItem value="Medium priority">Medium priority</MenuItem>
+        <MenuItem value="Low priority">Low priority</MenuItem>
         {/* <MenuItem value="">Filter by End_date</MenuItem> */}
       </Select>
       {showCustomInput && (

@@ -9,7 +9,7 @@ import useRefetchProjectDetails from "../../store/useRefetchProjectDetails";
 interface FetchBoardDataProps {
   boardId: string | undefined;
  
-  selectedOption: string;
+  selectedOption: string | undefined;
 }
 interface User {
   member_id: number;

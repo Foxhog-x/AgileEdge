@@ -193,7 +193,7 @@ const Board = ({
             <TaskFormDialog fetchProjectDetails={fetchProjectDetails} />
 
             <Droppable droppableId={"1"} direction="horizontal" type="group">
-              {(provided, snapshot) => (
+              {(provided) => (
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}

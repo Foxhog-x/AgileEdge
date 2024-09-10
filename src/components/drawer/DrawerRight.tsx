@@ -235,7 +235,7 @@ export default function DrawerRight() {
       <div className="flex justify-end p-2 mr-2">
         {/* <Button>Create Task Summary</Button> */}
       </div>
-      <LabTabs />
+      <LabTabs startStr={itemData.start_time} endStr={itemData.end_time} />
     </Box>
   );
 

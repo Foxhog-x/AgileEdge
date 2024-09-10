@@ -12,6 +12,7 @@ import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { useToastStore } from "../../store/useToastStore";
 import useRefetchProgessStore from "../../store/useRefectchProgressStore";
+import TaskTime from "../TaskTime";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -46,7 +47,11 @@ interface SubtaskProps {
   checked: boolean;
   description: string;
 }
-export default function LabTabs() {
+interface LabTabsProps {
+  startStr: Date;
+  endStr: Date;
+}
+export default function LabTabs({ startStr, endStr }: LabTabsProps) {
   const axiosInstance = useCustomAxios();
   const { toggleRefetch } = useRefetchProgessStore();
   const { addToast } = useToastStore();
@@ -137,11 +142,10 @@ export default function LabTabs() {
         >
           {/* <Tab label="Task Summary" {...a11yProps(0)} /> */}
           <Tab label="Subtasks" {...a11yProps(0)} />
+          <Tab label="Time Tracking" {...a11yProps(1)} />
         </Tabs>
       </Box>
-      {/* <CustomTabPanel value={value} index={0}>
-        <Summary />
-      </CustomTabPanel> */}
+
       <CustomTabPanel value={value} index={0}>
         <div className="flex flex-col justify-between shadow-md min-h-72 p-2">
           <div className="rounded-md p-2 mt-2 ">
@@ -177,6 +181,9 @@ export default function LabTabs() {
           </div>
         </div>
         {/* <CommentSection value={value} /> */}
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <TaskTime startStr={startStr} endStr={endStr} />
       </CustomTabPanel>
     </Box>
   );

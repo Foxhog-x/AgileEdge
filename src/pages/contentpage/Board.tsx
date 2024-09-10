@@ -199,7 +199,6 @@ const Board = ({
                   ref={provided.innerRef}
                   className="md:flex rounded "
                   style={{
-                    border: snapshot.isDraggingOver ? "1px solid black" : "",
                     gap: 35,
                   }}
                 >
@@ -212,7 +211,7 @@ const Board = ({
                       {(provided) => (
                         <div
                           key={index}
-                          className="min-w-80"
+                          className="min-w-80 p-1"
                           {...provided.dragHandleProps}
                           {...provided.draggableProps}
                           ref={provided.innerRef}

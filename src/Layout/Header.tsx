@@ -67,7 +67,7 @@ export default function Header({
       },
     },
   }));
-  console.log(selectedOption);
+
   const { addOnline, onlineUser } = useOnlineStore();
   const [localOnlineUsers, setLocalOnlineUsers] = useState(onlineUser || []);
   useEffect(() => {
@@ -124,7 +124,7 @@ export default function Header({
             <MenuIcon fontSize={"large"} />
           </IconButton>
         </div>
-        <h1 className="md:text-4xl sm:text-2xl">{applyprojectName} </h1>
+        <h1 className="md:text-4xl sm:text-2xl mb-2">{applyprojectName} </h1>
       </div>
 
       <div className="flex justify-between md:flex gap-4">

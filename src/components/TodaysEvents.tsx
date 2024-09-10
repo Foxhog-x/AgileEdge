@@ -30,21 +30,22 @@ export default function TodaysEvents() {
       </div>
       <div>
         <ol className="flex flex-col gap-2 mt-3">
-          {todaysEvents &&
-            todaysEvents.map((todayEvent, i) => {
-              return (
-                <li
-                  key={i}
-                  className="p-2 flex flex-row-reverse justify-between gap-3 border border-gray-400 bg-blue-400 rounded-lg"
-                >
-                  <span>
-                    {extractTimeFromDateTime(todayEvent.start)}-
-                    {extractTimeFromDateTime(todayEvent.end)}
-                  </span>
-                  {todayEvent.title}
-                </li>
-              );
-            })}
+          {todaysEvents && todaysEvents.length > 0
+            ? todaysEvents.map((todayEvent, i) => {
+                return (
+                  <li
+                    key={i}
+                    className="p-2 flex flex-row-reverse justify-between gap-3 border border-gray-400 bg-blue-400 rounded-lg"
+                  >
+                    <span>
+                      {extractTimeFromDateTime(todayEvent.start)}-
+                      {extractTimeFromDateTime(todayEvent.end)}
+                    </span>
+                    {todayEvent.title}
+                  </li>
+                );
+              })
+            : "There no events for today"}
         </ol>
       </div>
     </div>

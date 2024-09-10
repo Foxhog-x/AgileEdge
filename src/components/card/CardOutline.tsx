@@ -230,23 +230,18 @@ const CardOutline = ({
               <small>{timeLeftFromNow(item.end_date)}</small>
             </Typography>
 
-            <Link
+            <Button
+              component={Link}
               to={`/card/${item.card_id}`}
               state={{ itemData: item }}
-              style={{ textDecoration: "none" }}
+              variant="contained"
+              style={{
+                backgroundColor: "transparent",
+                color: "black",
+              }}
             >
-              <Button
-                variant="contained"
-                style={{
-                  backgroundColor: "transparent",
-                  color: "black",
-                }}
-
-                ///here we give the cardId</Box>
-              >
-                View
-              </Button>
-            </Link>
+              View
+            </Button>
           </Box>
         </CardActions>
       </>

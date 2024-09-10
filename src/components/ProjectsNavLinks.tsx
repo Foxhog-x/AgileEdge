@@ -30,11 +30,14 @@ export default function ProjectsNavLinks({ setShowSidebar }: ProjectNavProps) {
 
   const redirectRoute = (project_Id: String | number) => {
     const routes = projects.filter((route) => route.project_id != project_Id);
+    console.log(routes, "routes");
     setProjects(routes);
     if (routes.length > 0) {
       if (boardId === board_Id) {
         const nextProject = routes[0];
-        navigate(`/project/${nextProject?.board_id}`, { replace: true });
+        navigate(`/project/${nextProject?.name}/${nextProject?.board_id}`, {
+          replace: true,
+        });
       } else {
         navigate("/dashboard", { replace: true });
       }

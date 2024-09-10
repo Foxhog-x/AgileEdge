@@ -13,7 +13,7 @@ export const Homepage: React.FC = () => {
 
   return (
     <div>
-      <div className=" md:flex flex-wrap justify-between gap-10 p-5 items-center min-h-full overflow-scroll">
+      <div className="md:flex flex-wrap justify-between gap-10 p-5 items-center min-h-full overflow-scroll">
         <HorizontalBars taskByColumnAnalytics={taskByColumnAnalytics} />
         <BarChartByAssginee taskCountByMember={taskCountByMember} />
         <BasicPie countByPriority={countByPriority} />

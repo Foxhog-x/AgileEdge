@@ -181,7 +181,7 @@ const CardOutline = ({
                 />
               );
             } else {
-              return <div className="h-5"></div>;
+              return <div className="h-1"></div>;
             }
           })}
 

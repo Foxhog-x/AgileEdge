@@ -139,6 +139,7 @@ export const TaskFormDialog = ({
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
+                autoFocus
                 label="End Date"
                 format="DD-MM-YYYY"
                 value={endDate ? dayjs(endDate) : null} // Ensure value is a Dayjs object

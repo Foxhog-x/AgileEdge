@@ -13,6 +13,7 @@ import { useState } from "react";
 import EditProjectForm from "./formcontainer/component/EditProjectForm";
 import { useManageIdStore } from "../store/useManageIdStore";
 import AutoAwesomeMosaicOutlinedIcon from "@mui/icons-material/AutoAwesomeMosaicOutlined";
+import useBackdropStore from "../store/useBackdropStore";
 
 interface ProjectNavProps {
   setShowSidebar: (value: boolean) => void;
@@ -27,7 +28,7 @@ export default function ProjectsNavLinks({ setShowSidebar }: ProjectNavProps) {
   const { openProjectDialog } = useProjectDialog();
   const [editProject, setEditProject] = useState("");
   const [open, setOpen] = useState(false);
-
+  const { showBackdrop, hideBackdrop } = useBackdropStore();
   const redirectRoute = (project_Id: String | number) => {
     const routes = projects.filter((route) => route.project_id != project_Id);
     console.log(routes, "routes");
@@ -51,13 +52,16 @@ export default function ProjectsNavLinks({ setShowSidebar }: ProjectNavProps) {
 
     if (confirmation) {
       try {
+        showBackdrop();
         await axiosInstance.delete(urls.deleteProject, {
           data: { project_Id },
         });
+        hideBackdrop();
         addToast("Deleted", "success");
         redirectRoute(project_Id);
         setRefresh(!refresh);
       } catch (error) {
+        hideBackdrop();
         console.log(error);
       }
     } else {
@@ -74,14 +78,17 @@ export default function ProjectsNavLinks({ setShowSidebar }: ProjectNavProps) {
     const newProjectName = editProject;
 
     try {
+      showBackdrop();
       await axiosInstance.put(urls.editProject, {
         project_Id,
         newProjectName,
       });
+      hideBackdrop();
       addToast("Successfully Edited", "success");
       setRefresh(!refresh);
       setOpen(false);
     } catch (error) {
+      hideBackdrop();
       console.log(error);
       addToast("ERROR", "error");
     }

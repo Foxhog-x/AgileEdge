@@ -134,21 +134,8 @@ export const useFetchProjectDetails = ({ boardId , selectedOption}: FetchBoardDa
  
       setSortedData(filteredData);
     }
-        
-        
-     
-      
- 
- 
- 
-  
-    
-     
-    
-    
-   
     if(selectedOption === "All tasks"){
-      updateSortedData()
+      if(boardId) fetchProjectDetails(boardId);  
     }
   };
 

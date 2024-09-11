@@ -30,8 +30,10 @@ export default function CreateProjectForm({
       return;
     }
     e.preventDefault();
+    const projectNameTrim = createBoard.trim().split(" ");
+    const projectName = projectNameTrim.join(",").replace(",", "-");
     const data = {
-      projectName: createBoard,
+      projectName: projectName,
       projectDescription: description,
     };
     try {

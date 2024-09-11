@@ -54,7 +54,7 @@ export default function TaskTime({ startStr, endStr }: TaskTimeProps) {
       </div>
       <div className="mt-8 flex flex-col items-center">
         <div
-          className={`relative w-32 h-32 rounded-full ${
+          className={`relative w-40 h-40 rounded-full ${
             endStr ? "bg-green-600" : "bg-purple-600"
           } flex items-center justify-center text-white text-2xl font-bold shadow-lg mb-4`}
         >

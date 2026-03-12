@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import useCustomAxios from "../../services/apiServices/customAxios/customAxios";
 import { urls } from "../../services/apiServices/urls/urls";
 import { transFormData } from "../../utils/transFormData";
-import useBackdropStore from "../../store/useBackdropStore";
 import { useManageIdStore } from "../../store/useManageIdStore";
 import useRefetchProjectDetails from "../../store/useRefetchProjectDetails";
 
@@ -40,20 +39,16 @@ export const useFetchProjectDetails = ({ boardId , selectedOption}: FetchBoardDa
   const { member_Id } = useManageIdStore();
   const [projectDetails, setProjectDetails] = useState<ProjectData[]>([]);
   const [sortedData, setSortedData] = useState<ProjectData[]>([]);
-  const { showBackdrop, hideBackdrop } = useBackdropStore();
-   const {refetchProgress} = useRefetchProjectDetails()
+  const {refetchProgress} = useRefetchProjectDetails()
 
  
   const fetchProjectDetails = async (boardId: string) => {
     try {
-      showBackdrop()
       const response = await axiosInstance.post(urls.fetchAllContents, {
         boardId,
       });
-      hideBackdrop()
       setProjectDetails(response.data.result);
     } catch (error) {
-      hideBackdrop()
       console.error("Error fetching project details:", error);
     }
   };
